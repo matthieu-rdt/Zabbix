@@ -15,7 +15,7 @@ zbx_password=""
 zbx_api=""
 
 #-----------------------#
-#	Functions	#
+#		Functions		#
 #-----------------------#
 
 home ()
@@ -88,7 +88,7 @@ preparation_installation_pip  ()
 	
 	#--	Make modules executable in $HOME
 	source ~/.profile
-	echo "source ~/.profile has been run"
+	echo "source ~/.profile has been launched"
 	
 	#-- PEP 8 (for Python Extension Proposal) to make python code consistent
 	autopep8 -i $HOME/zabbix-gnomes/*.py
@@ -132,7 +132,7 @@ help_menu ()
 }
 
 #-------------------#
-#	Start	    #
+#		Start	    #
 #-------------------#
 home
 
