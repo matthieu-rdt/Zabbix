@@ -1,28 +1,13 @@
-# Zabbix management scripts
-* ## preparation_zabbix_API.sh
-To prepare your environment to use Zabbix API
-
-### Syntax
-```
-./preparation_zabbix_API.sh
-```
+# Scripts for Zabbix
+* ## Go to [Installation](https://github.com/matthieu-rdt/Zabbix/tree/main/Installation).
+To install Zabbix agent & Zabbix server
 
 ***
 
-* ## zabbix_host_groups.sh
-To create or delete host groups
-
-### Syntax
-```
-./zabbix_host_groups.sh file_add file_del
-```
+* ## Go to [Management](https://github.com/matthieu-rdt/Zabbix/tree/main/Management).
+To manage Zabbix using API
 
 ***
 
-* ## import_hosts_templates.sh
-After exporting your hosts/templates, this script allows you to import them through a list you must indicated as parameter
-
-### Syntax
-```
-./import_hosts_templates.sh template_list.txt
-```
+* ## Go to [Upgrade](https://github.com/matthieu-rdt/Zabbix/tree/main/Upgrade).
+To upgrade Zabbix agent & Zabbix server
