@@ -2,6 +2,17 @@
 * ## preparation_zabbix_API.sh
 To prepare your environment to use Zabbix API
 
+### These variables must be completed
+
+#### Line 13
+* #### zbx_username
+
+#### Line 14
+* #### zbx_password
+
+#### Line 15
+* #### zbx_api
+
 ### Syntax
 ```
 ./preparation_zabbix_API.sh
@@ -14,7 +25,7 @@ To create or delete host groups
 
 ### Syntax
 ```
-./zabbix_host_groups.sh file_add file_del
+./zabbix_host_groups.sh file_to_add.txt file_to_del.txt
 ```
 
 ***
@@ -24,5 +35,5 @@ After exporting your hosts/templates, this script allows you to import them thro
 
 ### Syntax
 ```
-./import_hosts_templates.sh template_list.txt
+./import_hosts_templates.sh templates_list.txt
 ```
