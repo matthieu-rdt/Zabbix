@@ -1,4 +1,4 @@
-# Zabbix management scripts
+# Zabbix management folder
 * ## preparation_zabbix_API.sh
 To prepare your environment to use Zabbix API
 
@@ -26,3 +26,24 @@ After exporting your hosts/templates, this script allows you to import them thro
 ```
 ./import_hosts_templates.sh template_list.txt
 ```
+# Zabbix installation folder
+* ## .sh
+To 
+
+### Syntax
+```
+./.sh
+```
+
+***
+
+# Zabbix upgrade folder
+* ## .sh
+To 
+
+### Syntax
+```
+./.sh
+```
+
+***
