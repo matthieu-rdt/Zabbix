@@ -5,7 +5,10 @@
 # last update : 2021 08 18
 # version number : 1
 
-##### Functions #####
+#-----------------------#
+#	Functions	#
+#-----------------------#
+
 change_the_hostname () {
 	# on recupere le hostname a changer
 	old=$(hostname)
@@ -40,9 +43,10 @@ check_net_int_conf_file () {
 	fi
 }
 
-##### End Of Functions #####
+#-------------------#
+#	Start	    #
+#-------------------#
 
-##### Start #####
 # si ce n est pas root OU qu on n est pas dans /root
 if	[[ $UID -ne 0 || $(pwd) != "/root" ]] ; then 
 		echo "Run 'su root' & 'mv $0 -t /root/'"
