@@ -13,7 +13,7 @@ file_add="$1"
 file_del="$2"
 
 #-----------------------#
-#		Functions		#
+#	Functions	#
 #-----------------------#
 
 home ()
@@ -73,7 +73,7 @@ delete_host_groups ()
 }
 
 #-------------------#
-#		Start		#
+#	Start	    #
 #-------------------#
 
 home
