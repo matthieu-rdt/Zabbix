@@ -24,8 +24,8 @@ if ( (Test-Path -Path $DirectoryPath) -eq $false )
 # Test the IP exists
 if ( $IpAddr -eq '1.2.3.4' ) 
 {
-    Write-Host "edit $IpAddr, line 14"
-    break
+	Write-Host "edit $IpAddr, line 14"
+	break
 }
 
 # download Zabbix agent on the user's desktop

@@ -10,11 +10,16 @@
 # https://bestmonitoringtools.com/zabbix-agent-linux-install-on-ubuntu-centos-rhel-debian-rasbian/
 # https://fedoraproject.org/wiki/EPEL
 
-################		VARIABLES		###############
-ip_server=""
-################		END VARIABLES	###############
+#-----------------------#
+#	Variables	#
+#-----------------------#
 
-################		FUNCTIONS		###############
+ip_server=""
+
+#-----------------------#
+#	Functions	#
+#-----------------------#
+
 install_or_upgrade_zabbix_agent_ubuntu_debian ()
 {
 	sudo apt-get update && sudo apt-get upgrade -y
@@ -68,12 +73,14 @@ enable_zabbix-agent ()
 	sudo systemctl reload-or-restart zabbix-agent
 	sudo apt-get autoremove -y
 }
-#################		END FUNCTIONS	###############
 
-#################		START			###############
-if		[ -z $1 ] ; then
-        echo "Try '$0 --help' for more information."
-        exit 1
+#-------------------#
+#	Start	    #
+#-------------------#
+
+if	[ -z $1 ] ; then
+       		echo "Try '$0 --help' for more information."
+        	exit 1
 
 elif	[[ $1 == "--help" ]] ; then
 		echo "First argument (mandatory) :"
@@ -98,33 +105,32 @@ elif	[ $# -ne 2 ] ; then
 		exit 3
 		
 elif	[[ $1 == install && $ip_server == "" ]] ; then
-        echo "edit ip_server, line 14"
-        exit 4
-		
+		echo "edit ip_server, line 14"
+		exit 4
+	
 elif	[[ $UID -eq 0 ]] ; then 
 		echo "Run as user"
 		exit 5
 fi
  
  
-if		[[ $1 == install ]] ; then
-		if	[[ $2 == ubuntu || $2 == debian ]] ; then
+if	[[ $1 == install ]] ; then
+	if	[[ $2 == ubuntu || $2 == debian ]] ; then
 			install_or_upgrade_zabbix_agent_ubuntu_debian $1 $2
 			edit_ipserver_hostmetadata_hostname
 			ufw_configuration
 			enable_zabbix-agent
-		else
+	else
 			install_or_upgrade_zabbix_agent_rhel
 			edit_ipserver_hostmetadata_hostname
 			firewall_configuration
 			enable_zabbix-agent
-		fi
+	fi
 
 elif	[[ $1 == upgrade ]] ; then
-		if	[[ $2 == ubuntu || $2 == debian ]] ; then
+	if	[[ $2 == ubuntu || $2 == debian ]] ; then
 			install_or_upgrade_zabbix_agent_ubuntu_debian $1 $2
-		else
+	else
 			install_or_upgrade_zabbix_agent_rhel
-		fi
+	fi
 fi
-#################		END				###############

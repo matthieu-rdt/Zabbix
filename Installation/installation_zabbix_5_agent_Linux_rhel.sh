@@ -10,7 +10,10 @@
 # https://bestmonitoringtools.com/zabbix-agent-linux-install-on-ubuntu-centos-rhel-debian-rasbian/
 # https://fedoraproject.org/wiki/EPEL
 
-################		FUNCTIONS		###############
+#-----------------------#
+#	Functions	#
+#-----------------------#
+
 install_zabbix_agent_rhel ()
 {
 	sudo $pktm check-update && sudo $pktm update
@@ -35,29 +38,31 @@ enable_zabbix-agent ()
 	sudo systemctl reload-or-restart zabbix-agent
 	sudo $pktm autoremove -y
 }
-#################		END FUNCTIONS	###############
 
-#################		START			###############
-if		[ -z $1 ] ; then
-        echo "Run $0 rhel"
-        exit 1
+#-------------------#
+#	Start	    #
+#-------------------#
+
+if	[ -z $1 ] ; then
+        	echo "Run $0 rhel"
+        	exit 1
 
 elif	[ $# -ne 1 ] ; then
-        echo "Only one parameter is required"
-        exit 2
+        	echo "Only one parameter is required"
+        	exit 2
 
 elif !	[[ $1 == rhel ]] ; then
-        echo "Indicate rhel (case sensitive)"
-        exit 3
+        	echo "Indicate rhel (case sensitive)"
+        	exit 3
 
 elif	[[ $UID -eq 0 ]] ; then 
 		echo "Run as user"
 		exit 5
 elif
 	if [ -z $(command -v yum) ]; then
-			pktm="dnf"
+		pktm="dnf"
 	else
-			pktm="yum"
+		pktm="yum"
 	fi
 fi
 
@@ -66,4 +71,3 @@ install_zabbix_agent_rhel
 firewall_configuration
 
 enable_zabbix-agent
-#################		END				###############

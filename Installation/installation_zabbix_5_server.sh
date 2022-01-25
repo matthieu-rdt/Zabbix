@@ -13,14 +13,19 @@
 
 # RUN AS USER
 
-################		VARIABLES		###############
+#-----------------------#
+#       Variables       #
+#-----------------------#
+
 OS=$1
 root_password=""
 user_password=""
 backup_password=""
-################		END VARIABLES	###############
 
-################		FUNCTIONS		###############
+#-----------------------#
+#	Functions	#
+#-----------------------#
+
 install_lamp_server ()
 {
 	sudo apt-get install curl ufw apache2 default-mysql-server php libapache2-mod-php php-mysql php-{gd,bcmath,mbstring,xml,ldap,json} -y
@@ -28,7 +33,7 @@ install_lamp_server ()
 
 ufw_configuration ()
 {
-# If no direction  is supplied, the rule applies to incoming traffic
+#--	If no direction is supplied, the rule applies to incoming traffic
 	yes | sudo ufw enable
 	if [[ $OS == ubuntu ]] ; then
 		sudo ufw allow "Apache Full"
@@ -59,7 +64,7 @@ create_database_botbackup_and_import_schema ()
 
 	sudo mysql -uroot -p$root_password -e "flush privileges;"
 
-	# Import initial schema and data
+#--	Import initial schema and data
 	zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -uzabbix -p$user_password zabbix
 }
 
@@ -126,19 +131,20 @@ create_permanent_shortcuts ()
 	echo "export AGENTLOG=/var/log/zabbix/zabbix_agentd.log" | sudo tee -a /etc/profile.d/shortcuts.sh > /dev/null
 	echo "export CONFAGENT=/etc/zabbix/zabbix_agentd.conf" | sudo tee -a /etc/profile.d/shortcuts.sh > /dev/null
 
-	if		[[ $OS == ubuntu ]] ; then
+	if	[[ $OS == ubuntu ]] ; then
 			echo "export netint=/etc/netplan/01-netcfg.yaml" | sudo tee -a /etc/profile.d/shortcuts.sh > /dev/null
 	elif	[[ $OS == debian ]] ; then
 			echo "export netint=/etc/network/interfaces" | sudo tee -a /etc/profile.d/shortcuts.sh > /dev/null
 	fi
 }
-#################		END FUNCTIONS	###############
 
-#################		START			###############
+#-------------------#
+#	Start	    #
+#-------------------#
 
-if		[ -z $OS ] ; then
-        echo "Try '$0 --help' for more information."
-        exit 1
+if	[ -z $OS ] ; then
+        	echo "Try '$0 --help' for more information."
+        	exit 1
 
 elif	[[ $OS == "--help" ]] ; then
 		echo "Pick an argument (mandatory) :"
@@ -148,24 +154,24 @@ elif	[[ $OS == "--help" ]] ; then
 		exit 6
 
 elif	[ $# -ne 1 ] ; then
-        echo "Only one parameter is required"
-        exit 2
+        	echo "Only one parameter is required"
+	        exit 2
 
 elif !	[[ $OS == ubuntu || $OS == debian ]] ; then
-        echo "Indicate one of these : ubuntu / debian (case sensitive)"
-        exit 3
+        	echo "Indicate one of these : ubuntu / debian (case sensitive)"
+        	exit 3
 
 elif	[[ $root_password == "" ]] ; then
-        echo "edit root_password, line 17"
-        exit 4
+        	echo "edit root_password, line 17"
+        	exit 4
 
 elif	[[ $user_password == "" ]] ; then
-        echo "edit user_password, line 18"
-        exit 44
+        	echo "edit user_password, line 18"
+        	exit 44
 
 elif	[[ $backup_password == "" ]] ; then
-        echo "edit backup_password, line 19"
-        exit 444
+        	echo "edit backup_password, line 19"
+        	exit 444
 
 elif	[[ $UID -eq 0 ]] ; then
 		echo "Run as user"
@@ -197,4 +203,3 @@ configure_fqdn_for_default_frontend
 create_permanent_shortcuts $OS
 
 logout
-#################		END				###############
