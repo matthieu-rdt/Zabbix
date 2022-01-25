@@ -11,11 +11,16 @@
 
 # RUN AS USER
 
-################		VARIABLES		###############
-OS=$1
-################		END VARIABLES	###############
+#-----------------------#
+#       Variables       #
+#-----------------------#
 
-#################		FUNCTIONS		###############
+OS=$1
+
+#-----------------------#
+#	Functions	#
+#-----------------------#
+
 check_installed_database ()
 {
 	dpkg -l | grep -q postgresql
@@ -51,11 +56,12 @@ upgrade_rhel ()
 	sudo $pktm upgrade -y zabbix-server-mysql zabbix-web-mysql
 	sudo systemctl reload-or-restart zabbix-server.service zabbix-agent.service
 }
-#################		END FUNCTIONS	###############
 
-#################		START			###############
+#-------------------#
+#	Start	    #
+#-------------------#
 
-if		[ -z $OS ] ; then
+if	[ -z $OS ] ; then
 		echo "Try '$0 --help' for more information."
 		exit 1
 
@@ -85,18 +91,16 @@ check_installed_database
 
 #	Zabbix server and frontend
 
-if		[[ $OS == ubuntu || $OS == debian ]] ; then
+if	[[ $OS == ubuntu || $OS == debian ]] ; then
 		upgrade_ubuntu_debian $OS
 else
 		upgrade_rhel
 fi
 
-#	Check the upgrade status with the command
+#--	Check the upgrade status with the command
 
 cat /var/log/zabbix/zabbix_server.log | grep database
 
-#	Check if the upgrade was successful
+#--	Check if the upgrade was successful
 
 sudo zabbix_server -V | grep zabbix_server
-
-#################		END				###############

@@ -11,13 +11,18 @@
 
 # RUN AS USER
 
-################		VARIABLES		###############
+#-----------------------#
+#       Variables       #
+#-----------------------#
+
 OS=$1
 backup_password=""
 database_name=""
-################		END VARIABLES	###############
 
-#################		FUNCTIONS		###############
+#-----------------------#
+#	Functions	#
+#-----------------------#
+
 check_installed_database ()
 {
 	dpkg -l | grep -q postgresql
@@ -82,13 +87,14 @@ start_zabbix_services ()
 	sudo systemctl start zabbix-server
 	sudo systemctl start zabbix-agent
 }
-#################		END FUNCTIONS	###############
 
-#################		START			###############
+#-------------------#
+#	Start	    #
+#-------------------#
 
-if		[ -z $OS ] ; then
-        echo "Try '$0 --help' for more information."
-        exit 1
+if	[ -z $OS ] ; then
+		echo "Try '$0 --help' for more information."
+		exit 1
 
 elif	[[ $OS == "--help" ]] ; then
 		echo "First argument (mandatory) :"
@@ -98,20 +104,20 @@ elif	[[ $OS == "--help" ]] ; then
 		exit 6
 
 elif	[ $# -ne 1 ] ; then
-        echo "Only one parameter is required"
-        exit 2
+		echo "Only one parameter is required"
+		exit 2
 
 elif !	[[ $OS == ubuntu || $OS == debian || $OS == rhel ]] ; then
-        echo "Indicate one of these : ubuntu / debian / rhel (case sensitive)"
-        exit 3
+		echo "Indicate one of these : ubuntu / debian / rhel (case sensitive)"
+		exit 3
 		
 elif	[[ $backup_password == "" ]] ; then
-        echo "edit backup_password, line 15"
-        exit 4
+		echo "edit backup_password, line 15"
+		exit 4
 		
 elif	[[ $database_name == "" ]] ; then
-        echo "edit database_name, line 16"
-        exit 44
+		echo "edit database_name, line 16"
+		exit 44
 		
 elif	[[ $UID -eq 0 ]] ; then
 		echo "Run as user"
@@ -126,13 +132,13 @@ stop_zabbix_services
 
 backup_zabbix_files
 
-#	This is tailored for Zabbix installation in combination with [ MySQL / MariaDB ]
+#--	This is tailored for Zabbix installation in combination with [ MySQL / MariaDB ]
 
 backup_zabbix_database
 
-#	Zabbix server and frontend
+#--	Zabbix server and frontend
 
-if		[[ $OS == ubuntu || $OS == debian ]] ; then
+if	[[ $OS == ubuntu || $OS == debian ]] ; then
 		upgrade_ubuntu_debian $OS
 else
 		upgrade_rhel
@@ -140,14 +146,12 @@ fi
 
 start_zabbix_services
 
-#	Check the upgrade status with the command
+#--	Check the upgrade status with the command
 
 cat /var/log/zabbix/zabbix_server.log | grep database
 
 echo "Clear browser cache and check Zabbix version" ; sleep 5
 
-#	Check if the upgrade was successful
+#--	Check if the upgrade was successful
 
 sudo zabbix_server -V | grep zabbix_server
-
-#################		END				###############
