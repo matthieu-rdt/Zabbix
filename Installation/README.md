@@ -31,7 +31,7 @@
 > `root_password` <br/>
 > `user_password` <br/>
 > `backup_password`
-
+>
 > #### As argument, you can use :
 > `ubuntu` <br/>
 > `debian`
