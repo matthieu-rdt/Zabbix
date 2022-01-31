@@ -79,7 +79,7 @@ disable_zabbix_agent ()
 #-------------------#
 
 if	[ -z $1 ] ; then
-       		 echo "Try '$0 --help' for more information."
+       		echo "Try '$0 --help' for more information."
         	exit 1
 
 elif	[[ $1 == "--help" ]] ; then

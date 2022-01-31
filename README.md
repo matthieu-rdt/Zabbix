@@ -9,5 +9,5 @@
 
 ***
 
-## To upgrade Zabbix agent & Zabbix server
+## To upgrade Zabbix server
 * #### Go to [Upgrade](https://github.com/matthieu-rdt/Zabbix/tree/main/Upgrade)
