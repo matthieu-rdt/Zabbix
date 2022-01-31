@@ -25,7 +25,7 @@
 
 ***
 
-### To install Zabbix server
+### To install Zabbix server, you can use :
 \- installation_zabbix_5_server.sh
 > #### First, fill in these variables, lines 21 to 23
 > `root_password` <br/>
