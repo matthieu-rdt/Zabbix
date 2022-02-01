@@ -32,7 +32,7 @@
 
 ***
 
-### After exporting your hosts/templates, this script allows you to import them through a list you must indicated as parameter :
+### After exporting your hosts/templates, this script allows you to import them through a list you must indicate as parameter :
 \- import_hosts_templates.sh
 
 
