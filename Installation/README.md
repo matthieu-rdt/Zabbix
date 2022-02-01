@@ -1,7 +1,5 @@
 ## Scripts for installing and/or upgrading Zabbix
 
-***
-
 ### To install/upgrade Zabbix agent, you can use :
 \- installation_or_upgrade_zabbix_5_agent_Linux.sh <br/>
 \- installation_or_upgrade_zabbix_5.2_agent_Linux.sh
