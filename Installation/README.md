@@ -42,21 +42,30 @@
 ***
 
 ### To install/upgrade Zabbix agent 2, you can use :
-\-  <br/>
+\- installation_zabbix_agent_2_Linux.sh <br/>
 
-> #### 
-> `text`
->
-> #### 
-> `text` <br/>
-> `text`
->
-> ####
-> `text` <br/>
-> `text` <br/>
-> `text`
+> #### First, fill in this variable, line 17
+> `ip_server`
+> #### Note : 
+> `If you already installed Zabbix agent, to use Zabbix agent 2, Zabbix agent must be uninstalled`
 
 ### Example
 ```
-text
+./installation_zabbix_agent_2_Linux.sh ubuntu --disable-zabbix-agent
+```
+
+***
+
+### To install/upgrade Zabbix agent Windows, you can use :
+\- installation_zabbix_agent_Windows.ps1 <br/>
+
+> #### Edit the path where to save Zabbix agent
+> `$DirectoryPath`
+> 
+> #### Set IP address of Zabbix server
+> `$IpAddr`
+
+### Example
+```
+./installation_zabbix_agent_Windows.ps1
 ```
