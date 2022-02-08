@@ -18,4 +18,4 @@ else
 	do
 		$HOME/zabbix-import/./zbx-import.py -u Admin -p zabbix "$line"
 	done < "$templates_list"
-fi 
+fi
