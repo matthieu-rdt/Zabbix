@@ -1,6 +1,6 @@
 ## Scripts for installing and/or upgrading Zabbix
 
-### To install Zabbix server, you can use
+### To install Zabbix server
 
 \- installation_zabbix_5_server.sh
 
@@ -23,7 +23,7 @@
 
 ***
 
-### To install/upgrade Zabbix agent, you can use
+### To install/upgrade Zabbix agent
 
 \- installation_or_upgrade_zabbix_agent_Linux.sh
 
@@ -50,13 +50,14 @@
 
 ***
 
-### To install Zabbix agent 2, you can use
+### To install Zabbix agent 2
 
 \- installation_zabbix_agent_2_Linux.sh
 
 > #### First, fill in this variable, line 17
 >
 > `ip_server`
+> 
 > #### Note
 >
 > `If you already installed Zabbix agent, to use Zabbix agent 2, Zabbix agent must be uninstalled`
@@ -69,7 +70,7 @@
 
 ***
 
-### To install Zabbix agent Windows, you can use
+### To install Zabbix agent Windows
 
 \- installation_zabbix_agent_Windows.ps1
 
