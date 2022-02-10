@@ -19,8 +19,7 @@
 ***
 
 ### To install/upgrade Zabbix agent, you can use :
-\- installation_or_upgrade_zabbix_5_agent_Linux.sh <br/>
-\- installation_or_upgrade_zabbix_5.2_agent_Linux.sh
+\- installation_or_upgrade_zabbix_agent_Linux.sh <br/>
 
 > #### First, fill in this variable, line 17
 > `ip_server`
@@ -36,12 +35,12 @@
 
 ### Example
 ```
-./installation_or_upgrade_zabbix_5_agent_Linux.sh install ubuntu
+./installation_or_upgrade_zabbix_agent_Linux.sh install ubuntu
 ```
 
 ***
 
-### To install/upgrade Zabbix agent 2, you can use :
+### To install Zabbix agent 2, you can use :
 \- installation_zabbix_agent_2_Linux.sh <br/>
 
 > #### First, fill in this variable, line 17
@@ -56,7 +55,7 @@
 
 ***
 
-### To install/upgrade Zabbix agent Windows, you can use :
+### To install Zabbix agent Windows, you can use :
 \- installation_zabbix_agent_Windows.ps1 <br/>
 
 > #### Edit the path where to save Zabbix agent
