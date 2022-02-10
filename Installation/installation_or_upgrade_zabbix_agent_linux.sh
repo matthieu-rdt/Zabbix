@@ -30,7 +30,7 @@ install_or_upgrade_zabbix_agent_ubuntu_debian ()
 	elif [[ $3 == "5.2" ]] ; then
 		curl -O "https://repo.zabbix.com/zabbix/5.2/"$2"/pool/main/z/zabbix-release/zabbix-release_5.2-1+"$2$(lsb_release -sr)"_all.deb"
 		#sudo dpkg -i zabbix-release_5.2-1+$2$(lsb_release -sr)_all.deb
-fi
+	fi
 #	sudo apt update
 #	sudo apt install zabbix-agent -y
 }
@@ -44,6 +44,7 @@ install_or_upgrade_zabbix_agent_rhel ()
 		rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release- 5.0-1.el$(rpm -E %{rhel}).noarch.rpm
 	elif [[ $3 == 5.2 ]] ; then
 		rpm -Uvh https://repo.zabbix.com/zabbix/5.2/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.2-1.el$(rpm -E %{rhel}).noarch.rpm
+	fi
 	sudo yum clean all
 	sudo yum install zabbix-agent -y
 }
