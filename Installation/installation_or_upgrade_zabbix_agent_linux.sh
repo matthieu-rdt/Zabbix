@@ -2,7 +2,7 @@
 
 # description
 # installation of Zabbix agent for multiple distros (ubuntu, debian, rhel)
-# last update : 2021 06 01
+# last update : 2021 10 02
 # version number : 2
 
 # sources
@@ -17,25 +17,33 @@
 ip_server=""
 
 #-----------------------#
-#	Functions	#
+# 	Functions 	#
 #-----------------------#
 
 install_or_upgrade_zabbix_agent_ubuntu_debian ()
 {
-	sudo apt-get update && sudo apt-get upgrade -y
-	
-	curl -O "https://repo.zabbix.com/zabbix/5.0/"$2"/pool/main/z/zabbix-release/zabbix-release_5.0-1+$(lsb_release -sc)_all.deb"
-	sudo dpkg -i zabbix-release_5.0-1+$(lsb_release -sc)_all.deb
-	sudo apt update
-	sudo apt install zabbix-agent -y
+#	sudo apt update && sudo apt upgrade -y
+
+	if [[ $3 == "5.0" ]] ; then
+		curl -O "https://repo.zabbix.com/zabbix/5.0/"$2"/pool/main/z/zabbix-release/zabbix-release_5.0-1+$(lsb_release -sc)_all.deb"
+		#sudo dpkg -i zabbix-release_5.0-1+$(lsb_release -sc)_all.deb
+	elif [[ $3 == "5.2" ]] ; then
+		curl -O "https://repo.zabbix.com/zabbix/5.2/"$2"/pool/main/z/zabbix-release/zabbix-release_5.2-1+"$2$(lsb_release -sr)"_all.deb"
+		#sudo dpkg -i zabbix-release_5.2-1+$2$(lsb_release -sr)_all.deb
+fi
+#	sudo apt update
+#	sudo apt install zabbix-agent -y
 }
 
 install_or_upgrade_zabbix_agent_rhel ()
 {
 	sudo yum check-update && sudo yum update
 	sudo sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
-	
-	rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release- 5.0-1.el$(rpm -E %{rhel}).noarch.rpm
+
+	if [[ $3 == 5.0 ]] ; then
+		rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release- 5.0-1.el$(rpm -E %{rhel}).noarch.rpm
+	elif [[ $3 == 5.2 ]] ; then
+		rpm -Uvh https://repo.zabbix.com/zabbix/5.2/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.2-1.el$(rpm -E %{rhel}).noarch.rpm
 	sudo yum clean all
 	sudo yum install zabbix-agent -y
 }
@@ -114,13 +122,12 @@ elif	[[ $UID -eq 0 ]] ; then
 		exit 5
 fi
  
- 
 if	[[ $1 == install ]] ; then
 		if	[[ $2 == ubuntu || $2 == debian ]] ; then
-			install_or_upgrade_zabbix_agent_ubuntu_debian $1 $2
-			edit_ipserver_hostmetadata_hostname
-			ufw_configuration
-			enable_zabbix-agent
+			install_or_upgrade_zabbix_agent_ubuntu_debian $1 $2 $3
+#			edit_ipserver_hostmetadata_hostname
+#			ufw_configuration
+#			enable_zabbix-agent
 		else
 			install_or_upgrade_zabbix_agent_rhel
 			edit_ipserver_hostmetadata_hostname
@@ -130,7 +137,7 @@ if	[[ $1 == install ]] ; then
 
 elif	[[ $1 == upgrade ]] ; then
 		if	[[ $2 == ubuntu || $2 == debian ]] ; then
-			install_or_upgrade_zabbix_agent_ubuntu_debian $1 $2
+			install_or_upgrade_zabbix_agent_ubuntu_debian $1 $2 $3
 		else
 			install_or_upgrade_zabbix_agent_rhel
 		fi
