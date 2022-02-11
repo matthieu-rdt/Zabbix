@@ -2,7 +2,7 @@
 
 # description
 # installation of Zabbix agent for multiple distros (ubuntu, debian, rhel)
-# last update : 2021 10 02
+# last update : 2021 11 02
 # version number : 2
 
 # sources
@@ -20,7 +20,7 @@ ip_server=""
 # 	Functions 	#
 #-----------------------#
 
-install_or_upgrade_zabbix_agent_ubuntu_debian ()
+install_or_upgrade_zabbix_agent_debian_ubuntu ()
 {
 #	sudo apt update && sudo apt upgrade -y
 
@@ -30,6 +30,10 @@ install_or_upgrade_zabbix_agent_ubuntu_debian ()
 	elif [[ $3 == "5.2" ]] ; then
 		curl -O "https://repo.zabbix.com/zabbix/5.2/"$2"/pool/main/z/zabbix-release/zabbix-release_5.2-1+"$2$(lsb_release -sr)"_all.deb"
 		#sudo dpkg -i zabbix-release_5.2-1+$2$(lsb_release -sr)_all.deb
+
+	elif [[ $3 == "5.4" ]] ; then
+		curl -O "https://repo.zabbix.com/zabbix/5.4/"$2"/pool/main/z/zabbix-release/zabbix-release_5.4-1+"$2$(lsb_release -sr)"_all.deb"
+		#sudo dpkg -i zabbix-release_5.4-1+$2$(lsb_release -sr)_all.deb
 	fi
 #	sudo apt update
 #	sudo apt install zabbix-agent -y
@@ -41,9 +45,11 @@ install_or_upgrade_zabbix_agent_rhel ()
 	sudo sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
 
 	if [[ $3 == 5.0 ]] ; then
-		rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release- 5.0-1.el$(rpm -E %{rhel}).noarch.rpm
+		rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.0-1.el$(rpm -E %{rhel}).noarch.rpm
 	elif [[ $3 == 5.2 ]] ; then
 		rpm -Uvh https://repo.zabbix.com/zabbix/5.2/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.2-1.el$(rpm -E %{rhel}).noarch.rpm
+	elif [[ $3 == 5.4 ]] ; then
+		rpm -Uvh https://repo.zabbix.com/zabbix/5.4/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.4-1.el$(rpm -E %{rhel}).noarch.rpm
 	fi
 	sudo yum clean all
 	sudo yum install zabbix-agent -y
@@ -97,25 +103,30 @@ elif	[[ $1 == "--help" ]] ; then
 		echo "install / upgrade"
 		echo "Second argument (mandatory) :"
 		echo "ubuntu / debian / rhel"
+		echo "Third argument (mandatory) :"
+		echo "5.0 / 5.2 / 5.4"
 		echo "For instance, you want to install zabbix agent and use ubuntu :"
-		echo "$0 install ubuntu"
+		echo "$0 install ubuntu 5.0"
 		exit 6
 
-elif	[ $# -eq 2 ] ; then
+elif	[ $# -eq 3 ] ; then
 		if !	[[ $1 == install || $1 == upgrade ]] ; then
 			echo "Indicate as first argument one of these : install / upgrade (case sensitive)"
 			exit 2
 		elif !	[[ $2 == ubuntu || $2 == debian || $2 == rhel ]] ; then
 			echo "Indicate as second argument one of these : ubuntu / debian / rhel (case sensitive)"
 			exit 22
+		elif !	[[ $3 == 5.0 || $3 == 5.2 || $3 == 5.4 ]] ; then
+			echo "Indicate as third argument one of these : 5.0 / 5.2 / 5.4 (case sensitive)"
+			exit 222
 		fi
 
-elif	[ $# -ne 2 ] ; then
-		echo "Indicate only two arguments"
+elif	[ $# -ne 3 ] ; then
+		echo "Missing arguments"
 		exit 3
 		
 elif	[[ $1 == install && $ip_server == "" ]] ; then
-        	echo "edit ip_server, line 14"
+        	echo "edit 'ip_server', line 14"
         	exit 4
 		
 elif	[[ $UID -eq 0 ]] ; then 
@@ -125,12 +136,12 @@ fi
  
 if	[[ $1 == install ]] ; then
 		if	[[ $2 == ubuntu || $2 == debian ]] ; then
-			install_or_upgrade_zabbix_agent_ubuntu_debian $1 $2 $3
-#			edit_ipserver_hostmetadata_hostname
-#			ufw_configuration
-#			enable_zabbix-agent
+			install_or_upgrade_zabbix_agent_debian_ubuntu $1 $2 $3
+			edit_ipserver_hostmetadata_hostname
+			ufw_configuration
+			enable_zabbix-agent
 		else
-			install_or_upgrade_zabbix_agent_rhel
+			install_or_upgrade_zabbix_agent_rhel $1 $2 $3
 			edit_ipserver_hostmetadata_hostname
 			firewall_configuration
 			enable_zabbix-agent
@@ -138,8 +149,8 @@ if	[[ $1 == install ]] ; then
 
 elif	[[ $1 == upgrade ]] ; then
 		if	[[ $2 == ubuntu || $2 == debian ]] ; then
-			install_or_upgrade_zabbix_agent_ubuntu_debian $1 $2 $3
+			install_or_upgrade_zabbix_agent_debian_ubuntu $1 $2 $3
 		else
-			install_or_upgrade_zabbix_agent_rhel
+			install_or_upgrade_zabbix_agent_rhel $1 $2 $3
 		fi
 fi
