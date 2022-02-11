@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # description
-# upgrade zabbix up to version number 5 for multiple distros (ubuntu, debian, rhel)
-# last update : 2021 06 01
-# version number : 2
+# upgrade zabbix up to version number 5 for several distros :
+ubuntu, 
+debian, 
+rhel
 
 # sources
 # https://www.zabbix.com/documentation/current/manual
@@ -132,11 +133,11 @@ stop_zabbix_services
 
 backup_zabbix_files
 
-#--	This is tailored for Zabbix installation in combination with [ MySQL / MariaDB ]
+#	This is tailored for Zabbix installation in combination with [ MySQL / MariaDB ]
 
 backup_zabbix_database
 
-#--	Zabbix server and frontend
+#	Zabbix server and frontend
 
 if	[[ $OS == ubuntu || $OS == debian ]] ; then
 		upgrade_ubuntu_debian $OS
@@ -146,12 +147,12 @@ fi
 
 start_zabbix_services
 
-#--	Check the upgrade status with the command
+#	Check the upgrade status with the command
 
 cat /var/log/zabbix/zabbix_server.log | grep database
 
 echo "Clear browser cache and check Zabbix version" ; sleep 5
 
-#--	Check if the upgrade was successful
+#	Check if the upgrade was successful
 
 sudo zabbix_server -V | grep zabbix_server

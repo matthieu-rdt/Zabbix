@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # description
-# upgrade zabbix up to version number 5.4 for multiple distros (ubuntu, debian, rhel)
-# last update : 2021 06 01
-# version number : 2
+# upgrade zabbix up to version number 5.4 for several distros :
+ubuntu, 
+debian, 
+rhel
 
 # sources
 # https://www.zabbix.com/documentation/current/manual
@@ -97,10 +98,10 @@ else
 		upgrade_rhel
 fi
 
-#--	Check the upgrade status with the command
+#	Check the upgrade status with the command
 
 cat /var/log/zabbix/zabbix_server.log | grep database
 
-#--	Check if the upgrade was successful
+#	Check if the upgrade was successful
 
 sudo zabbix_server -V | grep zabbix_server
