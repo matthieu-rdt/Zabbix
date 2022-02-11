@@ -11,6 +11,22 @@
 # https://fedoraproject.org/wiki/EPEL
 
 #-----------------------#
+#       Arrays		#
+#-----------------------#
+
+debian_version=(
+"https://repo.zabbix.com/zabbix/5.0/"$2"/pool/main/z/zabbix-release/zabbix-release_5.0-1+$(lsb_release -sc)_all.deb"
+"https://repo.zabbix.com/zabbix/5.2/"$2"/pool/main/z/zabbix-release/zabbix-release_5.2-1+"$2$(lsb_release -sr)"_all.deb"
+"https://repo.zabbix.com/zabbix/5.4/"$2"/pool/main/z/zabbix-release/zabbix-release_5.4-1+"$2$(lsb_release -sr)"_all.deb"
+)
+
+rhel_version=(
+"rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.0-1.el$(rpm -E %{rhel}).noarch.rpm"
+"rpm -Uvh https://repo.zabbix.com/zabbix/5.2/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.2-1.el$(rpm -E %{rhel}).noarch.rpm"
+"rpm -Uvh https://repo.zabbix.com/zabbix/5.4/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.4-1.el$(rpm -E %{rhel}).noarch.rpm"
+)
+
+#-----------------------#
 #       Variables       #
 #-----------------------#
 
@@ -24,17 +40,29 @@ install_or_upgrade_zabbix_agent_debian_ubuntu ()
 {
 	sudo apt update && sudo apt upgrade -y
 
-	if [[ $3 == "5.0" ]] ; then
-		curl -O "https://repo.zabbix.com/zabbix/5.0/"$2"/pool/main/z/zabbix-release/zabbix-release_5.0-1+$(lsb_release -sc)_all.deb"
-		#sudo dpkg -i zabbix-release_5.0-1+$(lsb_release -sc)_all.deb
-	elif [[ $3 == "5.2" ]] ; then
-		curl -O "https://repo.zabbix.com/zabbix/5.2/"$2"/pool/main/z/zabbix-release/zabbix-release_5.2-1+"$2$(lsb_release -sr)"_all.deb"
-		#sudo dpkg -i zabbix-release_5.2-1+$2$(lsb_release -sr)_all.deb
+case $3 in
 
-	elif [[ $3 == "5.4" ]] ; then
-		curl -O "https://repo.zabbix.com/zabbix/5.4/"$2"/pool/main/z/zabbix-release/zabbix-release_5.4-1+"$2$(lsb_release -sr)"_all.deb"
-		#sudo dpkg -i zabbix-release_5.4-1+$2$(lsb_release -sr)_all.deb
-	fi
+	"5.0")
+		curl -O "${debian_version[$1]}"
+		sudo dpkg -i zabbix-release_5.0-1+$(lsb_release -sc)_all.deb
+    	;;
+
+	"5.2")
+		curl -O "${debian_version[$2]}"
+		sudo dpkg -i zabbix-release_5.2-1+$2$(lsb_release -sr)_all.deb
+	;;
+
+	"5.4")
+		curl -O "${debian_version[$3]}"
+		sudo dpkg -i zabbix-release_5.4-1+$2$(lsb_release -sr)_all.deb
+	;;
+
+	*)
+		exit 9
+    	;;
+
+esac
+
 	sudo apt update
 	sudo apt install zabbix-agent -y
 }
@@ -44,13 +72,25 @@ install_or_upgrade_zabbix_agent_rhel ()
 	sudo yum check-update && sudo yum update
 	sudo sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
 
-	if [[ $3 == 5.0 ]] ; then
-		rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.0-1.el$(rpm -E %{rhel}).noarch.rpm
-	elif [[ $3 == 5.2 ]] ; then
-		rpm -Uvh https://repo.zabbix.com/zabbix/5.2/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.2-1.el$(rpm -E %{rhel}).noarch.rpm
-	elif [[ $3 == 5.4 ]] ; then
-		rpm -Uvh https://repo.zabbix.com/zabbix/5.4/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.4-1.el$(rpm -E %{rhel}).noarch.rpm
-	fi
+case $3 in
+	"5.0")
+		curl -O "${rhel_version[$1]}"
+	;;
+
+	"5.2")
+		curl -O "${rhel_version[$2]}"
+	;;
+
+	"5.4")
+		curl -O "${rhel_version[$3]}"
+	;;
+
+	*)
+		exit 99
+	;;
+
+esac
+
 	sudo yum clean all
 	sudo yum install zabbix-agent -y
 }
