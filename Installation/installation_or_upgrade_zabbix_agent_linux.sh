@@ -22,7 +22,7 @@ ip_server=""
 
 install_or_upgrade_zabbix_agent_debian_ubuntu ()
 {
-#	sudo apt update && sudo apt upgrade -y
+	sudo apt update && sudo apt upgrade -y
 
 	if [[ $3 == "5.0" ]] ; then
 		curl -O "https://repo.zabbix.com/zabbix/5.0/"$2"/pool/main/z/zabbix-release/zabbix-release_5.0-1+$(lsb_release -sc)_all.deb"
@@ -35,8 +35,8 @@ install_or_upgrade_zabbix_agent_debian_ubuntu ()
 		curl -O "https://repo.zabbix.com/zabbix/5.4/"$2"/pool/main/z/zabbix-release/zabbix-release_5.4-1+"$2$(lsb_release -sr)"_all.deb"
 		#sudo dpkg -i zabbix-release_5.4-1+$2$(lsb_release -sr)_all.deb
 	fi
-#	sudo apt update
-#	sudo apt install zabbix-agent -y
+	sudo apt update
+	sudo apt install zabbix-agent -y
 }
 
 install_or_upgrade_zabbix_agent_rhel ()
@@ -60,11 +60,15 @@ edit_ipserver_hostmetadata_hostname ()
 	sudo cp -p /etc/zabbix/zabbix_agentd.conf /etc/zabbix/zabbix_agentd.conf.back
 	sudo sed -i "s/^Server=.*/Server=$ip_server/" /etc/zabbix/zabbix_agentd.conf
 	sudo sed -i "s/^ServerActive=.*/ServerActive=$ip_server/" /etc/zabbix/zabbix_agentd.conf
-	sudo sed -i "s/# HostMetadataItem=/HostMetadataItem=system.uname/g" /etc/zabbix/zabbix_agentd.conf # set up dynamically HostMetadata
+
+#	Set up dynamically HostMetadata
+	sudo sed -i "s/# HostMetadataItem=/HostMetadataItem=system.uname/g" /etc/zabbix/zabbix_agentd.conf 
 
 #	You can either leave the default hostname or set it up dynamically
 	sudo sed -i "s/Hostname=Zabbix server/# Hostname=Zabbix server/g" /etc/zabbix/zabbix_agentd.conf
-	sudo sed -i "s/# HostnameItem=system.hostname/HostnameItem=system.hostname/g" /etc/zabbix/zabbix_agentd.conf # set up dynamically "Hostname"
+
+#	Set up dynamically "Hostname"
+	sudo sed -i "s/# HostnameItem=system.hostname/HostnameItem=system.hostname/g" /etc/zabbix/zabbix_agentd.conf 
 }
 
 ufw_configuration ()
