@@ -1,9 +1,7 @@
 #!/bin/bash
 
 # description
-# installation Zabbix Server for (ubuntu, debian, (rhel not yet))
-# last update : 2021 08 20
-# version number : 2
+# installation Zabbix Server for ubuntu, debian
 
 # sources
 # https://www.zabbix.com/documentation/current/manual
@@ -33,7 +31,7 @@ install_lamp_server ()
 
 ufw_configuration ()
 {
-#--	If no direction is supplied, the rule applies to incoming traffic
+#	If no direction is supplied, the rule applies to incoming traffic
 	yes | sudo ufw enable
 	if [[ $OS == ubuntu ]] ; then
 		sudo ufw allow "Apache Full"
@@ -64,7 +62,7 @@ create_database_botbackup_and_import_schema ()
 
 	sudo mysql -uroot -p$root_password -e "flush privileges;"
 
-#--	Import initial schema and data
+#	Import initial schema and data
 	zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -uzabbix -p$user_password zabbix
 }
 
@@ -82,7 +80,7 @@ edit_passwd_and_timezone ()
 	#sudo cp -p /etc/zabbix/apache.conf /etc/zabbix/apache.conf.back
 	#sudo sed -i "s/# php_value date.timezone Europe\/Riga/php_value date.timezone Europe\/Paris/g" /etc/zabbix/apache.conf
 
-	# mandatory for the "Check of pre-requisites"
+#	Mandatory for the "Check of pre-requisites"
 	sudo cp -p /etc/php/7.3/apache2/php.ini /etc/php/7.3/apache2/php.ini.back
 	sudo sed -i "s/;date.timezone =/date.timezone = \"Europe\/Paris\"/g" /etc/php/7.3/apache2/php.ini
 }
@@ -92,7 +90,9 @@ configure_vmware_and_snmp_parameters ()
 	sudo sed -i "s/# StartVMwareCollectors=0/StartVMwareCollectors=5/g" /etc/zabbix/zabbix_server.conf
 	sudo sed -i "s/# VMwareFrequency=60/VMwareFrequency=60/g" /etc/zabbix/zabbix_server.conf
 	sudo sed -i "s/# VMwarePerfFrequency=60/VMwarePerfFrequency=60/g" /etc/zabbix/zabbix_server.conf
-	sudo sed -i "s/# VMwareCacheSize=8M/VMwareCacheSize=32M/g" /etc/zabbix/zabbix_server.conf # increase if needed
+
+#	Increase if needed
+	sudo sed -i "s/# VMwareCacheSize=8M/VMwareCacheSize=32M/g" /etc/zabbix/zabbix_server.conf 
 	sudo sed -i "s/# VMwareTimeout=10/VMwareTimeout=10/g" /etc/zabbix/zabbix_server.conf
 
 	sudo sed -i "s/# CacheSize=8M/CacheSize=128M/g" /etc/zabbix/zabbix_server.conf

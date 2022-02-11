@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # description
-# installation of zabbix agent 2 for multiple distros (ubuntu, debian, rhel)
-# last update : 2021 06 01
-# version number : 2
+# installation of zabbix agent 2 for several distros : 
+ubuntu, 
+debian, 
+rhel
 
 # sources
 # https://www.zabbix.com/documentation/current/manual/concepts/agent2
@@ -40,7 +41,7 @@ edit_ipserver_hostmetadata_hostname ()
 	sudo sed -i "s/^ServerActive=.*/ServerActive=$ip_server/" /etc/zabbix/zabbix_agent2.conf # not for server Z
 	sudo sed -i "s/# HostMetadataItem=/HostMetadataItem=system.uname/g" /etc/zabbix/zabbix_agent2.conf # set up dynamically HostMetadata
 
-#--	You can either leave the default hostname or set it up dynamically
+#	You can either leave the default hostname or set it up dynamically
 	sudo sed -i "s/Hostname=Zabbix server/# Hostname=Zabbix server/g" /etc/zabbix/zabbix_agent2.conf
 	sudo sed -i "s/# HostnameItem=system.hostname/HostnameItem=system.hostname/g" /etc/zabbix/zabbix_agent2.conf # set up dynamically "Hostname"
 }
@@ -101,7 +102,7 @@ elif !	[[ $1 == ubuntu || $1 == debian || $1 == rhel ]] ; then
         	exit 3
 		
 elif	[[ $ip_server == "" ]] ; then
-        	echo "edit ip_server, line 14"
+        	echo "edit 'ip_server', line 14"
         	exit 4
 		
 elif	[[ $UID -eq 0 ]] ; then 

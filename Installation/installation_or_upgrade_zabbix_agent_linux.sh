@@ -2,8 +2,6 @@
 
 # description
 # installation of Zabbix agent for multiple distros (ubuntu, debian, rhel)
-# last update : 2021 11 02
-# version number : 2
 
 # sources
 # https://www.zabbix.com/documentation/current/manual
