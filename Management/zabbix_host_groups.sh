@@ -2,12 +2,9 @@
 
 # description
 # add or delete host groups in your Zabbix GUI using python scripts
-# last update : 2021 12 07
-# version number : 1
 
 # sources
 # https://github.com/q1x/zabbix-gnomes
-
 
 file_add="$1"
 file_del="$2"

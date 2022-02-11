@@ -2,8 +2,6 @@
 
 # description
 # preparation for using Zabbix API and python script as admin tools
-# last update : 2021 12 09
-# version number : 1
 
 # sources
 # https://github.com/q1x/zabbix-gnomes
