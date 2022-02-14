@@ -50,8 +50,8 @@ create_host_groups ()
 			$HOME/zabbix-gnomes/./zgcreate.py "$line"
 		done < "$file_add"
 	else
-		echo "zgcreate.py is missing & will be downloaded"
-		curl -O https://raw.githubusercontent.com/q1x/zabbix-gnomes/master/zgcreate.py && chmod u+x $HOME/zgcreate.py
+		echo "zgcreate.py is missing
+		exit 1
 	fi
 }
 
@@ -64,8 +64,8 @@ delete_host_groups ()
 			$HOME/zabbix-gnomes/./zgdelete.py -N "$line"
 		done < "$file_del"
 	else
-		echo "zgdelete.py is missing & will be downloaded"
-		curl -O https://raw.githubusercontent.com/q1x/zabbix-gnomes/master/zgdelete.py && chmod u+x $HOME/zgdelete.py
+		echo "zgdelete.py is missing
+		exit 2
 	fi
 }
 
