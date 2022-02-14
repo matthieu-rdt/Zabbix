@@ -49,13 +49,13 @@ installing_python_and_pip ()
 	sudo apt install python python3 -y # if not already installed
 	sudo apt install python-pip python3-pip -y
 	
-	#--	Set Python3 as default
+	#	Set Python3 as default
 	sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 	
-	#--	Useful for ?
+	#	Useful for ?
 	# sudo apt install python3-distutils
 	
-	#--	Upgrading pip if needed
+	#	Upgrading pip if needed
 	python -m pip install --upgrade pip
 }
 
@@ -69,34 +69,34 @@ git_repositories ()
 
 preparation_installation_pip  ()
 {
-	#--	Required for using Zabbix API
+	#	Required for using Zabbix API
 	python -m pip install pyzabbix
 	
-	#--	Useful for beautifying python code
+	#	Useful for beautifying python code
 	# python -m pip install flake8
 	
-	#--	For working with graphs (zgetgraph.py specifically) install Pillow (a fork of PIL):
+	#	For working with graphs (zgetgraph.py specifically) install Pillow (a fork of PIL):
 	# python -m pip install pillow
 	
-	#--	ModuleNotFoundError: No module named 'ConfigParser'
+	#	ModuleNotFoundError: No module named 'ConfigParser'
 	python -m pip install configparser
 	
-	#--	Useful for formatting python code
+	#	Useful for formatting python code
 	python -m pip install autopep8
 	
-	#--	Make modules executable in $HOME
+	#	Make modules executable in $HOME
 	source ~/.profile
 	echo "source ~/.profile has been run"
 	
-	#-- PEP 8 (for Python Extension Proposal) to make python code consistent
+	#	PEP 8 (for Python Extension Proposal) to make python code consistent
 	autopep8 -i $HOME/zabbix-gnomes/*.py
 	autopep8 -i $HOME/zabbix-import/*.py
 	autopep8 -i $HOME/zabbix-review-export-import/*.py
 	
-	#--	Edit 'module import' for each python file in zabbix-gnomes folder
+	#	Edit 'module import' for each python file in zabbix-gnomes folder
 	sudo sed -i 's/import ConfigParser/import configparser/' $HOME/zabbix-gnomes/*.py
 	
-	#--	Correct unexpected issues with this module & replacement
+	#	Correct unexpected issues with this module & replacement
 	if [[ $(grep "Config = ConfigParser.ConfigParser()" $HOME/zabbix-gnomes/*.py) ]] ; then
 		sudo sed -i 's/Config = ConfigParser.ConfigParser()/Config = configparser.ConfigParser()/' $HOME/zabbix-gnomes/*.py
 	fi
@@ -132,6 +132,7 @@ help_menu ()
 #-------------------#
 #	Start	    #
 #-------------------#
+
 home
 
 check_variables
@@ -146,4 +147,4 @@ preparation_installation_pip
 
 zbx_conf
 
-help_menu
+#help_menu
