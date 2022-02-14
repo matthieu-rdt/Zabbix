@@ -16,18 +16,18 @@ file_del="$2"
 home ()
 {
 	if [[ $(pwd) != $HOME ]] ; then
-	cd $HOME
+		cd $HOME
 	fi
 }
 
 check_args ()
 {
 	if [[ -z $1 ]] ; then
-	echo "Fill in a file if you've got host groups to add !"
-	exit 1
+		echo "Fill in a file if you've got host groups to add !"
+		exit 1
 		if [[ -z $2 ]] ; then
-		echo "Fill in a file if you've got host groups to delete !"
-		exit 2
+			echo "Fill in a file if you've got host groups to delete !"
+			exit 2
 		fi
 	fi 
 }
@@ -44,7 +44,7 @@ conf_file_exists ()
 create_host_groups ()
 {
 	if [[ -f $HOME/zabbix-gnomes/zgcreate.py ]] ; then
-	# python script call
+	#	Python script call
 		while IFS= read -r line
 		do
 			$HOME/zabbix-gnomes/./zgcreate.py "$line"
@@ -58,7 +58,7 @@ create_host_groups ()
 delete_host_groups ()
 {
 	if [[ -f $HOME/zabbix-gnomes/zgdelete.py ]] ; then
-	# python script call
+	# 	Python script call
 		while IFS= read -r line
 		do
 			$HOME/zabbix-gnomes/./zgdelete.py -N "$line"
@@ -77,7 +77,7 @@ home
 
 check_args $1 $2
 
-#--	Check API credentials to connect to Zabbix GUI
+#	Check API credentials to connect to Zabbix GUI
 conf_file_exists
 
 read -p 'Do you want to create host groups [y or press Enter] ? ' c_hstgrp
