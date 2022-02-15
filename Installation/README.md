@@ -2,7 +2,7 @@
 
 ### To install Zabbix server
 
-\- installation_zabbix_5_server.sh
+\- installation_zabbix_5_server.sh  
 \- installation_zabbix_6_server.sh
 
 > #### First, fill in these variables, lines 21 to 23
