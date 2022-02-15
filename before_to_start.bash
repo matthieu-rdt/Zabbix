@@ -65,12 +65,12 @@ update
 
 change_the_hostname
 
-echo "Root password"
-sudo passwd root
-
 check_net_int_conf_file
 
 create_an_user
+
+echo "Root password"
+sudo passwd root
 
 #	Message
 echo "'logout' to use your new login : $username"
