@@ -47,7 +47,8 @@ create_an_user () {
 	sudo useradd $username --create-home --home /home/$username/ --groups sudo --shell /bin/bash --password $password
 }
 
-#	pwd_root () {
+# Inactive
+pwd_root () {
 	if !	[[ $UID -eq 0 || $(pwd) == "/root" ]] ; then 
 		echo "Run 'su root' & 'mv $0 -t /root/'"
 		echo "And then"
