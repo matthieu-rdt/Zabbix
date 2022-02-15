@@ -26,7 +26,7 @@ change_the_hostname () {
 	read -p 'your new hostname : ' hostname
 	sudo hostnamectl set-hostname $hostname
 
-#	Modifying "hostname.home" and "hostname" at the second line
+#	Modifying "hostname.domain" and "hostname" at the second line
 	grep -w $old /etc/hosts | sudo sed -i "2s/$old/$hostname/g" /etc/hosts
 }
 
@@ -41,12 +41,15 @@ check_net_int_conf_file () {
 create_an_user () {
 	read -p 'write your NEW username : ' username
 
+#	Creating new user and /home
+# Info:	useradd is native binary compiled with the system / adduser is a perl script which uses useradd binary in back-end
+	sudo useradd $username --create-home --home /home/$username/ --groups sudo --shell /bin/bash
+
 # Info:	option "-s" first then "-p" otherwise it cannot work
 	read -sp 'write your NEW password : ' password
 
-#	Creating new user and /home
-# Info:	useradd is native binary compiled with the system / adduser is a perl script which uses useradd binary in back-end
-	sudo useradd $username --create-home --home /home/$username/ --groups sudo --shell /bin/bash --password $password
+#	Creating new user's password
+	password $username
 }
 
 # Inactive
