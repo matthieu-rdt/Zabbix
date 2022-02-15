@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # description
-# installation Zabbix Server for ubuntu, debian
+# installation Zabbix Server for : ubuntu, debian
+# compatible versions : ubuntu 20.04 and lower,  debian 10 and lower 
 
 # sources
 # https://www.zabbix.com/documentation/current/manual
