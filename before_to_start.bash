@@ -32,7 +32,7 @@ change_the_hostname () {
 
 check_net_int_conf_file () {
 #	For Debian
-	grep -w allow-hotplug /etc/network/interfaces 2> /dev/null
+	grep -quiet allow-hotplug /etc/network/interfaces 2> /dev/null
 	if	[[ $(echo $?) -eq 0 ]] ; then
 		sudo sed -i 's/allow-hotplug/auto/' /etc/network/interfaces
 	fi
@@ -40,7 +40,9 @@ check_net_int_conf_file () {
 
 create_an_user () {
 	read -p 'write your NEW username : ' username
-	read -ps 'write your NEW password : ' password
+
+# Info:	option "-s" first then "-p" otherwise it cannot work
+	read -sp 'write your NEW password : ' password
 
 #	Creating new user and /home
 # Info:	useradd is native binary compiled with the system / adduser is a perl script which uses useradd binary in back-end
