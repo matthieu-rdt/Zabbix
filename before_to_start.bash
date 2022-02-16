@@ -18,6 +18,17 @@ update () {
 	sudo apt install open-vm-tools sudo -y
 }
 
+create_an_user () {
+	read -p 'write your NEW username : ' username
+
+#	Creating new user and /home
+# Info:	useradd is native binary compiled with the system / adduser is a perl script which uses useradd binary in back-end
+	sudo useradd $username --create-home --home /home/$username/ --groups sudo --shell /bin/bash
+
+#	Creating new user's password
+	sudo passwd $username
+}
+
 change_the_hostname () {
 #	Get old hostname
 	old=$(hostname)
@@ -38,20 +49,6 @@ check_net_int_conf_file () {
 	fi
 }
 
-create_an_user () {
-	read -p 'write your NEW username : ' username
-
-#	Creating new user and /home
-# Info:	useradd is native binary compiled with the system / adduser is a perl script which uses useradd binary in back-end
-	sudo useradd $username --create-home --home /home/$username/ --groups sudo --shell /bin/bash
-
-# Info:	option "-s" first then "-p" otherwise it cannot work
-	read -sp 'write your NEW password : ' password
-
-#	Creating new user's password
-	password $username
-}
-
 # Inactive
 pwd_root () {
 	if !	[[ $UID -eq 0 || $(pwd) == "/root" ]] ; then 
@@ -68,14 +65,13 @@ pwd_root () {
 
 update
 
+create_an_user
+
+echo "Root password :"
+sudo passwd root
+
 change_the_hostname
 
 check_net_int_conf_file
 
-create_an_user
-
-echo "Root password"
-sudo passwd root
-
-#	Message
 echo "'logout' to use your new login : $username"
