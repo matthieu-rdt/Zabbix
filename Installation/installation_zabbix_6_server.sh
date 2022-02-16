@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # description
-# installation Zabbix Server for ubuntu, debian
+# installation Zabbix Server for : ubuntu, debian
+# compatible versions : ubuntu 20.04 and lower,  debian 11 and lower 
 
 # sources
 # https://www.zabbix.com/documentation/current/manual
@@ -12,7 +13,7 @@
 # RUN AS USER
 
 #-----------------------#
-#       Variables 	#
+#	Variables	#
 #-----------------------#
 
 OS=$1
@@ -138,45 +139,50 @@ create_permanent_shortcuts ()
 	fi
 }
 
+conditions () 
+{
+	if	[ -z $OS ] ; then
+			echo "Try '$0 --help' for more information."
+			exit 1
+
+	elif	[[ $OS == "--help" ]] ; then
+			echo "Pick an argument (mandatory) :"
+			echo "ubuntu / debian / (rhel not yet)"
+			echo "For instance, you want to install Zabbix Server for ubuntu :"
+			echo "$0 ubuntu"
+			exit 6
+
+	elif	[ $# -ne 1 ] ; then
+			echo "Only one parameter is required"
+			exit 2
+
+	elif !	[[ $OS == ubuntu || $OS == debian ]] ; then
+			echo "Indicate one of these : ubuntu / debian (case sensitive)"
+			exit 3
+
+	elif	[[ $root_password == "" ]] ; then
+			echo "edit root_password, line 17"
+			exit 4
+
+	elif	[[ $user_password == "" ]] ; then
+			echo "edit user_password, line 18"
+			exit 44
+
+	elif	[[ $backup_password == "" ]] ; then
+			echo "edit backup_password, line 19"
+			exit 444
+
+	elif	[[ $UID -eq 0 ]] ; then
+			echo "Run as user"
+			exit 5
+	fi
+}
+
 #-------------------#
 #	Start	    #
 #-------------------#
 
-if	[ -z $OS ] ; then
-        	echo "Try '$0 --help' for more information."
-        	exit 1
-
-elif	[[ $OS == "--help" ]] ; then
-		echo "Pick an argument (mandatory) :"
-		echo "ubuntu / debian / (rhel not yet)"
-		echo "For instance, you want to install Zabbix Server for ubuntu :"
-		echo "$0 ubuntu"
-		exit 6
-
-elif	[ $# -ne 1 ] ; then
-        	echo "Only one parameter is required"
-	        exit 2
-
-elif !	[[ $OS == ubuntu || $OS == debian ]] ; then
-        	echo "Indicate one of these : ubuntu / debian (case sensitive)"
-        	exit 3
-
-elif	[[ $root_password == "" ]] ; then
-        	echo "edit root_password, line 17"
-        	exit 4
-
-elif	[[ $user_password == "" ]] ; then
-        	echo "edit user_password, line 18"
-        	exit 44
-
-elif	[[ $backup_password == "" ]] ; then
-        	echo "edit backup_password, line 19"
-        	exit 444
-
-elif	[[ $UID -eq 0 ]] ; then
-		echo "Run as user"
-		exit 5
-fi
+conditions $OS
 
 sudo apt-get update && sudo apt-get upgrade -y
 
