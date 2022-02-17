@@ -161,15 +161,15 @@ conditions ()
 			exit 3
 
 	elif	[[ $root_password == "" ]] ; then
-			echo "edit root_password, line 17"
+			echo "edit root_password"
 			exit 4
 
 	elif	[[ $user_password == "" ]] ; then
-			echo "edit user_password, line 18"
+			echo "edit user_password"
 			exit 44
 
 	elif	[[ $backup_password == "" ]] ; then
-			echo "edit backup_password, line 19"
+			echo "edit backup_password"
 			exit 444
 
 	elif	[[ $UID -eq 0 ]] ; then
