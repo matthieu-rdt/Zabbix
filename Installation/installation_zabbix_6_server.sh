@@ -49,22 +49,22 @@ install_zabbix_server ()
 	curl -O "https://repo.zabbix.com/zabbix/6.0/$OS/pool/main/z/zabbix-release/zabbix-release_6.0-1+$OS$(lsb_release -rs)_all.deb"
 	sudo dpkg -i zabbix-release_6.0-1+$OS$(lsb_release -rs)_all.deb
 	sudo apt-get update
-	sudo apt-get install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-agent -y
+	sudo apt-get install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent -y
 	sudo systemctl reload apache2
 }
 
-create_database_botbackup_and_import_schema ()
+create_database_backup_and_import_schema ()
 {
-	sudo mysql -uroot -p$root_password -e "create database zabbix character set utf8 collate utf8_bin;"
+	sudo mysql -uroot -p$root_password -e "create database zabbix character set utf8mb4 collate utf8mb4_bin;"
 	sudo mysql -uroot -p$root_password -e "grant all privileges on zabbix.* to zabbix@localhost identified by '"$user_password"';"
 
-	sudo mysql -uroot -p$root_password -e "create user 'botbackup'@'localhost' identified by '"$backup_password"';"
-	sudo mysql -uroot -p$root_password -e "grant select, show view, reload, lock tables, replication client, event, trigger on *.* to 'botbackup'@'localhost';"
+	sudo mysql -uroot -p$root_password -e "create user 'backup'@'localhost' identified by '"$backup_password"';"
+	sudo mysql -uroot -p$root_password -e "grant select, show view, reload, lock tables, replication client, event, trigger on *.* to 'backup'@'localhost';"
 
 	sudo mysql -uroot -p$root_password -e "flush privileges;"
 
 #	Import initial schema and data
-	zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -uzabbix -p$user_password zabbix
+	zcat /usr/share/doc/zabbix-sql-scripts/mysql/server.sql.gz | mysql -uzabbix -p$user_password
 }
 
 highlighted_text ()
@@ -102,8 +102,8 @@ configure_vmware_and_snmp_parameters ()
 
 enable_zabbix-server_and_cleaning-up ()
 {
-	sudo systemctl enable zabbix-server
-	sudo systemctl reload-or-restart zabbix-server
+	sudo systemctl enable zabbix-server zabbix-agent apache2
+	sudo systemctl reload-or-restart zabbix-server zabbix-agent apache2
 	sudo apt-get autoremove -y
 }
 
@@ -192,7 +192,7 @@ ufw_configuration
 
 install_zabbix_server
 
-create_database_botbackup_and_import_schema
+create_database_backup_and_import_schema
 
 highlighted_text "type 'n' for not changing the root password and 'y' for each question to secure your database"
 
