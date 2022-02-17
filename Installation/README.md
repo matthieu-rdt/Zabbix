@@ -5,7 +5,7 @@
 \- installation_zabbix_5_server.sh  
 \- installation_zabbix_6_server.sh
 
-> #### First, fill in these variables, lines 21 to 23
+> #### First, fill in these variables, lines 20 to 22
 >
 > `root_password`  
 > `user_password`  
@@ -31,7 +31,7 @@
 
 \- installation_or_upgrade_zabbix_agent_Linux.sh
 
-> #### First, fill in this variable, line 17
+> #### First, fill in this variable, line 31
 >
 > `ip_server`
 >
@@ -58,7 +58,7 @@
 
 \- installation_zabbix_agent_2_Linux.sh
 
-> #### First, fill in this variable, line 17
+> #### First, fill in this variable, line 18
 >
 > `ip_server`
 > 
