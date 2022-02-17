@@ -19,9 +19,9 @@ debian_version=(
 )
 
 rhel_version=(
-"rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.0-1.el$(rpm -E %{rhel}).noarch.rpm"
-"rpm -Uvh https://repo.zabbix.com/zabbix/5.2/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.2-1.el$(rpm -E %{rhel}).noarch.rpm"
-"rpm -Uvh https://repo.zabbix.com/zabbix/5.4/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.4-1.el$(rpm -E %{rhel}).noarch.rpm"
+"https://repo.zabbix.com/zabbix/5.0/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.0-1.el$(rpm -E %{rhel}).noarch.rpm"
+"https://repo.zabbix.com/zabbix/5.2/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.2-1.el$(rpm -E %{rhel}).noarch.rpm"
+"https://repo.zabbix.com/zabbix/5.4/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.4-1.el$(rpm -E %{rhel}).noarch.rpm"
 )
 
 #-----------------------#
@@ -72,15 +72,15 @@ install_or_upgrade_zabbix_agent_rhel ()
 
 case $3 in
 	"5.0")
-		curl -O "${rhel_version[$1]}"
+		rpm -Uvh "${rhel_version[$1]}"
 	;;
 
 	"5.2")
-		curl -O "${rhel_version[$2]}"
+		rpm -Uvh "${rhel_version[$2]}"
 	;;
 
 	"5.4")
-		curl -O "${rhel_version[$3]}"
+		rpm -Uvh "${rhel_version[$3]}"
 	;;
 
 	*)
