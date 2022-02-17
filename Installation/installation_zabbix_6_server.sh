@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # description
-# installation Zabbix Server for : ubuntu, debian
-# compatible versions : ubuntu 20.04 and lower,  debian 11 and lower 
+# installation Zabbix Server for : Ubuntu, Debian
+# compatible versions : from Ubuntu 14.04 to 20.04, from Debian 9 to 11 
 
 # sources
 # https://www.zabbix.com/documentation/current/manual
@@ -64,7 +64,7 @@ create_database_backup_and_import_schema ()
 	sudo mysql -uroot -p$root_password -e "flush privileges;"
 
 #	Import initial schema and data
-	zcat /usr/share/doc/zabbix-sql-scripts/mysql/server.sql.gz | mysql -uzabbix -p$user_password
+	zcat /usr/share/doc/zabbix-sql-scripts/mysql/server.sql.gz | mysql -uzabbix -p$user_password zabbix
 }
 
 highlighted_text ()
