@@ -3,30 +3,26 @@
 ### To prepare your environment to use Zabbix API :
 \- preparation_zabbix_API.sh
 
-### These variables must be completed
-
-> #### Line 13
-> `zbx_username`
+> #### These variables must be completed, line 13 to 15
 >
-> #### Line 14
-> `zbx_password`
->
-> #### Line 15
+> `zbx_username`  
+> `zbx_password`  
 > `zbx_api`
 
-### Syntax
-```
+### Example
+
+```bash
 ./preparation_zabbix_API.sh
 ```
 
 ***
 
-
 ### To create or delete host groups, you can use :
 \- zabbix_host_groups.sh
 
-### Syntax
-```
+### Example
+
+```bash
 ./zabbix_host_groups.sh file_to_add.txt file_to_del.txt
 ```
 
@@ -36,7 +32,8 @@
 \- import_hosts_templates.sh
 
 
-### Syntax
-```
+### Example
+
+```bash
 ./import_hosts_templates.sh templates_list.txt
 ```
