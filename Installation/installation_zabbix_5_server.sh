@@ -208,4 +208,4 @@ configure_fqdn_for_default_frontend
 
 create_permanent_shortcuts $OS
 
-logout
+echo "You can connect to http://$fqdn/zabbix" ; sleep 3
