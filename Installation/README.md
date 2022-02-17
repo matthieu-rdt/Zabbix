@@ -22,6 +22,9 @@
 ./installation_zabbix_5_server.sh ubuntu
 ```
 
+### Difference between Zabbix 5 & Zabbix 6
+![This is a alt text](https://github.com/matthieu-rdt/Zabbix/blob/main/Pictures/Difference%20Zabbix%205%20%26%206.png "Screenshot of terminal")
+
 ***
 
 ### To install/upgrade Zabbix agent
