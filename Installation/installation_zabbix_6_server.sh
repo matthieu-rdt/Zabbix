@@ -53,7 +53,7 @@ install_zabbix_server ()
 	sudo systemctl reload apache2
 }
 
-create_database_backup_and_import_schema ()
+create_database_and_import_schema ()
 {
 	sudo mysql -uroot -p$root_password -e "create database zabbix character set utf8mb4 collate utf8mb4_bin;"
 	sudo mysql -uroot -p$root_password -e "grant all privileges on zabbix.* to zabbix@localhost identified by '"$user_password"';"
@@ -192,7 +192,7 @@ ufw_configuration
 
 install_zabbix_server
 
-create_database_backup_and_import_schema
+create_database_and_import_schema
 
 highlighted_text "type 'n' for not changing the root password and 'y' for each question to secure your database"
 
