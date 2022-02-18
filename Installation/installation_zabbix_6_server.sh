@@ -20,6 +20,7 @@ OS=$1
 root_password=""
 user_password=""
 backup_password=""
+php_version=`apt-cache search php | egrep "(^| )php7.[0-9]( |$)" | grep -o '7.[0-9]'`
 
 #-----------------------#
 #	Functions	#
@@ -82,8 +83,8 @@ edit_passwd_and_timezone ()
 	#sudo sed -i "s/# php_value date.timezone Europe\/Riga/php_value date.timezone Europe\/Paris/g" /etc/zabbix/apache.conf
 
 #	Mandatory for the "Check of pre-requisites"
-	sudo cp -p /etc/php/7.3/apache2/php.ini /etc/php/7.3/apache2/php.ini.back
-	sudo sed -i "s/;date.timezone =/date.timezone = \"Europe\/Paris\"/g" /etc/php/7.3/apache2/php.ini
+	sudo cp -p /etc/php/$php_version/apache2/php.ini /etc/php/$php_version/apache2/php.ini.back
+	sudo sed -i "s/;date.timezone =/date.timezone = \"Europe\/Paris\"/g" /etc/php/$php_version/apache2/php.ini
 }
 
 configure_vmware_and_snmp_parameters ()
