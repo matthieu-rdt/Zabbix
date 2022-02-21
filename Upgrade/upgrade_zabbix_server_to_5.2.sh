@@ -63,8 +63,8 @@ upgrade_rhel ()
 #-------------------#
 
 if	[ -z $OS ] ; then
-     		echo "Try '$0 --help' for more information."
-        	exit 1
+		echo "Try '$0 --help' for more information."
+		exit 1
 
 elif	[[ $OS == "--help" ]] ; then
 		echo "First argument (mandatory) :"
@@ -74,12 +74,12 @@ elif	[[ $OS == "--help" ]] ; then
 		exit 6
 
 elif	[ $# -ne 1 ] ; then
-        	echo "Only one parameter is required"
-        	exit 2
+		echo "Only one parameter is required"
+		exit 2
 
 elif !	[[ $OS == ubuntu || $OS == debian || $OS == rhel ]] ; then
-        	echo "Indicate one of these : ubuntu / debian / rhel (case sensitive)"
-        	exit 3
+		echo "Indicate one of these : ubuntu / debian / rhel (case sensitive)"
+		exit 3
 		
 elif	[[ $UID -eq 0 ]] ; then 
 		echo "Run as user"
