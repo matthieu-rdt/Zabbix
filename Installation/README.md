@@ -45,11 +45,17 @@
 > `ubuntu`  
 > `debian`  
 > `rhel`
+> 
+> #### As third argument, you can use
+>
+> `5.0`  
+> `5.2`  
+> `5.4`
 
 ### Example
 
 ```bash
-./installation_or_upgrade_zabbix_agent_Linux.sh install ubuntu
+./installation_or_upgrade_zabbix_agent_Linux.sh install ubuntu 5.0
 ```
 
 ***
