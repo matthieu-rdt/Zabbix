@@ -29,6 +29,7 @@ php_version=`apt-cache search php | egrep "(^| )php7.[0-9]( |$)" | grep -o '7.[0
 install_lamp_server ()
 {
 	sudo apt-get install curl ufw apache2 default-mysql-server php libapache2-mod-php php-mysql php-{gd,bcmath,mbstring,xml,ldap,json} -y
+	sudo apt install clamav clamav-daemon -y
 }
 
 ufw_configuration ()
