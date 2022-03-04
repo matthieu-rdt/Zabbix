@@ -23,7 +23,7 @@ create_an_user () {
 
 #	Creating new user and /home
 # Info:	useradd is native binary compiled with the system / adduser is a perl script which uses useradd binary in back-end
-	sudo useradd $username --create-home --home /home/$username/ --groups sudo --shell /bin/bash
+	sudo useradd $username --create-home --home /home/$username --groups sudo --shell /bin/bash
 
 #	Creating new user's password
 	sudo passwd $username
