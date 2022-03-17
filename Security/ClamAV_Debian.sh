@@ -5,7 +5,7 @@
 #-----------------------#
 
 include_path=(
-"/tome"
+"/tom"
 )
 
 #-----------------------#
@@ -55,15 +55,23 @@ clamonacc ()
 #	Start	    #
 #-------------------#
 
-if [ ${include_path[$1]} == "/tome" ] ; then
-	echo "Edit your paths, here is an example :"
-	echo "/home"
-	echo "/etc"
-	echo "Or simply '/'"
-	exit 1
-fi
+conditions ()
+{
+	lsb_release -i | cut -d':' -f2 | grep -E '[DU].*'
+	if [ $(echo $?) -ne 0 ] ; then 
+		echo "Only Works with Debian-based"
+		exit 1
+	fi
 
-sudo apt update
+	if [ ${include_path[$1]} == "/tome" ] ; then
+		echo "Edit your paths, here is an example :"
+		echo "/home"
+		echo "/etc"
+		echo "Or simply '/'"
+		exit 2
+	fi
+}
+sudo apt update && sudo apt upgrade -y
 sudo apt install clamav clamav-daemon
 
 sudo service clamav-freshclam stop
@@ -78,6 +86,6 @@ clamonacc
 
 sudo systemctl restart clamav-daemon
 
-echo "Scan test" && sleep 3
 sudo apt install curl
+echo "Scan test" && sleep 3
 curl https://www.eicar.org/download/eicar.com.txt | clamdscan -
