@@ -55,6 +55,14 @@ clamonacc ()
 #	Start	    #
 #-------------------#
 
+if [ ${include_path[$1]} == "/tome" ] ; then
+	echo "Edit your paths, here is an example :"
+	echo "/home"
+	echo "/etc"
+	echo "Or simply '/'"
+	exit 1
+fi
+
 sudo apt update
 sudo apt install clamav clamav-daemon
 
