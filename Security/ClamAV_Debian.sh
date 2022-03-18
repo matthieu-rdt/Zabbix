@@ -74,7 +74,7 @@ clamonacc ()
 
 conditions
 
-sudo apt update && sudo apt install clamav clamav-daemon
+sudo apt update && sudo apt install clamav clamav-daemon -y
 
 sudo service clamav-freshclam stop
 sudo freshclam
