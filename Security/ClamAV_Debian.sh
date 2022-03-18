@@ -5,12 +5,29 @@
 #-----------------------#
 
 include_path=(
-"/tom"
+"/tome"
 )
 
 #-----------------------#
 #	Functions	#
 #-----------------------#
+
+conditions ()
+{
+	lsb_release -i | cut -d':' -f2 | grep -E '[DU].*'
+	if [ $(echo $?) -ne 0 ] ; then
+		echo "Only Works with Debian-based"
+		exit 1
+	fi
+
+	if [ ${include_path[$1]} == "/tome" ] ; then
+		echo "Edit your paths, here is an example :"
+		echo "/home"
+		echo "/etc"
+		echo "Or simply '/'"
+		exit 2
+	fi
+}
 
 clamd_conf ()
 {
@@ -55,24 +72,7 @@ clamonacc ()
 #	Start	    #
 #-------------------#
 
-conditions ()
-{
-	lsb_release -i | cut -d':' -f2 | grep -E '[DU].*'
-	if [ $(echo $?) -ne 0 ] ; then 
-		echo "Only Works with Debian-based"
-		exit 1
-	fi
-
-	if [ ${include_path[$1]} == "/tome" ] ; then
-		echo "Edit your paths, here is an example :"
-		echo "/home"
-		echo "/etc"
-		echo "Or simply '/'"
-		exit 2
-	fi
-}
-sudo apt update && sudo apt upgrade -y
-sudo apt install clamav clamav-daemon
+sudo apt update && sudo apt install clamav clamav-daemon
 
 sudo service clamav-freshclam stop
 sudo freshclam
