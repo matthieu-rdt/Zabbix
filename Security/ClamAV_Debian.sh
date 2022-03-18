@@ -14,7 +14,7 @@ include_path=(
 
 conditions ()
 {
-	lsb_release -i | cut -d':' -f2 | grep -E '[DU].*'
+	lsb_release -i | cut -d':' -f2 | grep -E '[DU].*' > /dev/null
 	if [ $(echo $?) -ne 0 ] ; then
 		echo "Only Works with Debian-based"
 		exit 1
@@ -58,7 +58,7 @@ clamonacc ()
 	echo "[Service]" | sudo tee -a /etc/systemd/system/clamonacc.service > /dev/null
 	echo "Type=simple" | sudo tee -a /etc/systemd/system/clamonacc.service > /dev/null
 	echo "User=root" | sudo tee -a /etc/systemd/system/clamonacc.service > /dev/null
-	echo "ExecStartPre=/bin/bash -c "while [ ! -S /var/run/clamav/clamd.ctl ]; do sleep 1; done"" | sudo tee -a /etc/systemd/system/clamonacc.service > /dev/null
+	echo 'ExecStartPre=/bin/bash -c "while [ ! -S /var/run/clamav/clamd.ctl ]; do sleep 1; done"' | sudo tee -a /etc/systemd/system/clamonacc.service > /dev/null
 	echo "ExecStart=/usr/sbin/clamonacc -F --fdpass --config-file=/etc/clamav/clamd.conf --log=/var/log/clamav/clamonacc.log" | sudo tee -a /etc/systemd/system/clamonacc.service > /dev/null
 	echo "" | sudo tee -a /etc/systemd/system/clamonacc.service > /dev/null
 	echo "[Install]" | sudo tee -a /etc/systemd/system/clamonacc.service > /dev/null
