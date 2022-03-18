@@ -72,6 +72,8 @@ clamonacc ()
 #	Start	    #
 #-------------------#
 
+conditions
+
 sudo apt update && sudo apt install clamav clamav-daemon
 
 sudo service clamav-freshclam stop
