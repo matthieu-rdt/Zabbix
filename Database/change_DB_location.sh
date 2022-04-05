@@ -5,7 +5,8 @@ if [ $SHELL == /usr/bin/zsh ] ; then
 fi
 
 # Get the new disk name
-lsblk && sleep 5
+lsblk | grep disk
+sleep 3
 
 read -p "choose the block device you want to use for DB ? " block
 read -p "choose the DB path you want to use for DB ? (without '/' at the end) " dbpath 
@@ -23,6 +24,7 @@ blkid=`sudo blkid | grep $block | awk '{ print $2 }'`
 echo "# Database is on /dev/$block" | sudo tee -a /etc/fstab
 echo "$blkid $dbpath   ext4    defaults        0       2" | sudo tee -a /etc/fstab
 sudo mount -a
+sleep 3
 
 sudo rsync -av /var/lib/mysql $dbpath
 
@@ -35,3 +37,6 @@ sudo sed -i "s|= /var/lib/mysql|= $dbpath/mysql|" /etc/mysql/mariadb.conf.d/50-s
 
 # Check the new location is effective
 sudo mysql -uroot -p -e "select @@datadir;"
+
+echo "Start MariaDB service"
+sudo systemctl start mariadb.service
