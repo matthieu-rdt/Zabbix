@@ -89,5 +89,5 @@ clamonacc
 sudo systemctl restart clamav-daemon
 
 sudo apt install curl
-echo "Scan test" && sleep 3
-curl https://www.eicar.org/download/eicar.com.txt | clamdscan -
+echo "To make a test"
+echo "Run 'curl https://www.eicar.org/download/eicar.com.txt | clamdscan -'"
