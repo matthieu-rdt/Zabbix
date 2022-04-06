@@ -1,5 +1,11 @@
 #!/bin/bash
 
+fine_tuning ()
+{
+#	If you have this kind of message : [Warning] Aborted connection 423 to db: 'zabbix' user: 'zabbix' host: 'localhost' (Got timeout reading communication packets)
+	sudo sed -i 's/#max_allowed_packet/max_allowed_packet' /etc/mysql/mariadb.conf.d/50-server.cnf
+}
+
 if [ $SHELL == /usr/bin/zsh ] ; then
 	exit 11
 fi
@@ -34,6 +40,9 @@ sudo mv /var/lib/mysql /var/lib/mysql.bak
 # Change DB path
 sudo cp -p /etc/mysql/mariadb.conf.d/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnff
 sudo sed -i "s|= /var/lib/mysql|= $dbpath/mysql|" /etc/mysql/mariadb.conf.d/50-server.cnf
+
+# Uncomment if needed
+#fine_tuning
 
 # Check the new location is effective
 sudo mysql -uroot -p -e "select @@datadir;"
