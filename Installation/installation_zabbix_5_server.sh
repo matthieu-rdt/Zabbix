@@ -180,22 +180,6 @@ conditions ()
 	fi
 }
 
-zabbix_web_service ()
-{
-	file=`sudo find . -type f -name zabbix_web_service.txt`
-	if [ -f "$file" ] ; then
-		while IFS= read -r line;
-		do
-			echo $line | sudo tee -a /etc/zabbix/zabbix_web_service.conf
-		done < $file
-
-		sudo systemctl enable --now zabbix-web-service
-		sudo systemctl restart zabbix-server.service
-	else
-		echo "no such file or directory"
-	fi
-}
-
 #-------------------#
 #	Start	    #
 #-------------------#
@@ -225,7 +209,5 @@ enable_zabbix-server_and_cleaning-up
 configure_fqdn_for_default_frontend
 
 create_permanent_shortcuts $OS
-
-#zabbix_web_service
 
 echo "You can connect to http://$fqdn/zabbix" ; sleep 3
