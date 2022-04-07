@@ -1,0 +1,16 @@
+### Option: StartReportWriters
+#	Number of pre-forked report writer instances
+#
+# Mandatory: no
+# Range: 1-100
+# Default:
+# StartReportWriters=
+
+StartReportWriters=3
+
+### Option: WebServiceURL
+#	URL to Zabbix web service, used to perform web related tasks
+#
+# Mandatory: no
+# Default:
+# WebServiceURL=
