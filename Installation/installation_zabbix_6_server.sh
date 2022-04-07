@@ -186,7 +186,7 @@ zabbix_web_service ()
         if [ -f "$file" ] ; then
                 while IFS= read -r line;
                 do
-                        echo $line | sudo tee -a /etc/zabbix/zabbix_web_service.conf
+                        echo $line | sudo tee -a /etc/zabbix/zabbix_server.conf
                 done < $file
 
                 sudo systemctl enable --now zabbix-web-service
