@@ -14,3 +14,5 @@ StartReportWriters=3
 # Mandatory: no
 # Default:
 # WebServiceURL=
+
+WebServiceURL=http://localhost:10053/report
