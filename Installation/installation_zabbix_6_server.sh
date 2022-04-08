@@ -182,6 +182,8 @@ conditions ()
 
 zabbix_web_service ()
 {
+	sudo apt install zabbix-web-service chromium
+
         file=`sudo find . -type f -name zabbix_web_service.txt`
         if [ -f "$file" ] ; then
                 while IFS= read -r line;
