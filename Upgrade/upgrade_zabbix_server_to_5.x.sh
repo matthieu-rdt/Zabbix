@@ -16,13 +16,9 @@
 #-----------------------#
 
 debian_version=(
-"https://repo.zabbix.com/zabbix/5.2/$OS/pool/main/z/zabbix-release/zabbix-release_5.2-1+$OS$(lsb_release -sr)_all.deb"
-"https://repo.zabbix.com/zabbix/5.4/$OS/pool/main/z/zabbix-release/zabbix-release_5.4-1+$OS$(lsb_release -sr)_all.deb"
 )
 
 rhel_version=(
-"https://repo.zabbix.com/zabbix/5.2/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.2-1.el$(rpm -E %{rhel}).noarch.rpm"
-"https://repo.zabbix.com/zabbix/5.4/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.4-1.el$(rpm -E %{rhel}).noarch.rpm"
 )
 
 #-----------------------#
@@ -50,7 +46,7 @@ upgrade_ubuntu_debian ()
 {
         echo "Downloading and installing packages for $OS"
         sudo dpkg --purge zabbix-release
-	case $2 in
+#	case $2 in
 		"5.2")
 			curl -O "${debian_version[$1]}"
         		sudo dpkg -i zabbix-release_5.2-1+$OS$(lsb_release -sr)_all.deb
@@ -65,7 +61,7 @@ upgrade_ubuntu_debian ()
 			exit 9
 		;;
 
-	esac
+#	esac
         sudo apt update
         sudo apt install -y --only-upgrade zabbix-server-mysql zabbix-frontend-php
         sudo systemctl reload-or-restart zabbix-server.service zabbix-agent.service
@@ -79,7 +75,7 @@ upgrade_rhel ()
         else
                 pkgm="yum"
         fi
-	case $2 in
+#	case $2 in
 		"5.2")
 			rpm -Uvh "${rhel_version[$1]}"
 		;;
@@ -92,7 +88,7 @@ upgrade_rhel ()
 			exit 99
 		;;
 
-	esac
+#	esac
         sudo $pkgm clean all
         sudo $pkgm upgrade -y zabbix-server-mysql zabbix-web-mysql
         sudo systemctl reload-or-restart zabbix-server.service zabbix-agent.service
@@ -117,10 +113,10 @@ conditions ()
 			exit 3
 	elif	[ $# -eq 2 ] ; then
 		if !	[[ $1 == ubuntu || $1 == debian || $1 == rhel ]] ; then
-			echo "Indicate as second argument one of these : ubuntu / debian / rhel (case sensitive)"
+			echo "Indicate as first argument one of these : ubuntu / debian / rhel (case sensitive)"
 			exit 2
 		elif !	[[ $2 == 5.2 || $2 == 5.4 ]] ; then
-			echo "Indicate as third argument one of these : 5.2 / 5.4 (case sensitive)"
+			echo "Indicate as second argument one of these : 5.2 / 5.4 (case sensitive)"
 			exit 22
 		fi
 
@@ -134,7 +130,7 @@ conditions ()
 #       Start       #
 #-------------------#
 
-conditions
+conditions $OS $2
 
 echo -e "You can follow your upgrade with :\ntail -f /var/log/zabbix/zabbix_server.log\ntail -f /var/log/zabbix/zabbix_proxy.log (if you've got proxy)" ; sleep 5
 
