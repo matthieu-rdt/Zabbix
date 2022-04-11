@@ -1,28 +1,13 @@
 #!/bin/bash
 
 # description
-# installation of Zabbix agent for multiple distros (ubuntu, debian, rhel)
+# installation Zabbix Agent for : Ubuntu, Debian, RHEL
+# compatible versions : from Ubuntu 14.04 to 20.04, from Debian 8 to 11, from RHEL 5 to 8
 
 # sources
 # https://www.zabbix.com/documentation/current/manual
 # https://bestmonitoringtools.com/zabbix-agent-linux-install-on-ubuntu-centos-rhel-debian-rasbian/
 # https://fedoraproject.org/wiki/EPEL
-
-#-----------------------#
-#       Arrays		#
-#-----------------------#
-
-debian_version=(
-'https://repo.zabbix.com/zabbix/5.0/"$2"/pool/main/z/zabbix-release/zabbix-release_5.0-1+$(lsb_release -sc)_all.deb'
-'https://repo.zabbix.com/zabbix/5.2/"$2"/pool/main/z/zabbix-release/zabbix-release_5.2-1+"$2$(lsb_release -sr)"_all.deb'
-'https://repo.zabbix.com/zabbix/5.4/"$2"/pool/main/z/zabbix-release/zabbix-release_5.4-1+"$2$(lsb_release -sr)"_all.deb'
-)
-
-rhel_version=(
-'https://repo.zabbix.com/zabbix/5.0/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.0-1.el$(rpm -E %{rhel}).noarch.rpm'
-'https://repo.zabbix.com/zabbix/5.2/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.2-1.el$(rpm -E %{rhel}).noarch.rpm'
-'https://repo.zabbix.com/zabbix/5.4/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.4-1.el$(rpm -E %{rhel}).noarch.rpm'
-)
 
 #-----------------------#
 #       Variables       #
@@ -41,24 +26,23 @@ install_or_upgrade_zabbix_agent_debian_ubuntu ()
 case $3 in
 
 	"5.0")
-		curl -O "${debian_version[$1]}"
+		curl -O "https://repo.zabbix.com/zabbix/5.0/$2/pool/main/z/zabbix-release/zabbix-release_5.0-1+$(lsb_release -sc)_all.deb"
 		sudo dpkg -i zabbix-release_5.0-1+$(lsb_release -sc)_all.deb
     	;;
 
-	"5.2")
-		curl -O "${debian_version[$2]}"
-		sudo dpkg -i zabbix-release_5.2-1+$2$(lsb_release -sr)_all.deb
+	"5.4")
+		curl -O "https://repo.zabbix.com/zabbix/5.4/$2/pool/main/z/zabbix-release/zabbix-release_5.4-1+$2$(lsb_release -sr)_all.deb"
+		sudo dpkg -i zabbix-release_5.4-1+$2$(lsb_release -sr)_all.deb
 	;;
 
-	"5.4")
-		curl -O "${debian_version[$3]}"
-		sudo dpkg -i zabbix-release_5.4-1+$2$(lsb_release -sr)_all.deb
+	"6.0")
+		curl -O "https://repo.zabbix.com/zabbix/6.0/$2/pool/main/z/zabbix-release/zabbix-release_6.0-1+$(lsb_release -sc)_all.deb"
+		sudo dpkg -i zabbix-release_6.0-1+$2$(lsb_release -sr)_all.deb
 	;;
 
 	*)
 		exit 9
     	;;
-
 esac
 
 	sudo apt update
@@ -72,21 +56,20 @@ install_or_upgrade_zabbix_agent_rhel ()
 
 case $3 in
 	"5.0")
-		rpm -Uvh "${rhel_version[$1]}"
-	;;
-
-	"5.2")
-		rpm -Uvh "${rhel_version[$2]}"
+		rpm -Uvh "https://repo.zabbix.com/zabbix/5.0/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.0-1.el$(rpm -E %{rhel}).noarch.rpm"
 	;;
 
 	"5.4")
-		rpm -Uvh "${rhel_version[$3]}"
+		rpm -Uvh "https://repo.zabbix.com/zabbix/5.4/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.4-1.el$(rpm -E %{rhel}).noarch.rpm"
+	;;
+
+	"6.0")
+		rpm -Uvh "https://repo.zabbix.com/zabbix/6.0/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-6.0-1.el$(rpm -E %{rhel}).noarch.rpm"
 	;;
 
 	*)
 		exit 99
 	;;
-
 esac
 
 	sudo yum clean all
@@ -146,7 +129,7 @@ elif	[[ $1 == "--help" ]] ; then
 		echo "Second argument (mandatory) :"
 		echo "ubuntu / debian / rhel"
 		echo "Third argument (mandatory) :"
-		echo "5.0 / 5.2 / 5.4"
+		echo "5.0 / 5.4 / 6.0" 
 		echo "For instance, you want to install zabbix agent and use ubuntu :"
 		echo "$0 install ubuntu 5.0"
 		exit 6
@@ -158,7 +141,7 @@ elif	[ $# -eq 3 ] ; then
 		elif !	[[ $2 == ubuntu || $2 == debian || $2 == rhel ]] ; then
 			echo "Indicate as second argument one of these : ubuntu / debian / rhel (case sensitive)"
 			exit 22
-		elif !	[[ $3 == 5.0 || $3 == 5.2 || $3 == 5.4 ]] ; then
+		elif !	[[ $3 == 5.0 || $3 == 5.4 || $3 == 6.0 ]] ; then
 			echo "Indicate as third argument one of these : 5.0 / 5.2 / 5.4 (case sensitive)"
 			exit 222
 		fi
