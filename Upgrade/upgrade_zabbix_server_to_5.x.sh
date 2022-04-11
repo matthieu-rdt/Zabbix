@@ -1,9 +1,6 @@
 #!/bin/bash
 
 # description
-# upgrade of Zabbix server for multiple distros (ubuntu, debian, rhel) up to :
-# 5.2
-# 5.4
 
 # sources
 # https://www.zabbix.com/documentation/current/manual
