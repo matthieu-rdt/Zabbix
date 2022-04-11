@@ -1,10 +1,7 @@
 #!/bin/bash
 
 # description
-# installation of zabbix agent 2 for several distros : 
-ubuntu, 
-debian, 
-rhel
+# installation Zabbix Server for : Ubuntu, Debian, RHEL
 
 # sources
 # https://www.zabbix.com/documentation/current/manual/concepts/agent2
