@@ -1,4 +1,12 @@
 # Scripts for Zabbix
+
+```bash
+sudo apt install git
+```
+```bash
+git clone https://github.com/matthieu-rdt/Zabbix.git
+```
+
 ## To install Zabbix agent & Zabbix server
 * #### Go to [Installation](https://github.com/matthieu-rdt/Zabbix/tree/main/Installation)
 
