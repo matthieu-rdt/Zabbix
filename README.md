@@ -3,6 +3,11 @@
 ```bash
 sudo apt install git
 ```
+OR
+
+```bash
+sudo yum install git
+```
 ```bash
 git clone https://github.com/matthieu-rdt/Zabbix.git
 ```
