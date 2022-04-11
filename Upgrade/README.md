@@ -23,24 +23,6 @@
 
 ***
 
-### To upgrade Zabbix server 5.x
-
-\- upgrade_zabbix_server_to_5.x.sh  
-
-> #### As argument, you can use
->
-> `ubuntu`  
-> `debian`  
-> `rhel`
-
-### Example
-
-```bash
-./upgrade_zabbix_server_to_5.x.sh rhel
-```
-
-***
-
 ### To upgrade Zabbix server 6
 
 \- upgrade_zabbix_server_to_6.sh
