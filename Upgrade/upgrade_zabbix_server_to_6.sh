@@ -61,8 +61,8 @@ backup_zabbix_database ()
 upgrade_ubuntu_debian ()
 {
 	sudo dpkg --purge zabbix-release
-	curl -O "https://repo.zabbix.com/zabbix/6.0/$OS/pool/main/z/zabbix-release/zabbix-release_6.0-1+$(lsb_release -sc)_all.deb"
-	sudo dpkg -i zabbix-release_6.0-1+$(lsb_release -sc)_all.deb
+	curl -O "https://repo.zabbix.com/zabbix/6.0/$2/pool/main/z/zabbix-release/zabbix-release_6.0-1+$2$(lsb_release -sr)_all.deb"
+	sudo dpkg -i zabbix-release_6.0-1+$2$(lsb_release -sr)_all.deb
 	sudo apt update
 	sudo apt install -y --only-upgrade zabbix-server-mysql zabbix-frontend-php
 	sudo apt install -y zabbix-apache-conf
