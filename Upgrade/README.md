@@ -39,6 +39,7 @@
 ./upgrade_zabbix_server_to_5.x.sh rhel
 ```
 
+***
 
 ### To upgrade Zabbix server 6
 
