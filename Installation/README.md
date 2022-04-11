@@ -49,8 +49,8 @@
 > #### As third argument, you can use
 >
 > `5.0`  
-> `5.2`  
-> `5.4`
+> `5.4`  
+> `6.0`
 
 ### Example
 
