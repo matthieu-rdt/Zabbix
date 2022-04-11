@@ -1,10 +1,8 @@
 #!/bin/bash
 
 # description
-# upgrade zabbix up to version number 5 for several distros :
-ubuntu, 
-debian, 
-rhel
+# upgrade Zabbix Server for : Ubuntu, Debian, RHEL
+# compatible versions : from Ubuntu 14.04 to 20.04, from Debian 9 to 11, from RHEL 5 to 8
 
 # sources
 # https://www.zabbix.com/documentation/current/manual
