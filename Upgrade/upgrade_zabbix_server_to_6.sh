@@ -63,8 +63,8 @@ backup_zabbix_database ()
 upgrade_ubuntu_debian ()
 {
 	sudo dpkg --purge zabbix-release
-	curl -O "https://repo.zabbix.com/zabbix/5.0/$OS/pool/main/z/zabbix-release/zabbix-release_5.0-1+$(lsb_release -sc)_all.deb"
-	sudo dpkg -i zabbix-release_5.0-1+$(lsb_release -sc)_all.deb
+	curl -O "https://repo.zabbix.com/zabbix/6.0/$OS/pool/main/z/zabbix-release/zabbix-release_6.0-1+$(lsb_release -sc)_all.deb"
+	sudo dpkg -i zabbix-release_6.0-1+$(lsb_release -sc)_all.deb
 	sudo apt update
 	sudo apt install -y --only-upgrade zabbix-server-mysql zabbix-frontend-php
 	sudo apt install -y zabbix-apache-conf
@@ -77,7 +77,7 @@ upgrade_rhel ()
 	else
 		pktm="yum"
 	fi
-	sudo rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.0-1.el$(rpm -E %{rhel}).noarch.rpm
+	sudo rpm -Uvh https://repo.zabbix.com/zabbix/6.0/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-6.0-1.el$(rpm -E %{rhel}).noarch.rpm
 	sudo $pktm clean all
 	sudo $pktm upgrade -y zabbix-server-mysql zabbix-web-mysql
 	sudo $pktm install -y zabbix-apache-conf
