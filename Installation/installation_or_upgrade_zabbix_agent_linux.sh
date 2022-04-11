@@ -13,15 +13,15 @@
 #-----------------------#
 
 debian_version=(
-"https://repo.zabbix.com/zabbix/5.0/"$2"/pool/main/z/zabbix-release/zabbix-release_5.0-1+$(lsb_release -sc)_all.deb"
-"https://repo.zabbix.com/zabbix/5.2/"$2"/pool/main/z/zabbix-release/zabbix-release_5.2-1+"$2$(lsb_release -sr)"_all.deb"
-"https://repo.zabbix.com/zabbix/5.4/"$2"/pool/main/z/zabbix-release/zabbix-release_5.4-1+"$2$(lsb_release -sr)"_all.deb"
+'https://repo.zabbix.com/zabbix/5.0/"$2"/pool/main/z/zabbix-release/zabbix-release_5.0-1+$(lsb_release -sc)_all.deb'
+'https://repo.zabbix.com/zabbix/5.2/"$2"/pool/main/z/zabbix-release/zabbix-release_5.2-1+"$2$(lsb_release -sr)"_all.deb'
+'https://repo.zabbix.com/zabbix/5.4/"$2"/pool/main/z/zabbix-release/zabbix-release_5.4-1+"$2$(lsb_release -sr)"_all.deb'
 )
 
 rhel_version=(
-"https://repo.zabbix.com/zabbix/5.0/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.0-1.el$(rpm -E %{rhel}).noarch.rpm"
-"https://repo.zabbix.com/zabbix/5.2/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.2-1.el$(rpm -E %{rhel}).noarch.rpm"
-"https://repo.zabbix.com/zabbix/5.4/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.4-1.el$(rpm -E %{rhel}).noarch.rpm"
+'https://repo.zabbix.com/zabbix/5.0/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.0-1.el$(rpm -E %{rhel}).noarch.rpm'
+'https://repo.zabbix.com/zabbix/5.2/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.2-1.el$(rpm -E %{rhel}).noarch.rpm'
+'https://repo.zabbix.com/zabbix/5.4/rhel/$(rpm -E %{rhel})/x86_64/zabbix-release-5.4-1.el$(rpm -E %{rhel}).noarch.rpm'
 )
 
 #-----------------------#
