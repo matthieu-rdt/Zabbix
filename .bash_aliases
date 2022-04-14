@@ -1,0 +1,6 @@
+alias chmux='chmod u+x'
+alias ll='ls -l'
+alias upd='sudo apt update'
+alias upg='sudo apt upgrade'
+alias rmv='sudo apt autoremove'
+alias all='upd && upg && rmv'
