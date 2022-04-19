@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.2</version>
+    <date>2021-04-14T08:53:30Z</date>
+    <groups>
+        <group>
+            <name>Templates-ALE-Custom-Apps</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template VEEAM - Backup and Replication without services</template>
+            <name>Template VEEAM - Backup and Replication without services</name>
+            <groups>
+                <group>
+                    <name>Templates-ALE-Custom-Apps</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>VEEAM Backup &amp; Recovery - Backup Job(s)</name>
+                </application>
+                <application>
+                    <name>VEEAM Backup &amp; Recovery - Backup Job(s) By VMs</name>
+                </application>
+                <application>
+                    <name>VEEAM Backup &amp; Recovery - BackupSync Job(s)</name>
+                </application>
+                <application>
+                    <name>VEEAM Backup &amp; Recovery - BackupSync Job(s) By VMs</name>
+                </application>
+                <application>
+                    <name>VEEAM Backup &amp; Recovery - EndPoint Backup job(s)</name>
+                </application>
+                <application>
+                    <name>VEEAM Backup &amp; Recovery - Replica Job(s)</name>
+                </application>
+                <application>
+                    <name>VEEAM Backup &amp; Recovery - Tape job(s)</name>
+                </application>
+                <application>
+                    <name>VEEAM Discovery Mechanics</name>
+                </application>
+                <application>
+                    <name>VEEAM Repository</name>
+                </application>
+                <application>
+                    <name>VEEAM Services</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>Result Export Xml Veeam</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>system.run[powershell -NoProfile -ExecutionPolicy Bypass -File &quot;C:\Program Files\Zabbix Agent\scripts\zabbix_vbr_job.ps1&quot; exportxml,nowait]</key>
+                    <delay>300</delay>
+                    <history>5d</history>
+                    <trends>15d</trends>
+                    <applications>
+                        <application>
+                            <name>VEEAM Discovery Mechanics</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>vbrtaskresult</name>
+                    </valuemap>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}&lt;1</expression>
+                            <name>Export XML Veeam Error</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Number of active jobs</name>
+                    <key>vbr[&quot;RunningJob&quot;]</key>
+                    <delay>300</delay>
+                    <history>7d</history>
+                    <units>job(s)</units>
+                    <applications>
+                        <application>
+                            <name>VEEAM Backup &amp; Recovery - Backup Job(s)</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Number of jobs (Total)</name>
+                    <key>vbr[JobsCount]</key>
+                    <delay>3600</delay>
+                    <history>7d</history>
+                    <units>job(s)</units>
+                    <applications>
+                        <application>
+                            <name>VEEAM Backup &amp; Recovery - Backup Job(s)</name>
+                        </application>
+                    </applications>
+                </item>
+            </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>VEEAM Services</name>
+                    <key>service.discovery</key>
+                    <delay>3600</delay>
+                    <status>DISABLED</status>
+                    <filter>
+                        <conditions>
+                            <condition>
+                                <macro>{#SERVICE.NAME}</macro>
+                                <value>@Veeam</value>
+                                <formulaid>A</formulaid>
+                            </condition>
+                        </conditions>
+                    </filter>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Status {#SERVICE.DISPLAYNAME}</name>
+                            <key>service.info[{#SERVICE.NAME},state]</key>
+                            <delay>60</delay>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Services</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>Windows service state</name>
+                            </valuemap>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{min(#3)}&lt;&gt;0</expression>
+                                    <name>{#SERVICE.DISPLAYNAME} is not running (start type {#SERVICE.STARTUPNAME})</name>
+                                    <priority>AVERAGE</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>VEEAM Backup Jobs</name>
+                    <key>vbr[&quot;DiscoveryBackupJobs&quot;]</key>
+                    <delay>3600</delay>
+                    <lifetime>1d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Excluded size in job {#JOBNAME}</name>
+                            <key>vbr[ExcludedSize,{#JOBID}]</key>
+                            <delay>3600</delay>
+                            <history>7d</history>
+                            <status>DISABLED</status>
+                            <units>bytes</units>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - Backup Job(s)</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Included size in the job : {#JOBNAME}</name>
+                            <key>vbr[IncludedSize,{#JOBID}]</key>
+                            <delay>3600</delay>
+                            <history>7d</history>
+                            <status>DISABLED</status>
+                            <units>bytes</units>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - Backup Job(s)</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Last End Time Job : {#JOBNAME}</name>
+                            <key>vbr[LastEndTime,{#JOBID}]</key>
+                            <delay>3600</delay>
+                            <units>unixtime</units>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - Backup Job(s)</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Last Run Time Job : {#JOBNAME}</name>
+                            <key>vbr[LastRunTime,{#JOBID}]</key>
+                            <delay>3600</delay>
+                            <units>unixtime</units>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - Backup Job(s)</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Next Run Time Job : {#JOBNAME}</name>
+                            <key>vbr[NextRunTime,{#JOBID}]</key>
+                            <delay>3600</delay>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - Backup Job(s)</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Result backup {#JOBNAME}</name>
+                            <key>vbr[ResultBackup,{#JOBID}]</key>
+                            <delay>900</delay>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - Backup Job(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>vbrJobResult</name>
+                            </valuemap>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{avg(300)}&lt;1</expression>
+                                    <name>Backup {#JOBNAME} Failed</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{avg(300)}&gt;0 and {avg(300)}&lt;2</expression>
+                                    <name>Backup {#JOBNAME} Warning</name>
+                                    <priority>AVERAGE</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{nodata(7200)}=1</expression>
+                                    <name>Veeam Backup Data Recovery Problem</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Job execution status {#JOBNAME}</name>
+                            <key>vbr[RunStatus,{#JOBID}]</key>
+                            <delay>900</delay>
+                            <history>7d</history>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - Backup Job(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>vbrJobRunStatus</name>
+                            </valuemap>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Type of backup {#JOBNAME}</name>
+                            <key>vbr[Type,{#JOBID}]</key>
+                            <delay>7200</delay>
+                            <history>7d</history>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - Backup Job(s)</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Number of VMs in job : {#JOBNAME}</name>
+                            <key>vbr[VmCount,{#JOBNAME}]</key>
+                            <delay>3600</delay>
+                            <history>7d</history>
+                            <units>vm(s)</units>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - Backup Job(s)</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Number of VMs Failed {#JOBNAME}</name>
+                            <key>vbr[VmCountResultBackup,{#JOBNAME},Failed]</key>
+                            <delay>900</delay>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - Backup Job(s)</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Number of VMs Warning {#JOBNAME}</name>
+                            <key>vbr[VmCountResultBackup,{#JOBNAME},Warning]</key>
+                            <delay>900</delay>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - Backup Job(s)</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                    </item_prototypes>
+                    <trigger_prototypes>
+                        <trigger_prototype>
+                            <expression>{Template VEEAM - Backup and Replication without services:vbr[RunStatus,{#JOBID}].avg(28800)}=1 and {Template VEEAM - Backup and Replication without services:vbr[Type,{#JOBID}].regexp(BackupSync)}=0</expression>
+                            <name>The VEEAM work {#JOBNAME} is still running (8h)</name>
+                            <priority>HIGH</priority>
+                        </trigger_prototype>
+                    </trigger_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>VEEAM BackupSync Jobs</name>
+                    <key>vbr[&quot;DiscoveryBackupSyncJobs&quot;]</key>
+                    <delay>3600</delay>
+                    <lifetime>1d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Excluded size in job {#JOBBSNAME}</name>
+                            <key>vbr[ExcludedSize,{#JOBBSID}]</key>
+                            <delay>3600</delay>
+                            <history>7d</history>
+                            <status>DISABLED</status>
+                            <units>bytes</units>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - BackupSync Job(s)</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Included size in the job {#JOBBSNAME}</name>
+                            <key>vbr[IncludedSize,{#JOBBSID}]</key>
+                            <delay>3600</delay>
+                            <status>DISABLED</status>
+                            <units>bytes</units>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - BackupSync Job(s)</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Result backup {#JOBBSNAME}</name>
+                            <key>vbr[ResultBackupSync,{#JOBBSID}]</key>
+                            <delay>900</delay>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - BackupSync Job(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>vbrJobResult</name>
+                            </valuemap>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{avg(300)}&lt;1</expression>
+                                    <name>Backup {#JOBBSNAME} Failed</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{avg(300)}&gt;0 and {avg(300)}&lt;2</expression>
+                                    <name>Backup {#JOBBSNAME} Warning</name>
+                                    <priority>AVERAGE</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{nodata(7200)}=1</expression>
+                                    <name>Veeam Backup Data Recovery Problem</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Job execution status {#JOBBSNAME}</name>
+                            <key>vbr[RunStatus,{#JOBBSID}]</key>
+                            <delay>900</delay>
+                            <history>7d</history>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - BackupSync Job(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>vbrJobRunStatus</name>
+                            </valuemap>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Type of backup {#JOBBSNAME}</name>
+                            <key>vbr[Type,{#JOBBSID}]</key>
+                            <delay>7200</delay>
+                            <history>7d</history>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - BackupSync Job(s)</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Number of VMs in job {#JOBBSNAME}</name>
+                            <key>vbr[VmCount,{#JOBBSNAME}]</key>
+                            <delay>3600</delay>
+                            <history>7d</history>
+                            <units>vm(s)</units>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - BackupSync Job(s)</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Number of VMs Failed {#JOBBSNAME}</name>
+                            <key>vbr[VmCountResultBackupSync,{#JOBBSNAME},Failed]</key>
+                            <delay>900</delay>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - BackupSync Job(s)</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Number of VMs Warning {#JOBBSNAME}</name>
+                            <key>vbr[VmCountResultBackupSync,{#JOBBSNAME},Warning]</key>
+                            <delay>900</delay>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - BackupSync Job(s)</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>VEEAM BackupSync By VMs</name>
+                    <key>vbr[&quot;DiscoveryBackupVmsByJobs&quot;,&quot;BackupSync&quot;]</key>
+                    <delay>3600</delay>
+                    <lifetime>1d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Job {#JOBNAME} - Result {#JOBVMNAME}</name>
+                            <key>vbr[VMResultBackupSync,&quot;{#JOBVMNAME}&quot;,&quot;{#JOBNAME}&quot;]</key>
+                            <delay>900</delay>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - BackupSync Job(s) By VMs</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>vbrJobResult</name>
+                            </valuemap>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>VEEAM Backup By VMs</name>
+                    <key>vbr[&quot;DiscoveryBackupVmsByJobs&quot;]</key>
+                    <delay>3600</delay>
+                    <lifetime>1d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Job {#JOBNAME} - Result {#JOBVMNAME}</name>
+                            <key>vbr[VMResultBackup,&quot;{#JOBVMNAME}&quot;,&quot;{#JOBNAME}&quot;]</key>
+                            <delay>900</delay>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - Backup Job(s) By VMs</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>vbrJobResult</name>
+                            </valuemap>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>VEEAM EndpointBackup Jobs</name>
+                    <key>vbr[&quot;DiscoveryEndpointJobs&quot;]</key>
+                    <delay>3600</delay>
+                    <lifetime>1d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Result backup {#JOBENDPOINTNAME}</name>
+                            <key>vbr[ResultEndpoint,{#JOBENDPOINTID}]</key>
+                            <delay>900</delay>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - EndPoint Backup job(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>vbrJobResult</name>
+                            </valuemap>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{avg(300)}&lt;1</expression>
+                                    <name>Backup {#JOBENDPOINTNAME} Failed</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{avg(300)}&gt;0 and {avg(300)}&lt;2</expression>
+                                    <name>Backup {#JOBENDPOINTNAME} Warning</name>
+                                    <priority>AVERAGE</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{nodata(7200)}=1</expression>
+                                    <name>Veeam Backup Data Recovery Problem</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Job execution status {#JOBENDPOINTNAME}</name>
+                            <key>vbr[RunStatus,{#JOBENDPOINTID}]</key>
+                            <delay>900</delay>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - EndPoint Backup job(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>vbrJobRunStatus</name>
+                            </valuemap>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{avg(28800)}=1</expression>
+                                    <name>The VEEAM work {#JOBENDPOINTNAME} is still running (8h)</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Type of backup {#JOBENDPOINTNAME}</name>
+                            <key>vbr[Type,{#JOBENDPOINTID}]</key>
+                            <delay>7200</delay>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - EndPoint Backup job(s)</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>VEEAM ReplicaBackup Jobs</name>
+                    <key>vbr[&quot;DiscoveryReplicaJobs&quot;]</key>
+                    <delay>3600</delay>
+                    <lifetime>1d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Result backup {#JOBREPLICANAME}</name>
+                            <key>vbr[ResultReplica,{#JOBREPLICAID}]</key>
+                            <delay>600</delay>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - Replica Job(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>vbrJobResult</name>
+                            </valuemap>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{avg(300)}&lt;1</expression>
+                                    <name>Backup {#JOBREPLICANAME} Failed</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{avg(300)}&gt;0 and {avg(300)}&lt;2</expression>
+                                    <name>Backup {#JOBREPLICANAME} Warning</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{nodata(7200)}=1</expression>
+                                    <name>Veeam Backup Data Recovery Problem</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Job execution status {#JOBREPLICANAME}</name>
+                            <key>vbr[RunStatus,{#JOBREPLICAID}]</key>
+                            <delay>900</delay>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - Replica Job(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>vbrJobRunStatus</name>
+                            </valuemap>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Type of backup {#JOBREPLICANAME}</name>
+                            <key>vbr[Type,{#JOBREPLICAID}]</key>
+                            <delay>7200</delay>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - Replica Job(s)</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>VEEAM Repository</name>
+                    <key>vbr[&quot;DiscoveryRepo&quot;]</key>
+                    <delay>3600</delay>
+                    <lifetime>7d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Total repository space {#REPONAME}</name>
+                            <key>vbr[RepoCapacity,&quot;{#REPONAME}&quot;]</key>
+                            <delay>3600</delay>
+                            <units>B</units>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Repository</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Remaining space repository {#REPONAME}</name>
+                            <key>vbr[RepoFree,&quot;{#REPONAME}&quot;]</key>
+                            <delay>3600</delay>
+                            <units>B</units>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Repository</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;2147483648</expression>
+                                    <name>Less than 2Gb remaining on the repository {#REPONAME}</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                    <graph_prototypes>
+                        <graph_prototype>
+                            <name>Remaining repository space {#REPONAME}</name>
+                            <graph_items>
+                                <graph_item>
+                                    <color>1A7C11</color>
+                                    <item>
+                                        <host>Template VEEAM - Backup and Replication without services</host>
+                                        <key>vbr[RepoFree,&quot;{#REPONAME}&quot;]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                    </graph_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>VEEAM Tape jobs</name>
+                    <key>vbr[&quot;DiscoveryTapeJobs&quot;]</key>
+                    <delay>3600</delay>
+                    <lifetime>7d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Result backup {#JOBTAPENAME}</name>
+                            <key>vbr[ResultTape,{#JOBTAPEID}]</key>
+                            <delay>900</delay>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - Tape job(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>vbrJobResult</name>
+                            </valuemap>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{avg(300)}&lt;1</expression>
+                                    <name>Backup {#JOBTAPENAME} Failed</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{avg(300)}&gt;0 and {avg(300)}&lt;2</expression>
+                                    <name>Backup {#JOBTAPENAME} Warning</name>
+                                    <priority>AVERAGE</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{nodata(7200)}=1</expression>
+                                    <name>Veeam Backup Data Recovery Problem</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Job execution status {#JOBTAPENAME}</name>
+                            <key>vbr[RunStatus,{#JOBTAPEID}]</key>
+                            <delay>900</delay>
+                            <applications>
+                                <application>
+                                    <name>VEEAM Backup &amp; Recovery - Tape job(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>vbrJobRunStatus</name>
+                            </valuemap>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{avg(28800)}=1</expression>
+                                    <name>The VEEAM work {#JOBTAPENAME} is still running (8h)</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+            <dashboards>
+                <dashboard>
+                    <name>Veeam</name>
+                    <widgets>
+                        <widget>
+                            <type>GRAPH_CLASSIC</type>
+                            <width>24</width>
+                            <height>5</height>
+                            <fields>
+                                <field>
+                                    <type>INTEGER</type>
+                                    <name>source_type</name>
+                                    <value>1</value>
+                                </field>
+                                <field>
+                                    <type>ITEM</type>
+                                    <name>itemid</name>
+                                    <value>
+                                        <key>vbr[&quot;RunningJob&quot;]</key>
+                                        <host>Template VEEAM - Backup and Replication without services</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                    </widgets>
+                </dashboard>
+            </dashboards>
+        </template>
+    </templates>
+    <value_maps>
+        <value_map>
+            <name>vbrJobResult</name>
+            <mappings>
+                <mapping>
+                    <value>0</value>
+                    <newvalue>Failed</newvalue>
+                </mapping>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>Warning</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2</value>
+                    <newvalue>Success</newvalue>
+                </mapping>
+                <mapping>
+                    <value>3</value>
+                    <newvalue>Idle</newvalue>
+                </mapping>
+                <mapping>
+                    <value>4</value>
+                    <newvalue>Disabled, First Backup or no history</newvalue>
+                </mapping>
+                <mapping>
+                    <value>5</value>
+                    <newvalue>In progress</newvalue>
+                </mapping>
+                <mapping>
+                    <value>6</value>
+                    <newvalue>On standby</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+        <value_map>
+            <name>vbrJobRunStatus</name>
+            <mappings>
+                <mapping>
+                    <value>0</value>
+                    <newvalue>Stopped</newvalue>
+                </mapping>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>Running</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+        <value_map>
+            <name>vbrtaskresult</name>
+            <mappings>
+                <mapping>
+                    <value>0</value>
+                    <newvalue>Error</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2</value>
+                    <newvalue>Succeeded</newvalue>
+                </mapping>
+                <mapping>
+                    <value>4</value>
+                    <newvalue>Canceled</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+        <value_map>
+            <name>Windows service state</name>
+            <mappings>
+                <mapping>
+                    <value>0</value>
+                    <newvalue>Running</newvalue>
+                </mapping>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>Paused</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2</value>
+                    <newvalue>Start pending</newvalue>
+                </mapping>
+                <mapping>
+                    <value>3</value>
+                    <newvalue>Pause pending</newvalue>
+                </mapping>
+                <mapping>
+                    <value>4</value>
+                    <newvalue>Continue pending</newvalue>
+                </mapping>
+                <mapping>
+                    <value>5</value>
+                    <newvalue>Stop pending</newvalue>
+                </mapping>
+                <mapping>
+                    <value>6</value>
+                    <newvalue>Stopped</newvalue>
+                </mapping>
+                <mapping>
+                    <value>7</value>
+                    <newvalue>Unknown</newvalue>
+                </mapping>
+                <mapping>
+                    <value>255</value>
+                    <newvalue>No such service</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+    </value_maps>
+</zabbix_export>
