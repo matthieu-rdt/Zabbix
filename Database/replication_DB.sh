@@ -42,7 +42,11 @@ function mariadb_server_cnf
 #      Start      #
 #-----------------#
 
-#if $1 est vide, echo numero de node
+if	[ -z $1 ] ; then
+	echo "Indicate a node number"
+	echo "Try '$0 1'"
+	exit 1
+fi
 
 sudo sed -i "/`hostname -f`/a $ip_server $fqdn" /etc/hosts
 
