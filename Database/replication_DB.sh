@@ -42,13 +42,17 @@ function mariadb_server_cnf
 #      Start      #
 #-----------------#
 
-#if $1 est vide, echo numero de node
+if	[ -z $1 ] ; then
+	echo "Indicate a node number"
+	echo "Try '$0 1'"
+	exit 1
+fi
 
 sudo sed -i "/`hostname -f`/a $ip_server $fqdn" /etc/hosts
 
 if [ `ping -c1 $ip_server | echo $?` -eq 1 || `ping -c1 $fqdn | echo $?` -eq 1 ] 
 	echo "cannot ping $fqdn"
-	exit 1
+	exit 11
 fi
 
 if [ `sudo dpkg -l | grep mariadb | echo $?` -eq 1 ] ; then
@@ -56,7 +60,7 @@ if [ `sudo dpkg -l | grep mariadb | echo $?` -eq 1 ] ; then
 	echo "Installing MariaDB"
 fi
 
-ConfirmChoice "Do you configure node 1 ?" && mariadb_server_cnf $1
+ConfirmChoice "Which node number do you want to configure ?" && mariadb_server_cnf $1
 
 sudo systemctl restart mariadb.service
 
