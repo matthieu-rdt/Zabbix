@@ -6,14 +6,18 @@
 #-----------------------#
 #	Variables	#
 #-----------------------#
+#	Creation of a temporary file to be able to 'grep' if variables are not empty
+filename=`mktemp /tmp/list_of_variables_XXX_$$`
+cat << EOF > $filename
 
-#	Complete remote information
+#       Complete remote information
 fqdn=""
 ip_server=""
 
-#	Complete local information
+#       Complete local information
 local_ip=""
 user_password=""
+EOF
 
 #-----------------------#
 #	Functions	#
@@ -46,6 +50,9 @@ if	[ -z $1 ] ; then
 	echo "Indicate a node number"
 	echo "Try '$0 1'"
 	exit 1
+elif	[ $(grep -E '""$' $filename | echo $?) -eq 0 ] ; then
+	echo "The variables list are empty"
+	exit 2
 fi
 
 sudo sed -i "/`hostname -f`/a $ip_server $fqdn" /etc/hosts
