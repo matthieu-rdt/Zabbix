@@ -67,7 +67,7 @@ if [ `sudo dpkg -l | grep mariadb | echo $?` -eq 1 ] ; then
 	echo "Installing MariaDB"
 fi
 
-ConfirmChoice "Do you configure node 1 ?" && mariadb_server_cnf $1
+ConfirmChoice "Do you configure node $1 ?" && mariadb_server_cnf $1
 
 sudo systemctl restart mariadb.service
 
