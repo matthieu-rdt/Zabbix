@@ -46,13 +46,15 @@ function mariadb_server_cnf
 #      Start      #
 #-----------------#
 
+if	[ `grep -E '""$' $filename | echo $?` -eq 0 ] ; then
+		echo "The variables list is empty"
+		exit 2
+fi
+
 if	[ -z $1 ] ; then
-	echo "Indicate a node number"
-	echo "Try '$0 1'"
-	exit 1
-elif	[ $(grep -E '""$' $filename | echo $?) -eq 0 ] ; then
-	echo "The variables list are empty"
-	exit 2
+		echo "Indicate a node number"
+		echo "Try '$0 1'"
+		exit 1
 fi
 
 sudo sed -i "/`hostname -f`/a $ip_server $fqdn" /etc/hosts
