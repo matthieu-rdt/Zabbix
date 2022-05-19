@@ -6,9 +6,6 @@
 #-----------------------#
 #	Variables	#
 #-----------------------#
-#	Creation of a temporary file to be able to 'grep' if variables are not empty
-filename=`mktemp /tmp/list_of_variables_XXX_$$`
-cat << EOF > $filename
 
 #       Complete remote information
 fqdn=""
@@ -17,7 +14,6 @@ ip_server=""
 #       Complete local information
 local_ip=""
 user_password=""
-EOF
 
 #-----------------------#
 #	Functions	#
@@ -46,7 +42,7 @@ function mariadb_server_cnf()
 #      Start      #
 #-----------------#
 
-grep --quiet -E '""$' $filename
+grep -E --quiet '""$' $0
 
 if	[ `echo $?` -eq 0 ] ; then
 		echo "The variables list is empty"
