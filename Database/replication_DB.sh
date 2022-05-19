@@ -46,9 +46,9 @@ function mariadb_server_cnf()
 #      Start      #
 #-----------------#
 
-grep=`grep --quiet -E '""$' $filename | echo $?`
+grep --quiet -E '""$' $filename
 
-if	[ $grep -eq 0 ] ; then
+if	[ `echo $?` -eq 0 ] ; then
 		echo "The variables list is empty"
 		exit 2
 fi
@@ -61,16 +61,16 @@ fi
 
 sudo sed -i "/`hostname -f`/a $ip_server $fqdn" /etc/hosts
 
-ping=`ping -c1 $ip_server | echo $?`
+ping -c1 -q $ip_server
 
-if	[ $ping -eq 1 ] ; then
+if	[ `$echo $?` -eq 1 ] ; then
 		echo "cannot ping $fqdn"
 		exit 1
 fi
 
-dpkg=`sudo dpkg -l | grep mariadb | echo $?`
+sudo dpkg -l | grep --quiet mariadb
 
-if	[ $dpkg -eq 1 ] ; then
+if	[ `$echo $?` -eq 1 ] ; then
 		sudo apt install mariadb-server -y
 		echo "Installing MariaDB"
 fi
