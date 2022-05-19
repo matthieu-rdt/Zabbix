@@ -63,14 +63,14 @@ sudo sed -i "/`hostname -f`/a $ip_server $fqdn" /etc/hosts
 
 ping -c1 -q $ip_server
 
-if	[ `$echo $?` -eq 1 ] ; then
+if	[ `echo $?` -eq 1 ] ; then
 		echo "cannot ping $fqdn"
 		exit 1
 fi
 
 sudo dpkg -l | grep --quiet mariadb
 
-if	[ `$echo $?` -eq 1 ] ; then
+if	[ `echo $?` -eq 1 ] ; then
 		sudo apt install mariadb-server -y
 		echo "Installing MariaDB"
 fi
