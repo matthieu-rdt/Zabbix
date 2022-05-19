@@ -35,7 +35,7 @@ function ConfirmChoice()
         [ "${ConfYorN}" == "y" -o "${ConfYorN}" == "Y" ] && return 0 || return 1
 }
 
-function mariadb_server_cnf
+function mariadb_server_cnf()
 {
 	sudo sed -i "s/bind-address = 127.0.0.1/bind-address = $local_ip/" /etc/mysql/mariadb.conf.d/50-server.cnf
 	sudo sed -i "s/#server-id = 1/server-id = $1/" /etc/mysql/mariadb.conf.d/50-server.cnf
@@ -61,14 +61,18 @@ fi
 
 sudo sed -i "/`hostname -f`/a $ip_server $fqdn" /etc/hosts
 
-if [ `ping -c1 $ip_server | echo $?` -eq 1 || `ping -c1 $fqdn | echo $?` -eq 1 ] ; then
-	echo "cannot ping $fqdn"
-	exit 1
+ping -c1 $ip_server > /dev/null
+
+if	[ $(echo $?) -eq 1 ] ; then
+		echo "cannot ping $fqdn"
+		exit 1
 fi
 
-if [ `sudo dpkg -l | grep mariadb | echo $?` -eq 1 ] ; then
-	sudo apt install mariadb-server -y
-	echo "Installing MariaDB"
+sudo dpkg -l | grep mariadb
+
+if	[ `echo $?` -eq 1 ] ; then
+		sudo apt install mariadb-server -y
+		echo "Installing MariaDB"
 fi
 
 ConfirmChoice "Do you configure node $1 ?" && mariadb_server_cnf $1
