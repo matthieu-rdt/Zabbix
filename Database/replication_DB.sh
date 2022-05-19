@@ -46,7 +46,7 @@ function mariadb_server_cnf
 #      Start      #
 #-----------------#
 
-grep -E '""$' $filename
+grep --quiet -E '""$' $filename
 
 if	[ `echo $?` -eq 0 ] ; then
 		echo "The variables list is empty"
