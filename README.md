@@ -8,6 +8,8 @@ OR
 ```bash
 sudo yum install git
 ```
+Get a local copy
+
 ```bash
 git clone https://github.com/matthieu-rdt/Zabbix.git
 ```
