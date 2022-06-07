@@ -87,7 +87,7 @@ instruction=(
 "You will have to run these commands manually :"
 ""
 "This command must be run in the OTHER node"
-"CHANGE MASTER TO MASTER_HOST="'$ip_server'", MASTER_USER='replication', MASTER_PASSWORD="'$user_password'", MASTER_LOG_FILE="'$mysql_bin'", MASTER_LOG_POS=$position;"
+"CHANGE MASTER TO MASTER_HOST='"$ip_server"', MASTER_USER='replication', MASTER_PASSWORD='"$user_password"', MASTER_LOG_FILE='"$mysql_bin"', MASTER_LOG_POS=$position;"
 "Once the slaves configured, you can run"
 "START SLAVE;"
 )
