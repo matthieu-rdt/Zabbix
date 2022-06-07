@@ -57,7 +57,7 @@ fi
 
 sudo sed -i "/`hostname -f`/a $ip_server $fqdn" /etc/hosts
 
-ping -c1 -q $ip_server
+ping -c4 $ip_server > /dev/null
 
 if	[ `echo $?` -eq 1 ] ; then
 		echo "cannot ping $fqdn"
