@@ -33,9 +33,9 @@ function ConfirmChoice()
 
 function mariadb_server_cnf()
 {
-	sudo sed -i "s/bind-address = 127.0.0.1/bind-address = $local_ip/" /etc/mysql/mariadb.conf.d/50-server.cnf
-	sudo sed -i "s/#server-id = 1/server-id = $1/" /etc/mysql/mariadb.conf.d/50-server.cnf
-	sudo sed -i "s/#log_bin = /var/log/mysql/mysql-bin.log/log_bin = /var/log/mysql/mysql-bin.log/" /etc/mysql/mariadb.conf.d/50-server.cnf
+	sudo sed -i "s/bind-address.* = 127.0.0.1/bind-address             = $local_ip/" /etc/mysql/mariadb.conf.d/50-server.cnf
+	sudo sed -i "s/#server-id.* = 1/server-id               = $1/" /etc/mysql/mariadb.conf.d/50-server.cnf
+	sudo sed -i 's/#log_bin/log_bin /' /etc/mysql/mariadb.conf.d/50-server.cnf
 }
 
 #-----------------#
