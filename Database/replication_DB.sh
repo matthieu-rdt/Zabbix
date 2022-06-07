@@ -42,7 +42,7 @@ function mariadb_server_cnf()
 #      Start      #
 #-----------------#
 
-grep -E --quiet '""$' $0
+grep -E --quiet '=""$' $0
 
 if	[ `echo $?` -eq 0 ] ; then
 		echo "The variables list is empty"
@@ -71,7 +71,7 @@ if	[ `echo $?` -eq 1 ] ; then
 		echo "Installing MariaDB"
 fi
 
-ConfirmChoice "Do you configure node $1 ?" && mariadb_server_cnf $1
+ConfirmChoice "Do you want to configure node $1 ?" && mariadb_server_cnf $1
 
 sudo systemctl restart mariadb.service
 
