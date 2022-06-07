@@ -7,13 +7,13 @@
 #	Variables	#
 #-----------------------#
 
-#       Complete remote information
-fqdn=""
-ip_server=""
-
 #       Complete local information
 local_ip=""
 user_password=""
+
+#       Complete remote information
+fqdn=""
+ip_server=""
 
 #-----------------------#
 #	Functions	#
