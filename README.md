@@ -1,9 +1,11 @@
 # Scripts for Zabbix
+## Debian-based
 
 ```bash
 sudo apt install git
 ```
-OR
+
+## RedHat-based
 
 ```bash
 sudo yum install git
