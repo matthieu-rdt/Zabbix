@@ -7,13 +7,12 @@
 #	Variables	#
 #-----------------------#
 
-#       Complete local information
 local_ip=""
-user_password=""
 
 #       Complete remote information
 fqdn=""
 ip_server=""
+user_password=""
 
 #-----------------------#
 #	Functions	#
@@ -82,6 +81,9 @@ sudo mysql -uroot -p$root_password -e "SHOW MASTER STATUS;"
 
 mysql_bin=`sudo mysql -uroot -p$root_password -e "SHOW MASTER STATUS;" | grep mysql | awk '{ print $1 }'`
 position=`sudo mysql -uroot -p$root_password -e "SHOW MASTER STATUS;" | grep mysql | awk '{ print $2 }'`
+
+#	Check remote connection
+sudo mysql -u replication -p $user_password -h $ip_server
 
 instruction=(
 "You will have to run these commands manually :"
