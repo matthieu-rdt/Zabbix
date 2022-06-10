@@ -4,7 +4,7 @@ bind-address              = 127.0.0.1
 expire_logs_days          = 10
 #log_bin                  = /var/log/mysql/mysql-bin.log
 #max_binlog_size          = 100M
-server-id                 = 1
+#server-id                = 1
 
 #	Additional
 auto-increment-increment  = 2
