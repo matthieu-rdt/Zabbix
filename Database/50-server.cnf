@@ -1,14 +1,13 @@
 #       Replication settings
 
 bind-address              = 127.0.0.1
+server-id                 = 1
+log_bin                   = /var/log/mysql/mysql-bin.log
 expire_logs_days          = 10
-#log_bin                  = /var/log/mysql/mysql-bin.log
-#max_binlog_size          = 100M
-#server-id                = 1
+max_binlog_size           = 100M
 
-#	Additional
+#       Additional
 auto-increment-increment  = 2
-# depends on node number
 auto-increment-offset     = 1
 log_bin_index             = /var/log/mysql/mysql-bin.log.index
 log_slave_updates         = 1
