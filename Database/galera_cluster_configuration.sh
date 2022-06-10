@@ -32,7 +32,7 @@ function ConfirmChoice ()
 
 function mariadb_server_cnf ()
 {
-	sudo sed -i "s/bind-address.* = 127.0.0.1/#bind-address.* = 127.0.0.1/" /etc/mysql/mariadb.conf.d/50-server.cnf
+	sudo sed -i "s/bind-address.* = 127.0.0.1/#bind-address           = 127.0.0.1/" /etc/mysql/mariadb.conf.d/50-server.cnf
 
 	galera=(
 	"[galera]"
@@ -66,7 +66,7 @@ sudo systemctl stop mariadb
 
 mariadb_server_cnf $ip_node_1
 
-sudo galera_new_cluster
+ConfirmChoice "Is it the first node of the cluster ?" && sudo galera_new_cluster
 
 echo "wsrep_cluster_address="gcomm://$ip_node_1,$ip_node_2"" | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf
 
