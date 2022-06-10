@@ -1,16 +1,16 @@
 # Scripts for Zabbix
-## Debian-based
+### Debian-based
 
 ```bash
 sudo apt install git
 ```
 
-## RedHat-based
+### RedHat-based
 
 ```bash
 sudo yum install git
 ```
-## Get a local copy
+### Get a local copy
 
 ```bash
 git clone https://github.com/matthieu-rdt/Zabbix.git
