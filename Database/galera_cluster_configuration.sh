@@ -44,7 +44,7 @@ function mariadb_server_cnf ()
 		"default_storage_engine=InnoDB"
 		"innodb_autoinc_lock_mode=2"
 		"bind-address=0.0.0.0"
-		"wsrep_cluster_name="MariaDB_Cluster"	# any cluster name"
+		"wsrep_cluster_name=\"MariaDB_Cluster\"	# any cluster name"
 		)
 
 		case $1 in
