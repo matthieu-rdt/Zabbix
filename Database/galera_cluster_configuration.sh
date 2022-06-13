@@ -91,8 +91,7 @@ mariadb_server_cnf $1
 
 ConfirmChoice "Is it the first node of the cluster ?" && sudo galera_new_cluster
 
-sudo sed -i "s|wsrep_cluster_address=\"gcomm://\"|wsrep_cluster_address=\"gcomm://$ip_node_1,$ip_node_2\"|" /etc/mysql/mariadb.conf.d/50-server.cnf
+echo "You can copy/paste this line after configuring all the nodes :"
+echo "sudo sed -i "s|wsrep_cluster_address=\"gcomm://\"|wsrep_cluster_address=\"gcomm://$ip_node_1,$ip_node_2\"|" /etc/mysql/mariadb.conf.d/50-server.cnf"
 
 sudo systemctl restart mariadb.service
-
-sudo mysql -uroot -e "show status like 'wsrep_%';"
