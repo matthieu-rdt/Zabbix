@@ -39,6 +39,7 @@ function mariadb_server_cnf ()
 		"[galera]"
 		"wsrep_on=ON"
 		"wsrep_provider=/usr/lib/galera/libgalera_smm.so"
+		"wsrep_cluster_address="gcomm://""
 		"binlog_format=row"
 		"default_storage_engine=InnoDB"
 		"innodb_autoinc_lock_mode=2"
@@ -89,7 +90,7 @@ mariadb_server_cnf $1
 
 ConfirmChoice "Is it the first node of the cluster ?" && sudo galera_new_cluster
 
-echo "wsrep_cluster_address=\"gcomm://$ip_node_1,$ip_node_2\"" | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf
+sudo sed -i "s|wsrep_cluster_address=\"gcomm://\"|wsrep_cluster_address=\"gcomm://$ip_node_1,$ip_node_2\"|" /etc/mysql/mariadb.conf.d/50-server.cnf
 
 sudo systemctl restart mariadb.service
 
