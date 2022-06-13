@@ -49,15 +49,15 @@ function mariadb_server_cnf ()
 		case $1 in
 
 		"1")
-		sudo sed '/wsrep_cluster_name=.*/a wsrep_node_address="$ip_node_1"' /etc/mysql/mariadb.conf.d/50-server.cnf
+		sudo sed -i "/wsrep_cluster_name=.*/a wsrep_node_address=$ip_node_1" /etc/mysql/mariadb.conf.d/50-server.cnf
 		;;
 
 		"2")
-		sudo sed '/wsrep_cluster_name=.*/a wsrep_node_address="$ip_node_2"' /etc/mysql/mariadb.conf.d/50-server.cnf
+		sudo sed -i "/wsrep_cluster_name=.*/a wsrep_node_address=$ip_node_2" /etc/mysql/mariadb.conf.d/50-server.cnf
 		;;
 
 #		"3")
-#		sudo sed '/wsrep_cluster_name=.*/a wsrep_node_address="$ip_node_3"' /etc/mysql/mariadb.conf.d/50-server.cnf
+#		sudo sed -i "/wsrep_cluster_name=.*/a wsrep_node_address=$ip_node_3" /etc/mysql/mariadb.conf.d/50-server.cnf
 #		;;
 
 		*)
@@ -89,7 +89,7 @@ mariadb_server_cnf $1
 
 ConfirmChoice "Is it the first node of the cluster ?" && sudo galera_new_cluster
 
-echo "wsrep_cluster_address="gcomm://$ip_node_1,$ip_node_2,$ip_node_3"" | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf
+echo "wsrep_cluster_address=\"gcomm://$ip_node_1,$ip_node_2\"" | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf
 
 sudo systemctl restart mariadb.service
 
