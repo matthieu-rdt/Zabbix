@@ -72,7 +72,6 @@ function mariadb_server_cnf ()
 	done
 }
 
-
 #-----------------#
 #      Start      #
 #-----------------#
