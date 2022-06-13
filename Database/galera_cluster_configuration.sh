@@ -69,7 +69,7 @@ function mariadb_server_cnf ()
 		esac
 
 	for line in "${galera[@]}" ; do
-		echo $line | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf
+		echo $line | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf > /dev/null
 	done
 }
 
