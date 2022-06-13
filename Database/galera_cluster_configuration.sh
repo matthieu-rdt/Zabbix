@@ -49,15 +49,15 @@ function mariadb_server_cnf ()
 		case $1 in
 
 		"1")
-		echo "wsrep_node_address="$ip_node_1"   # own IP address" | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf
+		sudo sed '/wsrep_cluster_name=.*/a wsrep_node_address="$ip_node_1"' /etc/mysql/mariadb.conf.d/50-server.cnf
 		;;
 
 		"2")
-		echo "wsrep_node_address="$ip_node_2"   # own IP address" | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf
+		sudo sed '/wsrep_cluster_name=.*/a wsrep_node_address="$ip_node_2"' /etc/mysql/mariadb.conf.d/50-server.cnf
 		;;
 
 #		"3")
-#		echo "wsrep_node_address="$ip_node_3"   # own IP address" | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf
+#		sudo sed '/wsrep_cluster_name=.*/a wsrep_node_address="$ip_node_3"' /etc/mysql/mariadb.conf.d/50-server.cnf
 #		;;
 
 		*)
