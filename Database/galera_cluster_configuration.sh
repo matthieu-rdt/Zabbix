@@ -39,7 +39,7 @@ function mariadb_server_cnf ()
 		"[galera]"
 		"wsrep_on=ON"
 		"wsrep_provider=/usr/lib/galera/libgalera_smm.so"
-		"wsrep_cluster_address="gcomm://""
+		"wsrep_cluster_address=\"gcomm://\""
 		"binlog_format=row"
 		"default_storage_engine=InnoDB"
 		"innodb_autoinc_lock_mode=2"
