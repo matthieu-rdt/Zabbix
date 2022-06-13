@@ -13,7 +13,7 @@ https://computingforgeeks.com/how-to-setup-mariadb-galera-cluster-on-debian/
 
 ip_node_1=""
 ip_node_2=""
-#ip_node_3=""
+#ip_node_3
 
 #-----------------------#
 #	Functions	#
