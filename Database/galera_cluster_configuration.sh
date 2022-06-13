@@ -61,7 +61,7 @@ function mariadb_server_cnf ()
 #		;;
 
 		*)
-		echo -n "No node number input"
+		echo "No node number input"
 		exit 22
 		;;
 
