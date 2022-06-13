@@ -63,7 +63,7 @@ function mariadb_server_cnf ()
 		;;
 
 	#	"3")
-		echo "wsrep_node_address=\"$ip_node_3\"" | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf > /dev/null
+	#	echo "wsrep_node_address=\"$ip_node_3\"" | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf > /dev/null
 	#	;;
 
 		*)
