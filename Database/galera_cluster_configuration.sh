@@ -93,7 +93,7 @@ ConfirmChoice "Is it the first node of the cluster ?" && sudo galera_new_cluster
 
 sudo systemctl restart mariadb.service
 
-sudo sed -i \"s|\"gcomm://\"|\"gcomm://$ip_node_1,$ip_node_2\"|\" /etc/mysql/mariadb.conf.d/50-server.cnf
+sudo sed -i "s|"gcomm://"|"gcomm://$ip_node_1,$ip_node_2"|" /etc/mysql/mariadb.conf.d/50-server.cnf
 
 echo "You can restart MariaDB service"
 echo "sudo systemctl restart mariadb.service"
