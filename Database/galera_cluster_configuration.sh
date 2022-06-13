@@ -4,8 +4,8 @@
 # setup a database replication by using Galera Cluster for MariaDB/MySQL
 
 # sources
-https://www.server-world.info/en/note?os=Debian_11&p=mariadb&f=5
-https://computingforgeeks.com/how-to-setup-mariadb-galera-cluster-on-debian/
+# https://www.server-world.info/en/note?os=Debian_11&p=mariadb&f=5
+# https://computingforgeeks.com/how-to-setup-mariadb-galera-cluster-on-debian/
 
 #-----------------------#
 #	Variables	#
