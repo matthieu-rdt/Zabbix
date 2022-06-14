@@ -88,5 +88,5 @@ sudo systemctl restart mariadb.service
 
 sudo sed -i "s|"gcomm://"|"gcomm://$ip_node_1,$ip_node_2"|" /etc/mysql/mariadb.conf.d/50-server.cnf
 
-echo "You can restart MariaDB service :"
+echo "Restart MariaDB service [FIRST node after all others] :"
 echo "sudo systemctl restart mariadb.service"
