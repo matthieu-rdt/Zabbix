@@ -79,8 +79,9 @@ mariadb_server_cnf $1
 
 if	[ $1 -eq 1 ] ; then
 	sudo galera_new_cluster
+	echo "" ; echo "galera_new_cluster has been run" ; echo ""
 else
-	echo "" ; echo "galera cluster is already created" ; echo ""
+	echo "" ; echo "node $1 doesn't need to run galera_new_cluster" ; echo ""
 fi
 
 sudo systemctl restart mariadb.service
