@@ -19,18 +19,6 @@ ip_node_2=""
 #	Functions	#
 #-----------------------#
 
-# Function from Manu
-function ConfirmChoice ()
-{
-        ConfYorN="";
-                while [ "${ConfYorN}" != "y" -a "${ConfYorN}" != "Y" -a "${ConfYorN}" != "n" -a "${ConfYorN}" != "N" ]
-                do
-                        echo -n $1 "(y/n) : "
-                        read ConfYorN
-                done
-        [ "${ConfYorN}" == "y" -o "${ConfYorN}" == "Y" ] && return 0 || return 1
-}
-
 function mariadb_server_cnf ()
 {
 	sudo sed -i "s/bind-address.* = 127.0.0.1/#bind-address           = 127.0.0.1/" /etc/mysql/mariadb.conf.d/50-server.cnf
@@ -89,11 +77,15 @@ sudo systemctl stop mariadb
 
 mariadb_server_cnf $1
 
-ConfirmChoice "Is it the first node of the cluster ?" && sudo galera_new_cluster
+if	[ $1 -eq 1 ] ; then
+	sudo galera_new_cluster
+else
+	echo "" ; echo "galera_new_cluster has been run" ; echo ""
+fi
 
 sudo systemctl restart mariadb.service
 
 sudo sed -i "s|"gcomm://"|"gcomm://$ip_node_1,$ip_node_2"|" /etc/mysql/mariadb.conf.d/50-server.cnf
 
-echo "You can restart MariaDB service"
+echo "You can restart MariaDB service :"
 echo "sudo systemctl restart mariadb.service"
