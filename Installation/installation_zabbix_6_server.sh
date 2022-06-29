@@ -162,17 +162,12 @@ conditions ()
 			echo "Indicate one of these : ubuntu / debian (case sensitive)"
 			exit 3
 
-	elif	[[ $root_password == "" ]] ; then
-			echo "edit root_password"
-			exit 4
+	grep -E --quiet '=""$' $0
 
-	elif	[[ $user_password == "" ]] ; then
-			echo "edit user_password"
-			exit 44
-
-	elif	[[ $backup_password == "" ]] ; then
-			echo "edit backup_password"
-			exit 444
+	elif	[ `echo $?` -eq 0 ] ; then
+			echo "The variables list is empty"
+			exit 22
+	fi
 
 	elif	[[ $UID -eq 0 ]] ; then
 			echo "Run as user"
