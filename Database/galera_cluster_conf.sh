@@ -23,18 +23,6 @@ FILE=$(find . -type f -name 60-galera.cnf)
 #	Functions	#
 #-----------------------#
 
-# Function from Manu
-function ConfirmChoice ()
-{
-        ConfYorN="";
-                while [ "${ConfYorN}" != "y" -a "${ConfYorN}" != "Y" -a "${ConfYorN}" != "n" -a "${ConfYorN}" != "N" ]
-                do
-                        echo -n $1 "(y/n) : "
-                        read ConfYorN
-                done
-        [ "${ConfYorN}" == "y" -o "${ConfYorN}" == "Y" ] && return 0 || return 1
-}
-
 function galera_cnf ()
 {
 	while IFS= read -r line;
@@ -75,6 +63,11 @@ grep -E --quiet '=""$' $0
 if	[ $? -eq 0 ] ; then
 	echo "The variables list is empty"
 	exit 22
+fi
+
+if	[ $# -eq 0 ] ; then
+	echo "No arguments provided"
+	exit 222
 fi
 
 galera_cnf $FILE
