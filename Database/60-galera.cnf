@@ -12,8 +12,11 @@ wsrep_cluster_name = "|cluster_name|"
 #-----------------#
 #     Cluster     #
 #-----------------#
+# Uncomment the line you need
+
 # If you cannot use an odd number of nodes, you should use Galera Arbitrator
-wsrep_cluster_address = gcomm://|ip_node_1|,|ip_node_2|
+# wsrep_cluster_address = gcomm://|ip_node_1|,|ip_node_2|
+
 # Normal use to avoid the split-brain effect
 # wsrep_cluster_address = gcomm://|ip_node_1|,|ip_node_2|,|ip_node_3|
 
@@ -22,6 +25,7 @@ wsrep_cluster_address = gcomm://|ip_node_1|,|ip_node_2|
 #--------------#
 wsrep_node_name = "|node_name|"
 # Uncomment the line you need
+
 # wsrep_node_address = "|ip_node_1|"
 # wsrep_node_address = "|ip_node_2|"
 # wsrep_node_address = "|ip_node_3|"
