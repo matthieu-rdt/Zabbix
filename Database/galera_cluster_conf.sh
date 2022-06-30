@@ -49,7 +49,7 @@ function red_text ()
 #      Start      #
 #-----------------#
 
-sudo apt install curl > /dev/null
+sudo apt-get install curl > /dev/null
 
 if	[ ! -f "$FILE" ] ; then
 	echo "Downloading 60-galera.cnf"
