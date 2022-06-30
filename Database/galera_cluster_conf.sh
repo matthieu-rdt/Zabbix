@@ -27,7 +27,7 @@ function galera_cnf ()
 {
 	while IFS= read -r line;
 	do
-		echo $line | sudo tee /etc/mysql/mariadb.conf.d/60-galera.cnf > /dev/null
+		echo $line | sudo tee -a /etc/mysql/mariadb.conf.d/60-galera.cnf > /dev/null
 	done < $FILE
 }
 
