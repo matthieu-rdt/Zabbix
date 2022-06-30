@@ -15,10 +15,10 @@ wsrep_cluster_name = "|cluster_name|"
 # Uncomment the line you need
 
 # If you cannot use an odd number of nodes, you should use Galera Arbitrator
-# wsrep_cluster_address = gcomm://|ip_node_1|,|ip_node_2|
+# wsrep_cluster_address = gcomm://|node_ip_1|,|node_ip_2|
 
 # Normal use to avoid the split-brain effect
-# wsrep_cluster_address = gcomm://|ip_node_1|,|ip_node_2|,|ip_node_3|
+# wsrep_cluster_address = gcomm://|node_ip_1|,|node_ip_2|,|node_ip_3|
 
 #--------------#
 #     Node     #
@@ -26,9 +26,9 @@ wsrep_cluster_name = "|cluster_name|"
 wsrep_node_name = "|node_name|"
 # Uncomment the line you need
 
-# wsrep_node_address = "|ip_node_1|"
-# wsrep_node_address = "|ip_node_2|"
-# wsrep_node_address = "|ip_node_3|"
+# wsrep_node_address = "|node_ip_1|"
+# wsrep_node_address = "|node_ip_2|"
+# wsrep_node_address = "|node_ip_3|"
 
 binlog_format = row
 default_storage_engine = InnoDB

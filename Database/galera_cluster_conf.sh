@@ -13,9 +13,9 @@
 
 cluster_name=""
 node_name=""
-ip_node_1=""
-ip_node_2=""
-#ip_node_3
+node_ip_1=""
+node_ip_2=""
+#node_ip_3
 
 FILE=$(find . -type f -name 60-galera.cnf)
 
@@ -35,9 +35,9 @@ function sed_variables ()
 {
 	sudo sed -i "s/|cluster_name|/$cluster_name/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
 	sudo sed -i "s/|node_name|/$node_name/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
-	sudo sed -i "s/|ip_node_1|/$ip_node_1/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
-	sudo sed -i "s/|ip_node_2|/$ip_node_2/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
-#	sudo sed -i "s/|ip_node_3|/$ip_node_3/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
+	sudo sed -i "s/|node_ip_1|/$node_ip_1/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
+	sudo sed -i "s/|node_ip_2|/$node_ip_2/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
+#	sudo sed -i "s/|node_ip_3|/$node_ip_3/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
 }
 
 function red_text ()
