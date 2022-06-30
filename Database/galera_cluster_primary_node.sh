@@ -8,58 +8,41 @@
 # https://computingforgeeks.com/how-to-setup-mariadb-galera-cluster-on-debian/
 
 #-----------------------#
-#	Variables	#
+#       Variables       #
 #-----------------------#
 
+cluster_name=""
+node_name=""
 ip_node_1=""
 ip_node_2=""
 #ip_node_3
+
+FILE=$(find . -type f -name 60-galera.cnf)
 
 #-----------------------#
 #	Functions	#
 #-----------------------#
 
-function mariadb_server_cnf ()
+function galera_cnf ()
 {
-	sudo sed -i "s/bind-address.* = 127.0.0.1/#bind-address           = 127.0.0.1/" /etc/mysql/mariadb.conf.d/50-server.cnf
+	while IFS= read -r line;
+	do
+		echo $line | sudo tee /etc/mysql/mariadb.conf.d/60-galera.cnf > /dev/null
+	done < $FILE
+}
 
-		galera=(
-		"[galera]"
-		"wsrep_on=ON"
-		"wsrep_provider=/usr/lib/galera/libgalera_smm.so"
-		"wsrep_cluster_address=\"gcomm://\""
-		"binlog_format=row"
-		"default_storage_engine=InnoDB"
-		"innodb_autoinc_lock_mode=2"
-		"bind-address=0.0.0.0"
-		"wsrep_cluster_name=\"MariaDB_Cluster\""
-		)
+function sed_variables ()
+{
+	sudo sed -i "s/|cluster_name|/$cluster_name/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
+	sudo sed -i "s/|node_name|/$node_name/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
+	sudo sed -i "s/|ip_node_1|/$ip_node_1/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
+	sudo sed -i "s/|ip_node_2|/$ip_node_2/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
+#	sudo sed -i "s/|ip_node_3|/$ip_node_3/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
+}
 
-
-	for line in "${galera[@]}" ; do
-		echo $line | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf > /dev/null
-	done
-
-		case $1 in
-
-		"1")
-		echo "wsrep_node_address=\"$ip_node_1\"" | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf > /dev/null
-		;;
-
-		"2")
-		echo "wsrep_node_address=\"$ip_node_2\"" | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf > /dev/null
-		;;
-
-	#	"3")
-	#	echo "wsrep_node_address=\"$ip_node_3\"" | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf > /dev/null
-	#	;;
-
-		*)
-		echo "No node number input"
-		exit 22
-		;;
-
-		esac
+function red_text ()
+{
+	echo -e "\033[0;31m$1\033[0m"
 }
 
 #-----------------#
@@ -68,25 +51,24 @@ function mariadb_server_cnf ()
 
 grep -E --quiet '=""$' $0
 
-if	[ `echo $?` -eq 0 ] ; then
-		echo "The variables list is empty"
-		exit 2
+if	[ $? -eq 0 ] ; then
+	echo "The variables list is empty"
+	exit 2
 fi
+
+sudo apt install curl > /dev/null
+
+if	[ ! -f "$FILE" ] ; then
+	echo "Downloading 60-galera.cnf"
+	curl -O https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Database/60-galera.cnf
+
+galera_cnf $FILE
+
+sed_variables
 
 sudo systemctl stop mariadb
 
-mariadb_server_cnf $1
+sudo galera_new_cluster
 
-if	[ $1 -eq 1 ] ; then
-	sudo galera_new_cluster
-	echo "" ; echo "galera_new_cluster has been run" ; echo ""
-else
-	echo "" ; echo "node $1 doesn't need to run galera_new_cluster" ; echo ""
-fi
-
-sudo systemctl restart mariadb.service
-
-sudo sed -i "s|"gcomm://"|"gcomm://$ip_node_1,$ip_node_2"|" /etc/mysql/mariadb.conf.d/50-server.cnf
-
-echo "Restart MariaDB service [FIRST node after all others] :"
-echo "sudo systemctl restart mariadb.service"
+red_text "To add an additional node to the cluster, run 'galera_cluster_another_node.sh'"
+red_text "Change the "wsrep_node_name" and "wsrep_node_address" options if you use them"
