@@ -54,7 +54,7 @@ sudo apt-get install curl > /dev/null
 if	[ ! -f "$FILE" ] ; then
 	echo "Downloading 60-galera.cnf"
 	curl -sO https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Database/60-galera.cnf
-	echo "Uncomment 'wsrep_cluster_address' & 'wsrep_node_address' options according to your preferences"
+	red_text "Uncomment 'wsrep_cluster_address' & 'wsrep_node_address' options according to your preferences"
 	exit 2
 fi
 
@@ -63,11 +63,13 @@ grep -E --quiet '=""$' $0
 if	[ $? -eq 0 ] ; then
 	echo "The variables list is empty"
 	exit 22
-fi
-
-if	[ $# -eq 0 ] ; then
+elif	[ $# -eq 0 ] ; then
 	echo "No arguments provided"
+	echo "1 for primary node, 2 or 3 for additional nodes"
 	exit 222
+elif	[ $(grep -wE "^# wsrep_node_address" $FILE | wc -l) -eq 3 ] ; then
+	echo "wsrep_node_address is not configured"
+	exit 2222
 fi
 
 galera_cnf $FILE
@@ -77,6 +79,8 @@ sed_variables
 if	[ $1 -eq 1 ] ; then
 	sudo systemctl stop mariadb
 	sudo galera_new_cluster
+else
+	sudo systemctl restart mariadb
 fi
 
 red_text "To add an additional node to the cluster, change the 'wsrep_node_name' and 'wsrep_node_address' options if you use them"
