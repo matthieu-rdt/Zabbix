@@ -63,10 +63,10 @@ grep -E --quiet '=""$' $0
 if	[ $? -eq 0 ] ; then
 	echo "The variables list is empty"
 	exit 22
-elif	[[ $1 -ne 1 || $1 -ne 2 || $1 -ne 3 ]] ; then
-	echo "Bad or no argument provided"
-	echo "1 for primary node, 2 or 3 for additional nodes"
-	exit 222
+elif !  [[ $1 -eq 1 || $1 -eq 2 || $1 -eq 3 ]] ; then
+        echo "Bad or no argument provided"
+        echo "1 for primary node, 2 or 3 for additional nodes"
+        exit 222
 elif	[ $(grep -E "^# wsrep_cluster_address" $FILE | wc -l) -eq 2 ] ; then
 	echo "wsrep_cluster_address is not configured"
 	exit 2222
