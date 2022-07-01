@@ -83,4 +83,7 @@ else
 	sudo systemctl restart mariadb
 fi
 
+echo "Configuring HANodeName"
+sudo sed -i "/^# HANodeName=/a HANodeName=$node_name" /etc/zabbix/zabbix_server.conf
+
 red_text "To add an additional node to the cluster, change the 'wsrep_node_name' and 'wsrep_node_address' options if you use them"
