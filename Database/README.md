@@ -13,7 +13,7 @@
 ***
 
 ### To setup a database replication by using Galera Cluster, you will need :
-\- galera_cluster_conf.sh
+\- galera_cluster_conf.sh  
 \- 60-galera.cnf
 
 > #### First, fill in these variables, lines 14 to 18
