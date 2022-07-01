@@ -18,10 +18,10 @@
 
 > #### First, fill in these variables, lines 14 to 18
 >
-> `cluster_name`
-> `node_name`
-> `ip_node_1`
-> `ip_node_2`
+> `cluster_name`  
+> `node_name`  
+> `ip_node_1`  
+> `ip_node_2`  
 > `ip_node_3`
 >
 > #### As first argument, you can use
