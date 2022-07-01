@@ -54,7 +54,7 @@ sudo apt-get install curl > /dev/null
 if	[ ! -f "$FILE" ] ; then
 	echo "Downloading 60-galera.cnf"
 	curl -sO https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Database/60-galera.cnf
-	red_text "Uncomment 'wsrep_cluster_address' & 'wsrep_node_address' options according to your preferences"
+	red_text "Open $FILE & uncomment 'wsrep_cluster_address' & 'wsrep_node_address' options according to your preferences"
 	exit 2
 fi
 
