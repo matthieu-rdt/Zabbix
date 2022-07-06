@@ -6,7 +6,9 @@
 
 ### Direct use
 
+```bash
 wget https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Database/change_DB_location.sh && chmod u+x change_DB_location.sh
+```
 
 ### Run it & let yourself be guided
 
@@ -36,7 +38,9 @@ wget https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Database/change_
 
 ### Direct use
 
+```bash
 wget https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Database/galera_cluster_conf.sh && chmod u+x galera_cluster_conf.sh
+```
 
 ### Run it & let yourself be guided
 
