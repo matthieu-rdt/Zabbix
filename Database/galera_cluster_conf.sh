@@ -25,8 +25,7 @@ FILE=$(find . -type f -name 60-galera.cnf)
 
 function galera_cnf ()
 {
-	while IFS= read -r line;
-	do
+	while IFS= read -r line ; do
 		echo $line | sudo tee -a /etc/mysql/mariadb.conf.d/60-galera.cnf > /dev/null
 	done < $FILE
 }
@@ -43,6 +42,24 @@ function sed_variables ()
 function red_text ()
 {
 	echo -e "\033[0;31m$1\033[0m"
+}
+
+function NodeAddress ()
+{
+
+	if [ $1 -eq 1 ] ; then
+		echo "Configuring NodeAddress with node ip $1"
+		sudo sed -i "/^# NodeAddress=/a NodeAddress=$node_ip_1" toto
+	elif [ $1 -eq 2 ] ; then
+		echo "Configuring NodeAddress with node ip $1"
+		sudo sed -i "/^# NodeAddress=/a NodeAddress=$node_ip_2" toto
+	elif [ $1 -eq 3 ] ; then
+		echo "Configuring NodeAddress with node ip $1"
+		sudo sed -i "/^# NodeAddress=/a NodeAddress=$node_ip_3" toto
+	else
+		echo "NodeAddress could not be configured"
+		exit 3
+	fi
 }
 
 #-----------------#
@@ -85,6 +102,8 @@ fi
 
 echo "Configuring HANodeName"
 sudo sed -i "/^# HANodeName=/a HANodeName=$node_name" /etc/zabbix/zabbix_server.conf
+
+NodeAddress $1
 
 echo "Restarting Zabbix server service"
 sudo systemctl restart zabbix-server.service
