@@ -24,9 +24,8 @@ database_name=""
 
 check_installed_database ()
 {
-	dpkg -l | grep -q postgresql
-
-	if	[[ $(echo $?) -eq 0 ]] ; then 
+	dpkg -s | grep -w Package | cut -d" " -f2 | grep postgresql
+	if	[[ $? -eq 0 ]] ; then 
 		echo "PostgreSQL detected"
 		echo "It works only with MariaDB and MySQL"
 		exit 6
