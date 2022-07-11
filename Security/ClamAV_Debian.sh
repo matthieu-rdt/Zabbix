@@ -15,7 +15,7 @@ include_path=(
 conditions ()
 {
 	lsb_release -i | cut -d':' -f2 | grep -E '[DU].*' > /dev/null
-	if [ $(echo $?) -ne 0 ] ; then
+	if [ $? -ne 0 ] ; then
 		echo "Only Works with Debian-based"
 		exit 1
 	fi
