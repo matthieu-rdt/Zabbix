@@ -164,7 +164,7 @@ conditions ()
 
 	grep -E --quiet '=""$' $0
 
-	elif	[ `echo $?` -eq 0 ] ; then
+	elif	[ $? -eq 0 ] ; then
 			echo "The variables list is empty"
 			exit 22
 	fi
