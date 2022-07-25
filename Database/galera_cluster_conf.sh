@@ -49,13 +49,13 @@ function NodeAddress ()
 
 	if [ $1 -eq 1 ] ; then
 		echo "Configuring NodeAddress with node ip $1"
-		sudo sed -i "/^# NodeAddress=/a NodeAddress=$node_ip_1" toto
+		sudo sed -i "/^# NodeAddress=/a NodeAddress=$node_ip_1" /etc/zabbix/zabbix_server.conf
 	elif [ $1 -eq 2 ] ; then
 		echo "Configuring NodeAddress with node ip $1"
-		sudo sed -i "/^# NodeAddress=/a NodeAddress=$node_ip_2" toto
+		sudo sed -i "/^# NodeAddress=/a NodeAddress=$node_ip_2" /etc/zabbix/zabbix_server.conf
 	elif [ $1 -eq 3 ] ; then
 		echo "Configuring NodeAddress with node ip $1"
-		sudo sed -i "/^# NodeAddress=/a NodeAddress=$node_ip_3" toto
+		sudo sed -i "/^# NodeAddress=/a NodeAddress=$node_ip_3" /etc/zabbix/zabbix_server.conf
 	else
 		echo "NodeAddress could not be configured"
 		exit 3
