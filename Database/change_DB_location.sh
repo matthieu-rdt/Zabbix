@@ -19,8 +19,7 @@ function ConfirmChoice ()
 function configure_new_disk ()
 {
 	# Get the new disk name
-	lsblk
-	sleep 3
+	lsblk ; sleep 3
 
 	read -p "choose the block device you want to use for DB ? " block
 
@@ -42,7 +41,7 @@ function fine_tuning ()
 	sudo sed -i 's/#max_allowed_packet/max_allowed_packet' /etc/mysql/mariadb.conf.d/50-server.cnf
 }
 
-read -p "Indicate the DB path you want to use for DB ? (without '/' at the end) " dbpath 
+read -p "Indicate the path you want to use for DB ? (without '/' at the end) " dbpath 
 
 echo "Stop MariaDB service" ; sleep 3
 sudo systemctl stop mariadb.service
