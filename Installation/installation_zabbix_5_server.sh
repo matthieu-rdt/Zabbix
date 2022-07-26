@@ -169,7 +169,6 @@ conditions ()
 	elif	[ $? -eq 0 ] ; then
 			echo "The variables list is empty"
 			exit 22
-	fi
 
 	elif	[[ $UID -eq 0 ]] ; then
 			echo "Run as user"
