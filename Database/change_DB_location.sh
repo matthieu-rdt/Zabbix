@@ -1,36 +1,53 @@
 #!/bin/bash
 
-fine_tuning ()
+#-----------------------#
+#	Functions	#
+#-----------------------#
+
+# Function from Manu
+function ConfirmChoice ()
+{
+        ConfYorN="";
+                while [ "${ConfYorN}" != "y" -a "${ConfYorN}" != "Y" -a "${ConfYorN}" != "n" -a "${ConfYorN}" != "N" ]
+                do
+                        echo -n $1 "(y/n) : "
+                        read ConfYorN
+                done
+        [ "${ConfYorN}" == "y" -o "${ConfYorN}" == "Y" ] && return 0 || return 1
+}
+
+function configure_new_disk ()
+{
+	# Get the new disk name
+	lsblk
+	sleep 3
+
+	read -p "choose the block device you want to use for DB ? " block
+
+	sudo mkfs.ext4 /dev/$block
+	[ ! -d $dbpath ] && sudo mkdir -p $dbpath
+
+	# Get UUID
+	blkid=`sudo blkid | grep $block | awk '{ print $2 }'`
+
+	# FSTAB
+	echo "# Database is on /dev/$block" | sudo tee -a /etc/fstab
+	echo "$blkid $dbpath   ext4    defaults        0       2" | sudo tee -a /etc/fstab
+	sudo mount -a
+}
+
+function fine_tuning ()
 {
 #	If you have this kind of message : [Warning] Aborted connection 423 to db: 'zabbix' user: 'zabbix' host: 'localhost' (Got timeout reading communication packets)
 	sudo sed -i 's/#max_allowed_packet/max_allowed_packet' /etc/mysql/mariadb.conf.d/50-server.cnf
 }
 
-if [ $SHELL == /usr/bin/zsh ] ; then
-	exit 11
-fi
+read -p "Indicate the DB path you want to use for DB ? (without '/' at the end) " dbpath 
 
-# Get the new disk name
-lsblk | grep disk
-sleep 3
-
-read -p "choose the block device you want to use for DB ? " block
-read -p "choose the DB path you want to use for DB ? (without '/' at the end) " dbpath 
-
-echo "Stop MariaDB service"
+echo "Stop MariaDB service" ; sleep 3
 sudo systemctl stop mariadb.service
 
-sudo mkfs.ext4 /dev/$block
-sudo mkdir -p $dbpath
-
-# Get UUID
-blkid=`sudo blkid | grep $block | awk '{ print $2 }'`
-
-# FSTAB
-echo "# Database is on /dev/$block" | sudo tee -a /etc/fstab
-echo "$blkid $dbpath   ext4    defaults        0       2" | sudo tee -a /etc/fstab
-sudo mount -a
-sleep 3
+ConfirmChoice "Do you have a new disk to configure (format partition, edit fstab) ?" && configure_new_disk 
 
 sudo rsync -av /var/lib/mysql $dbpath
 
@@ -45,7 +62,7 @@ sudo sed -i "s|= /var/lib/mysql|= $dbpath/mysql|" /etc/mysql/mariadb.conf.d/50-s
 #fine_tuning
 
 # Check the new location is effective
-sudo mysql -uroot -p -e "select @@datadir;"
+sudo mysql -uroot -e "select @@datadir;"
 
-echo "Start MariaDB service"
+echo "Start MariaDB service" ; sleep 3
 sudo systemctl start mariadb.service
