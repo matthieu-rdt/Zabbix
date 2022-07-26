@@ -51,7 +51,7 @@ ConfirmChoice "Do you have a new disk to configure (format partition, edit fstab
 sudo rsync -av /var/lib/mysql $dbpath
 
 # Rename old DB
-sudo mv /var/lib/mysql /var/lib/mysql.bak
+sudo mv /var/lib/mysql /var/lib/mysql.back
 
 # Change DB path
 sudo cp -p /etc/mysql/mariadb.conf.d/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnff
@@ -60,8 +60,8 @@ sudo sed -i "s|= /var/lib/mysql|= $dbpath/mysql|" /etc/mysql/mariadb.conf.d/50-s
 # Uncomment if needed
 #fine_tuning
 
-# Check the new location is effective
-sudo mysql -uroot -e "select @@datadir;"
-
 echo "Start MariaDB service" ; sleep 3
 sudo systemctl start mariadb.service
+
+# Check the new location is effective
+sudo mysql -uroot -e "select @@datadir;"
