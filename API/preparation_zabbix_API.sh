@@ -87,10 +87,9 @@ preparation_installation_pip  ()
 
 zbx_conf ()
 {
+	echo "Fulfilling '.zbx.conf'"
+
 	zbx_conf=(
-	""
-	"Fulfilling '.zbx.conf'"
-	""
 	"[Zabbix API]"
 	"username=$zbx_username"
 	"password=$zbx_password"
