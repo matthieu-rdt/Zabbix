@@ -37,29 +37,36 @@ update ()
 	sudo apt update
 	sudo apt upgrade -y 
 	sudo apt autoremove -y 
+	sudo apt install git -y
 } 
 
 installing_python_and_pip ()
 {
-	sudo apt install python python3 -y # if not already installed
+	#	If not already installed
+	sudo apt install python python3 -y 
 	sudo apt install python3-pip -y
 	
 	#	Set Python3 as default
 	sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 	
-	#	Useful for ?
-	# sudo apt install python3-distutils
-	
 	#	Upgrading pip if needed
 	python -m pip install --upgrade pip
 }
 
-git_repositories ()
+scripts ()
 {
-	sudo apt install git -y
-	git clone https://github.com/q1x/zabbix-gnomes && touch $HOME/.zbx.conf
-	git clone https://github.com/southbridgeio/zabbix-review-export-import && python -m pip install -r zabbix-review-export-import/requirements.txt
-	git clone https://github.com/selivan/zabbix-import && chmod u+x $HOME/zabbix-import/zbx-import.py
+	scripts=(
+	"https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Python/requirements.txt"
+	"https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Python/zabbix-export.py"
+	"https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Python/zabbix-import.py"
+	"https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Python/zgcreate.py"
+	"https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Python/zgdelete.py"
+	"https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Python/zgetinventory.py"
+	)
+
+	for line in "${scripts[@]}" ; do
+	curl -sO $line
+	done
 }
 
 preparation_installation_pip  ()
@@ -73,55 +80,46 @@ preparation_installation_pip  ()
 	#	For working with graphs (zgetgraph.py specifically) install Pillow (a fork of PIL):
 	# python -m pip install pillow
 	
-	#	ModuleNotFoundError: No module named 'ConfigParser'
-	python -m pip install configparser
-	
-	#	Useful for formatting python code
-	python -m pip install autopep8
-	
 	#	Make modules executable in $HOME
 	source ~/.profile
 	echo "source ~/.profile has been run"
-	
-	#	PEP 8 (for Python Extension Proposal) to make python code consistent
-	autopep8 -i $HOME/zabbix-gnomes/*.py
-	autopep8 -i $HOME/zabbix-import/*.py
-	autopep8 -i $HOME/zabbix-review-export-import/*.py
-	
-	#	Edit 'module import' for each python file in zabbix-gnomes folder
-	sudo sed -i 's/import ConfigParser/import configparser/' $HOME/zabbix-gnomes/*.py
-	
-	#	Correct unexpected issues with this module & replacement
-	if [[ $(grep "Config = ConfigParser.ConfigParser()" $HOME/zabbix-gnomes/*.py) ]] ; then
-		sudo sed -i 's/Config = ConfigParser.ConfigParser()/Config = configparser.ConfigParser()/' $HOME/zabbix-gnomes/*.py
-	fi
 }
 
 zbx_conf ()
 {
-	echo ""
-	echo "Fulfilling '.zbx.conf'"
-	echo ""
-	echo "[Zabbix API]" > $HOME/.zbx.conf
-	echo "username=$zbx_username" >> $HOME/.zbx.conf
-	echo "password=$zbx_password" >> $HOME/.zbx.conf
-	echo "api=$zbx_api" >> $HOME/.zbx.conf
-	echo "no_verify=true" >> $HOME/.zbx.conf
+	zbx_conf=(
+	""
+	"Fulfilling '.zbx.conf'"
+	""
+	"[Zabbix API]"
+	"username=$zbx_username"
+	"password=$zbx_password"
+	"api=$zbx_api"
+	"no_verify=true"
+	)
+
+	for line in "${zbx_conf[@]}" ; do
+	echo $line >> $HOME/.zbx.conf
+	done
 }
 
 help_menu ()
 {
-	echo ""
-	echo "----- Help Menu -----"
-	echo ""
-	echo "In this folder 'zabbix-gnomes'"
-	echo "To add multiple host groups : ./zgcreate.py hostgroup hostgroup2 hostgroup3"
-	echo "To delete multiple host groups : ./zgdelete.py -N hostgroup hostgroup2 hostgroup3 # does not work w/o -N"
-	echo ""
-	echo "In this folder 'zabbix-review-export-import'"
-	echo "To display help menu : ./zabbix-export.py --help"
-	echo "To backup all hosts in the current folder & to save as XML format : ./zabbix-export.py --zabbix-url https://zabbix.example.com --zabbix-username user --zabbix-password password --only hosts"
-	echo ""
+	help_menu=(
+	""
+	"----- Help Menu -----"
+	""
+	"To add multiple host groups : ./zgcreate.py hostgroup hostgroup2 hostgroup3"
+	"To delete multiple host groups : ./zgdelete.py -N hostgroup hostgroup2 hostgroup3 # does not work w/o -N"
+	""
+	"To display help menu : ./zabbix-export.py --help"
+	"To backup all hosts in the current folder & to save as XML format : ./zabbix-export.py --zabbix-url https://zabbix.example.com --zabbix-username user --zabbix-password password --only hosts"
+	""
+	)
+
+	for line in "${help_menu[@]}" ; do
+	echo $line
+	done
 }
 
 #-------------------#
@@ -136,10 +134,10 @@ update
 
 installing_python_and_pip
 
-#git_repositories
+scripts
 
 preparation_installation_pip
 
 zbx_conf
 
-#help_menu
+help_menu
