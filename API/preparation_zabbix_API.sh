@@ -65,7 +65,7 @@ scripts ()
 	)
 
 	for line in "${scripts[@]}" ; do
-	curl -sO $line
+	curl -sO $line && chmod u+x $line
 	done
 }
 
