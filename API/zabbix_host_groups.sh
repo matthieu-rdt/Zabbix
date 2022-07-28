@@ -49,7 +49,7 @@ create_host_groups ()
 			$HOME/./zgcreate.py "$line"
 		done < $host_groups_list
 	else
-		echo "zgcreate.py is missing
+		echo "zgcreate.py is missing"
 		exit 5
 	fi
 }
