@@ -23,14 +23,14 @@ FILE=$(find . -type f -name 60-galera.cnf)
 #	Functions	#
 #-----------------------#
 
-function galera_cnf ()
+galera_cnf ()
 {
 	while IFS= read -r line ; do
 		echo $line | sudo tee -a /etc/mysql/mariadb.conf.d/60-galera.cnf > /dev/null
 	done < $FILE
 }
 
-function sed_variables ()
+sed_variables ()
 {
 	sudo sed -i "s/|cluster_name|/$cluster_name/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
 	sudo sed -i "s/|node_name|/$node_name/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
@@ -39,12 +39,12 @@ function sed_variables ()
 #	sudo sed -i "s/|node_ip_3|/$node_ip_3/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
 }
 
-function red_text ()
+red_text ()
 {
 	echo -e "\033[0;31m$1\033[0m"
 }
 
-function NodeAddress ()
+NodeAddress ()
 {
 
 	if [ $1 -eq 1 ] ; then

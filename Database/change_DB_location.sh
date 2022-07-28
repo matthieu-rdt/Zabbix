@@ -5,7 +5,7 @@
 #-----------------------#
 
 # Function from Manu
-function ConfirmChoice ()
+ConfirmChoice ()
 {
         ConfYorN="";
                 while [ "${ConfYorN}" != "y" -a "${ConfYorN}" != "Y" -a "${ConfYorN}" != "n" -a "${ConfYorN}" != "N" ]
@@ -16,7 +16,7 @@ function ConfirmChoice ()
         [ "${ConfYorN}" == "y" -o "${ConfYorN}" == "Y" ] && return 0 || return 1
 }
 
-function configure_new_disk ()
+configure_new_disk ()
 {
 	# Get the new disk name
 	lsblk ; sleep 3
@@ -35,7 +35,7 @@ function configure_new_disk ()
 	sudo mount -a
 }
 
-function fine_tuning ()
+fine_tuning ()
 {
 #	If you have this kind of message : [Warning] Aborted connection 423 to db: 'zabbix' user: 'zabbix' host: 'localhost' (Got timeout reading communication packets)
 	sudo sed -i 's/#max_allowed_packet/max_allowed_packet' /etc/mysql/mariadb.conf.d/50-server.cnf
