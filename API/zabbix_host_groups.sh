@@ -59,8 +59,7 @@ single_host_group ()
 
 host_groups_list ()
 {
-	while IFS= read -r line
-	do
+	while IFS= read -r line ; do
 		echo "Host group [$line] has been created"
 		$HOME/./zgcreate.py "$line" > /dev/null
 	done < $host_groups_list
