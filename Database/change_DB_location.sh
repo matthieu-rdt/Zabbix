@@ -8,8 +8,7 @@
 ConfirmChoice ()
 {
         ConfYorN="";
-                while [ "${ConfYorN}" != "y" -a "${ConfYorN}" != "Y" -a "${ConfYorN}" != "n" -a "${ConfYorN}" != "N" ]
-                do
+                while [ "${ConfYorN}" != "y" -a "${ConfYorN}" != "Y" -a "${ConfYorN}" != "n" -a "${ConfYorN}" != "N" ] ; do
                         echo -n $1 "(y/n) : "
                         read ConfYorN
                 done
