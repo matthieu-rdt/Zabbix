@@ -46,7 +46,8 @@ create_host_groups ()
 	#	Python script call
 		while IFS= read -r line
 		do
-			$HOME/./zgcreate.py "$line"
+			echo "Host group $line has been created"
+			$HOME/./zgcreate.py "$line" > /dev/null
 		done < $host_groups_list
 	else
 		echo "zgcreate.py is missing"
@@ -68,7 +69,9 @@ home
 #	Check API credentials to connect to Zabbix GUI
 conf_file_exists
 
-ConfirmChoice "Do you want to add ONE host group ?" && $HOME/./zgcreate.py $1 || echo "no action"
+if [ -s $1 ] ; then
+	ConfirmChoice "Do you want to add ONE host group ?" && $HOME/./zgcreate.py $1 || echo "no action"
+fi
 
 if [ -s $1 ] ; then
 	ConfirmChoice "Do you want to add through a list ?" && create_host_groups || echo "no action"
