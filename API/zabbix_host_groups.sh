@@ -25,14 +25,14 @@ ConfirmChoice ()
 
 home ()
 {
-	if [[ $(pwd) != $HOME ]] ; then
+	if [ $(pwd) != $HOME ] ; then
 		cd $HOME
 	fi
 }
 
 conf_file_exists ()
 {
-	if ! [[ -f $HOME/.zbx.conf ]] ; then
+	if ! [ -f $HOME/.zbx.conf ] ; then
 		echo ".zbx.conf does not exist & will be created"
 		echo "API credentials must be added inside"
 		touch $HOME/.zbx.conf
@@ -42,11 +42,11 @@ conf_file_exists ()
 
 create_host_groups ()
 {
-	if [[ -f $HOME/zgcreate.py ]] ; then
+	if [ -f $HOME/zgcreate.py ] ; then
 	#	Python script call
 		while IFS= read -r line
 		do
-			echo "Host group $line has been created"
+			echo "Host group [$line] has been created"
 			$HOME/./zgcreate.py "$line" > /dev/null
 		done < $host_groups_list
 	else
