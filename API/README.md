@@ -17,23 +17,19 @@
 
 ***
 
-### To create or delete host groups, you can use :
+### To create a single or multiple host groups, you can use :
 \- zabbix_host_groups.sh
 
-### Example
+### Example #1
 
 ```bash
-./zabbix_host_groups.sh file_to_add.txt file_to_del.txt
+./zabbix_host_groups.sh one_host_group
+```
+
+### Example #2
+
+```bash
+./zabbix_host_groups.sh host_groups_list.txt
 ```
 
 ***
-
-### After exporting your hosts/templates, this script allows you to import them through a list you must indicate as parameter :
-\- import_hosts_templates.sh
-
-
-### Example
-
-```bash
-./import_hosts_templates.sh templates_list.txt
-```
