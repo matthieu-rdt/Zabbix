@@ -1,20 +1,19 @@
 #!/bin/bash
 
 # description
-# add or delete host groups in your Zabbix GUI using python scripts
+# add host groups in your Zabbix GUI using python scripts
 
 # sources
 # https://github.com/q1x/zabbix-gnomes
 
-file_add="$1"
-file_delete="$2"
+host_groups_list="$1"
 
 #-----------------------#
 #	Functions	#
 #-----------------------#
 
 # Function from Manu
-function ConfirmChoice ()
+ConfirmChoice ()
 {
 	ConfYorN="";
 	while [ "${ConfYorN}" != "y" -a "${ConfYorN}" != "Y" -a "${ConfYorN}" != "n" -a "${ConfYorN}" != "N" ] ; do
@@ -29,18 +28,6 @@ home ()
 	if [[ $(pwd) != $HOME ]] ; then
 		cd $HOME
 	fi
-}
-
-check_args ()
-{
-	if [[ -z $1 ]] ; then
-		echo "Fill in a file if you've got host groups to add !"
-		exit 2
-		if [[ -z $2 ]] ; then
-			echo "Fill in a file if you've got host groups to delete !"
-			exit 3
-		fi
-	fi 
 }
 
 conf_file_exists ()
@@ -60,24 +47,10 @@ create_host_groups ()
 		while IFS= read -r line
 		do
 			$HOME/./zgcreate.py "$line"
-		done < $file_add
+		done < $host_groups_list
 	else
 		echo "zgcreate.py is missing
 		exit 5
-	fi
-}
-
-delete_host_groups ()
-{
-	if [[ -f $HOME/zgdelete.py ]] ; then
-	# 	Python script call
-		while IFS= read -r line
-		do
-			$HOME/./zgdelete.py -N "$line"
-		done < $file_delete
-	else
-		echo "zgdelete.py is missing
-		exit 55
 	fi
 }
 
@@ -85,13 +58,16 @@ delete_host_groups ()
 #	Start	    #
 #-------------------#
 
-home
+if [[ -z $1 ]] ; then
+	echo "Fill in a host group OR a host groups list to add in Zabbix !"
+	exit 2
+fi
 
-check_args $1 $2
+home
 
 #	Check API credentials to connect to Zabbix GUI
 conf_file_exists
 
-ConfirmChoice "Do you have some host groups to add ?" && create_host_groups || echo "no action"
+ConfirmChoice "Do you want to add ONE host group ?" && $HOME/./zgcreate.py $1 || echo "no action"
 
-ConfirmChoice "Do you have some host groups to delete ?" && delete_host_groups || echo "no action"
+ConfirmChoice "Do you want to add through a list ?" && create_host_groups || echo "no action"
