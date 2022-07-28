@@ -69,7 +69,7 @@ home
 #	Check API credentials to connect to Zabbix GUI
 conf_file_exists
 
-if [ -s $1 ] ; then
+if ! [ -s $1 ] ; then
 	ConfirmChoice "Do you want to add ONE host group ?" && $HOME/./zgcreate.py $1 || echo "no action"
 fi
 
