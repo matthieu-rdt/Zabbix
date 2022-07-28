@@ -23,11 +23,22 @@ ConfirmChoice ()
 	[ "${ConfYorN}" == "y" -o "${ConfYorN}" == "Y" ] && return 0 || return 1
 }
 
-pwd_home ()
+cd_home ()
 {
 	if [ $(pwd) != $HOME ] ; then
 		cd $HOME
 	fi
+}
+
+script_exists ()
+{
+	if [ -f $HOME/zgcreate.py ] ; then
+		echo "zgcreate.py ok"
+	else
+		echo "zgcreate.py is missing"
+		exit 5
+	fi
+
 }
 
 conf_file_exists ()
@@ -43,22 +54,16 @@ conf_file_exists ()
 single_host_group ()
 {
 	echo "Host group [$line] has been created"
-	$HOME/./zgcreate.py $1 > /dev/null
+	$HOME/./zgcreate.py "$1" > /dev/null
 }
 
-create_host_groups ()
+host_groups_list ()
 {
-	if [ -f $HOME/zgcreate.py ] ; then
-	#	Python script call
-		while IFS= read -r line
-		do
-			echo "Host group [$line] has been created"
-			$HOME/./zgcreate.py "$line" > /dev/null
-		done < $host_groups_list
-	else
-		echo "zgcreate.py is missing"
-		exit 5
-	fi
+	while IFS= read -r line
+	do
+		echo "Host group [$line] has been created"
+		$HOME/./zgcreate.py "$line" > /dev/null
+	done < $host_groups_list
 }
 
 #-------------------#
@@ -70,15 +75,17 @@ if [ -z $1 ] ; then
 	exit 2
 fi
 
-pwd_home
+cd_home
+
+script_exists
 
 #	Check API credentials to connect to Zabbix GUI
 conf_file_exists
 
 if ! [ -s $1 ] ; then
-	ConfirmChoice "Do you want to add ONE host group ?" && single_host_group || echo "no action"
+	ConfirmChoice "Do you want to add ONE host group ?" && single_host_group $1 || echo "no action"
 fi
 
 if [ -s $1 ] ; then
-	ConfirmChoice "Do you want to add through a list ?" && create_host_groups || echo "no action"
+	ConfirmChoice "Do you want to add through a list ?" && host_groups_list || echo "no action"
 fi
