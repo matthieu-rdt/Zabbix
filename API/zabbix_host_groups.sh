@@ -53,7 +53,7 @@ conf_file_exists ()
 
 single_host_group ()
 {
-	echo "Host group [$line] has been created"
+	echo "Host group [$1] has been created"
 	$HOME/./zgcreate.py "$1" > /dev/null
 }
 
