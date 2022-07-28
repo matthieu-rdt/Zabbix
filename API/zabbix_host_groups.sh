@@ -23,7 +23,7 @@ ConfirmChoice ()
 	[ "${ConfYorN}" == "y" -o "${ConfYorN}" == "Y" ] && return 0 || return 1
 }
 
-home ()
+pwd_home ()
 {
 	if [ $(pwd) != $HOME ] ; then
 		cd $HOME
@@ -38,6 +38,12 @@ conf_file_exists ()
 		touch $HOME/.zbx.conf
 		exit 4
 	fi
+}
+
+single_host_group ()
+{
+	echo "Host group [$line] has been created"
+	$HOME/./zgcreate.py $1 > /dev/null
 }
 
 create_host_groups ()
@@ -64,13 +70,13 @@ if [ -z $1 ] ; then
 	exit 2
 fi
 
-home
+pwd_home
 
 #	Check API credentials to connect to Zabbix GUI
 conf_file_exists
 
 if ! [ -s $1 ] ; then
-	ConfirmChoice "Do you want to add ONE host group ?" && $HOME/./zgcreate.py $1 || echo "no action"
+	ConfirmChoice "Do you want to add ONE host group ?" && single_host_group || echo "no action"
 fi
 
 if [ -s $1 ] ; then
