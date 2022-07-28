@@ -58,7 +58,7 @@ create_host_groups ()
 #	Start	    #
 #-------------------#
 
-if [[ -z $1 ]] ; then
+if [ -z $1 ] ; then
 	echo "Fill in a host group OR a host groups list to add in Zabbix !"
 	exit 2
 fi
@@ -70,4 +70,6 @@ conf_file_exists
 
 ConfirmChoice "Do you want to add ONE host group ?" && $HOME/./zgcreate.py $1 || echo "no action"
 
-ConfirmChoice "Do you want to add through a list ?" && create_host_groups || echo "no action"
+if [ -s $1 ] ; then
+	ConfirmChoice "Do you want to add through a list ?" && create_host_groups || echo "no action"
+fi
