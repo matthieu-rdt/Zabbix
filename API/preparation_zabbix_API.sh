@@ -53,7 +53,7 @@ installing_python_and_pip ()
 	python -m pip install --upgrade pip
 }
 
-scripts ()
+download_scripts ()
 {
 	scripts=(
 	"https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Python/requirements.txt"
@@ -133,7 +133,7 @@ update
 
 installing_python_and_pip
 
-scripts
+download_scripts
 
 preparation_installation_pip
 
