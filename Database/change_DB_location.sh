@@ -40,6 +40,10 @@ fine_tuning ()
 	sudo sed -i 's/#max_allowed_packet/max_allowed_packet' /etc/mysql/mariadb.conf.d/50-server.cnf
 }
 
+#-------------------#
+#	Start	    #
+#-------------------#
+
 read -p "Indicate the path you want to use for DB ? (without '/' at the end) " dbpath 
 
 echo "Stop MariaDB service" ; sleep 3
