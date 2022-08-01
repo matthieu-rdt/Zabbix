@@ -22,7 +22,7 @@ root_password=""
 user_password=""
 backup_password=""
 #-----------------#
-php_version=`apt-cache search php | egrep "(^| )php7.[0-9]( |$)" | grep -o '7.[0-9]'`
+php_version=$(apt-cache search php | egrep "(^| )php7.[0-9]( |$)" | grep -o '7.[0-9]')
 
 #-----------------------#
 #	Functions	#
@@ -180,7 +180,7 @@ zabbix_scheduled_reports ()
 {
 	sudo apt install zabbix-web-service chromium
 
-        file=`sudo find . -type f -name zabbix_web_service.txt`
+        file=$(sudo find . -type f -name zabbix_web_service.txt)
         if [ -f "$file" ] ; then
                 while IFS= read -r line ; do
                         echo $line | sudo tee -a /etc/zabbix/zabbix_server.conf

@@ -22,7 +22,7 @@ root_password=""
 user_password=""
 backup_password=""
 #-----------------#
-php_version=`apt-cache search php | egrep "(^| )php7.[0-9]( |$)" | grep -o '7.[0-9]'`
+php_version=$(apt-cache search php | egrep "(^| )php7.[0-9]( |$)" | grep -o '7.[0-9]')
 
 #-----------------------#
 #	Functions	#
