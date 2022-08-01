@@ -12,7 +12,7 @@
 #-----------------------#
 
 cluster_name=""
-node_name=""
+node_name="$(hostname)"
 node_ip_1=""
 node_ip_2=""
 #node_ip_3
