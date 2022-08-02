@@ -22,6 +22,15 @@ configure_new_disk ()
 
 	read -p "choose the block device you want to use for DB ? " block
 
+	sudo fdisk /dev/$block << EOF
+	g
+	n
+	1
+
+
+	w
+	EOF
+
 	sudo mkfs.ext4 /dev/$block
 	[ ! -d $dbpath ] && sudo mkdir -p $dbpath
 
@@ -30,7 +39,7 @@ configure_new_disk ()
 
 	# FSTAB
 	echo "# Database is on /dev/$block" | sudo tee -a /etc/fstab
-	echo "$blkid $dbpath   ext4    defaults        0       2" | sudo tee -a /etc/fstab
+	echo "$blkid $dbpath ext4 defaults	0	2" | sudo tee -a /etc/fstab
 	sudo mount -a
 }
 
@@ -49,7 +58,7 @@ read -p "Indicate the path you want to use for DB ? (without '/' at the end) " d
 echo "Stop MariaDB service" ; sleep 3
 sudo systemctl stop mariadb.service
 
-ConfirmChoice "Do you have a new disk to configure (format partition, edit fstab) ?" && configure_new_disk 
+ConfirmChoice "Do you have a new disk to configure (new partition table, new filesystem, edit fstab) ?" && configure_new_disk 
 
 sudo rsync -av /var/lib/mysql $dbpath
 
