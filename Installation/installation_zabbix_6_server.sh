@@ -137,9 +137,9 @@ create_permanent_shortcuts ()
 	echo "export CONFAGENT=/etc/zabbix/zabbix_agentd.conf" | sudo tee -a /etc/profile.d/shortcuts.sh > /dev/null
 
 	if	[[ $OS == ubuntu ]] ; then
-			echo "export netint=/etc/netplan/01-netcfg.yaml" | sudo tee -a /etc/profile.d/shortcuts.sh > /dev/null
+			echo "export NETINT=/etc/netplan/01-netcfg.yaml" | sudo tee -a /etc/profile.d/shortcuts.sh > /dev/null
 	elif	[[ $OS == debian ]] ; then
-			echo "export netint=/etc/network/interfaces" | sudo tee -a /etc/profile.d/shortcuts.sh > /dev/null
+			echo "export NETINT=/etc/network/interfaces" | sudo tee -a /etc/profile.d/shortcuts.sh > /dev/null
 	fi
 }
 
