@@ -1,4 +1,4 @@
-# * Galera-related settings
+# * Galera-related settings *
 #
 # See the examples of server wsrep.cnf files in /usr/share/mysql
 # and read more at https://mariadb.com/kb/en/galera-cluster/
@@ -9,9 +9,9 @@ wsrep_on = ON
 wsrep_provider = /usr/lib/galera/libgalera_smm.so
 wsrep_cluster_name = "|cluster_name|"
 
-#-----------------#
-#     Cluster     #
-#-----------------#
+#--------------#
+# Cluster
+#--------------#
 # Uncomment the line you need
 
 # If you cannot use an odd number of nodes, you should use Galera Arbitrator
@@ -21,7 +21,7 @@ wsrep_cluster_name = "|cluster_name|"
 # wsrep_cluster_address = gcomm://|node_ip_1|,|node_ip_2|,|node_ip_3|
 
 #--------------#
-#     Node     #
+# Node
 #--------------#
 wsrep_node_name = "|node_name|"
 
@@ -39,6 +39,6 @@ innodb_force_primary_key = 1
 bind-address = 0.0.0.0
 
 # Optional settings
-#wsrep_slave_threads = 1
-#innodb_flush_log_at_trx_commit = 0
+# wsrep_slave_threads = 1
+# innodb_flush_log_at_trx_commit = 0
 log_error = /var/log/mysql/error-galera.log
