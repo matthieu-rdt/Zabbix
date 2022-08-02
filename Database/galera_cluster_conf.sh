@@ -25,8 +25,9 @@ FILE=$(find . -type f -name 60-galera.cnf)
 
 galera_cnf ()
 {
+	sudo mv /etc/mysql/mariadb.conf.d/60-galera.cnf /etc/mysql/mariadb.conf.d/60-galera.cnf.back
 	while IFS= read -r line ; do
-		echo $line | sudo tee /etc/mysql/mariadb.conf.d/60-galera.cnf > /dev/null
+		echo $line | sudo tee -a /etc/mysql/mariadb.conf.d/60-galera.cnf > /dev/null
 	done < $FILE
 }
 
