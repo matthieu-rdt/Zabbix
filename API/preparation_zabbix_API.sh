@@ -65,8 +65,9 @@ download_scripts ()
 	)
 
 	for line in "${scripts[@]}" ; do
-	curl -sO $line && chmod u+x $line
+	curl -sO $line
 	done
+	chmod u+x *.py
 }
 
 preparation_installation_pip  ()
