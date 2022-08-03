@@ -17,7 +17,7 @@ node_ip_1=""
 node_ip_2=""
 #node_ip_3
 
-FILE=$(find . -type f -name 60-galera.cnf)
+FILE=$HOME/60-galera.cnf
 
 #-----------------------#
 #	Functions	#
