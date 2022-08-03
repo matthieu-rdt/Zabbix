@@ -22,16 +22,11 @@ configure_new_disk ()
 
 	read -p "choose the block device you want to use for DB ? " block
 
-	sudo fdisk /dev/$block << EOF
-	g
-	n
-	1
+	sudo cfdisk /dev/$block
 
+	# '1' because cfdisk created 1 partition
+	sudo mkfs.ext4 /dev/$block'1'
 
-	w
-	EOF
-
-	sudo mkfs.ext4 /dev/$block
 	[ ! -d $dbpath ] && sudo mkdir -p $dbpath
 
 	# Get UUID
