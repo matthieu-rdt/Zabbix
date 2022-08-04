@@ -86,6 +86,12 @@ preparation_installation_pip  ()
 	echo "source ~/.profile has been run"
 }
 
+workaround_zgcreate ()
+{
+	#	Workaround to use zgcreate.py
+	sudo sed -i 's/from requests.exceptions import JSONDecodeError/# from requests.exceptions import JSONDecodeError/' $HOME/.local/lib/python3.9/site-packages/pyzabbix/_api.py
+}
+
 zbx_conf ()
 {
 	echo "Fulfilling '.zbx.conf'"
@@ -137,6 +143,8 @@ installing_python_and_pip
 download_scripts
 
 preparation_installation_pip
+
+workaround_zgcreate 
 
 zbx_conf
 
