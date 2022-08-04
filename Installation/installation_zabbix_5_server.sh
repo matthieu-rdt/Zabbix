@@ -17,11 +17,16 @@
 #-----------------------#
 
 OS=$1
+#---- Replication ----#
+second_node=""
+#---------------------#
+
 #---- MariaDB ----#
 root_password=""
 user_password=""
 backup_password=""
 #-----------------#
+
 php_version=$(apt-cache search php | egrep "(^| )php7.[0-9]( |$)" | grep -o '7.[0-9]')
 
 #-----------------------#
@@ -46,6 +51,7 @@ ufw_configuration ()
 	sudo ufw allow 22/tcp
 	sudo ufw allow 10050/tcp
 	sudo ufw allow 10051/tcp
+	sudo ufw allow from $second_node
 }
 
 install_zabbix_server ()
