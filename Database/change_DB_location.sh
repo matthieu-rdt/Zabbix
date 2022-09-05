@@ -62,7 +62,7 @@ sudo mv /var/lib/mysql /var/lib/mysql.back
 
 # Change DB path
 sudo cp -p /etc/mysql/mariadb.conf.d/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnff
-sudo sed -i "s|= /var/lib/mysql|= $dbpath/mysql|" /etc/mysql/mariadb.conf.d/50-server.cnf
+sudo sed -i 's|= /var/lib/mysql|= '"$dbpath"'/mysql|' /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # Uncomment if needed
 #fine_tuning

@@ -33,11 +33,11 @@ galera_cnf ()
 
 sed_variables ()
 {
-	sudo sed -i "s/|cluster_name|/$cluster_name/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
-	sudo sed -i "s/|node_name|/$node_name/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
-	sudo sed -i "s/|node_ip_1|/$node_ip_1/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
-	sudo sed -i "s/|node_ip_2|/$node_ip_2/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
-#	sudo sed -i "s/|node_ip_3|/$node_ip_3/" 	/etc/mysql/mariadb.conf.d/60-galera.cnf
+	sudo sed -i 's/|cluster_name|/'"$cluster_name"'/' 	/etc/mysql/mariadb.conf.d/60-galera.cnf
+	sudo sed -i 's/|node_name|/'"$node_name"'/' 		/etc/mysql/mariadb.conf.d/60-galera.cnf
+	sudo sed -i 's/|node_ip_1|/'"$node_ip_1"'/' 		/etc/mysql/mariadb.conf.d/60-galera.cnf
+	sudo sed -i 's/|node_ip_2|/'"$node_ip_2"'/' 		/etc/mysql/mariadb.conf.d/60-galera.cnf
+#	sudo sed -i 's/|node_ip_3|/'"$node_ip_3"'/' 		/etc/mysql/mariadb.conf.d/60-galera.cnf
 }
 
 red_text ()
@@ -50,13 +50,13 @@ NodeAddress ()
 
 	if [ $1 -eq 1 ] ; then
 		echo "Configuring NodeAddress with node ip $1"
-		sudo sed -i "/^# NodeAddress=/a NodeAddress=$node_ip_1:10051" /etc/zabbix/zabbix_server.conf
+		sudo sed -i '/^# NodeAddress=/a NodeAddress='"$node_ip_1"':10051' /etc/zabbix/zabbix_server.conf
 	elif [ $1 -eq 2 ] ; then
 		echo "Configuring NodeAddress with node ip $1"
-		sudo sed -i "/^# NodeAddress=/a NodeAddress=$node_ip_2:10051" /etc/zabbix/zabbix_server.conf
+		sudo sed -i '/^# NodeAddress=/a NodeAddress='"$node_ip_2"':10051' /etc/zabbix/zabbix_server.conf
 	elif [ $1 -eq 3 ] ; then
 		echo "Configuring NodeAddress with node ip $1"
-		sudo sed -i "/^# NodeAddress=/a NodeAddress=$node_ip_3:10051" /etc/zabbix/zabbix_server.conf
+		sudo sed -i '/^# NodeAddress=/a NodeAddress='"$node_ip_3"':10051' /etc/zabbix/zabbix_server.conf
 	else
 		echo "NodeAddress could not be configured"
 		exit 3
@@ -102,7 +102,7 @@ else
 fi
 
 echo "Configuring HANodeName"
-sudo sed -i "/^# HANodeName=/a HANodeName=$node_name" /etc/zabbix/zabbix_server.conf
+sudo sed -i '/^# HANodeName=/a HANodeName='"$node_name" /etc/zabbix/zabbix_server.conf
 
 NodeAddress $1
 
