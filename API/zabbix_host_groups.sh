@@ -23,6 +23,15 @@ ConfirmChoice ()
 	[ "${ConfYorN}" == "y" -o "${ConfYorN}" == "Y" ] && return 0 || return 1
 }
 
+disable_redirect ()
+{
+	grep 'Redirect' /etc/apache2/sites-available/zabbix.conf
+	if [ $? -eq 0 ] ; then
+		sudo sed 's/Redirect/# Redirect/' /etc/apache2/sites-available/zabbix.conf
+		sudo systemctl reload apache2.service
+	fi
+}
+
 cd_home ()
 {
 	if [ $(pwd) != $HOME ] ; then
@@ -76,6 +85,8 @@ fi
 
 cd_home
 
+disable_redirect
+
 script_exists
 
 #	Check API credentials to connect to Zabbix GUI
@@ -88,3 +99,6 @@ fi
 if [ -s $1 ] ; then
 	ConfirmChoice "Do you want to add through a list ?" && host_groups_list || echo "no action"
 fi
+
+sudo sed 's/# Redirect/Redirect/' /etc/apache2/sites-available/zabbix.conf
+sudo systemctl reload apache2.service
