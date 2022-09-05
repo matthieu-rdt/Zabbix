@@ -3,9 +3,10 @@
 FQDN=$(hostname -f)
 zabbix_conf=/etc/apache2/sites-available/zabbix.conf
 
-sudo locate $FQDN > /dev/null
+sudo locate *.c[es]r
 if [ $? -eq 1 ] ; then
 	echo "Some files are missing (*.cer, *.key)"
+	exit 2
 fi
 
 cat << EOF >> $zabbix_conf
@@ -26,3 +27,6 @@ cat << EOF >> $zabbix_conf
 #	CustomLog /var/www/html/example.com/log/access.log combined
 </VirtualHost>
 EOF
+
+sudo a2enmod ssl
+sudo systemctl reload apache2.service
