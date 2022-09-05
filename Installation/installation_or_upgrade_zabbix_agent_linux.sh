@@ -52,7 +52,7 @@ esac
 install_or_upgrade_zabbix_agent_rhel ()
 {
 	sudo yum check-update && sudo yum update
-	sudo sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
+	sudo sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 
 case $3 in
 	"5.0")
@@ -83,13 +83,13 @@ edit_ipserver_hostmetadata_hostname ()
 	sudo sed -i "s/^ServerActive=.*/ServerActive=$ip_server/" /etc/zabbix/zabbix_agentd.conf
 
 #	Set up dynamically HostMetadata
-	sudo sed -i "s/# HostMetadataItem=/HostMetadataItem=system.uname/g" /etc/zabbix/zabbix_agentd.conf 
+	sudo sed -i 's/# HostMetadataItem=/HostMetadataItem=system.uname/g' /etc/zabbix/zabbix_agentd.conf
 
 #	You can either leave the default hostname or set it up dynamically
-	sudo sed -i "s/Hostname=Zabbix server/# Hostname=Zabbix server/g" /etc/zabbix/zabbix_agentd.conf
+	sudo sed -i 's/Hostname=Zabbix server/# Hostname=Zabbix server/g' /etc/zabbix/zabbix_agentd.conf
 
 #	Set up dynamically "Hostname"
-	sudo sed -i "s/# HostnameItem=system.hostname/HostnameItem=system.hostname/g" /etc/zabbix/zabbix_agentd.conf 
+	sudo sed -i 's/# HostnameItem=system.hostname/HostnameItem=system.hostname/g' /etc/zabbix/zabbix_agentd.conf
 }
 
 ufw_configuration ()

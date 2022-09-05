@@ -27,7 +27,7 @@ install_zabbix_agent2_ubuntu_debian ()
 install_zabbix_agent2_rhel ()
 {
 	sudo yum check-update && sudo yum update
-	sudo sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
+	sudo sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 	sudo yum install zabbix-agent2 -y
 }
 
@@ -36,11 +36,11 @@ edit_ipserver_hostmetadata_hostname ()
 	sudo cp -p /etc/zabbix/zabbix_agent2.conf /etc/zabbix/zabbix_agent2.conf.back
 	sudo sed -i "s/^Server=.*/Server=$ip_server/" /etc/zabbix/zabbix_agent2.conf # not for server Z
 	sudo sed -i "s/^ServerActive=.*/ServerActive=$ip_server/" /etc/zabbix/zabbix_agent2.conf # not for server Z
-	sudo sed -i "s/# HostMetadataItem=/HostMetadataItem=system.uname/g" /etc/zabbix/zabbix_agent2.conf # set up dynamically HostMetadata
+	sudo sed -i 's/# HostMetadataItem=/HostMetadataItem=system.uname/g' /etc/zabbix/zabbix_agent2.conf # set up dynamically HostMetadata
 
 #	You can either leave the default hostname or set it up dynamically
-	sudo sed -i "s/Hostname=Zabbix server/# Hostname=Zabbix server/g" /etc/zabbix/zabbix_agent2.conf
-	sudo sed -i "s/# HostnameItem=system.hostname/HostnameItem=system.hostname/g" /etc/zabbix/zabbix_agent2.conf # set up dynamically "Hostname"
+	sudo sed -i 's/Hostname=Zabbix server/# Hostname=Zabbix server/g' /etc/zabbix/zabbix_agent2.conf
+	sudo sed -i 's/# HostnameItem=system.hostname/HostnameItem=system.hostname/g' /etc/zabbix/zabbix_agent2.conf # set up dynamically 'Hostname'
 }
 
 ufw_configuration ()

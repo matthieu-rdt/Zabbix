@@ -86,28 +86,28 @@ edit_passwd_and_timezone ()
 {
 	sudo cp -p /etc/zabbix/zabbix_server.conf /etc/zabbix/zabbix_server.conf.back
 	sudo sed -i "/^# DBPassword=/a DBPassword=$user_password" /etc/zabbix/zabbix_server.conf
-	sudo sed -i "s/# StartDiscoverers=1/StartDiscoverers=3/" /etc/zabbix/zabbix_server.conf # increase number if needed
+	sudo sed -i 's/# StartDiscoverers=1/StartDiscoverers=3/' /etc/zabbix/zabbix_server.conf # increase number if needed
 
 	#sudo cp -p /etc/zabbix/apache.conf /etc/zabbix/apache.conf.back
-	#sudo sed -i "s/# php_value date.timezone Europe\/Riga/php_value date.timezone Europe\/Paris/g" /etc/zabbix/apache.conf
+	#sudo sed -i 's/# php_value date.timezone Europe\/Riga/php_value date.timezone Europe\/Paris/g' /etc/zabbix/apache.conf
 
 #	Mandatory for the "Check of pre-requisites"
 	sudo cp -p /etc/php/$php_version/apache2/php.ini /etc/php/$php_version/apache2/php.ini.back
-	sudo sed -i "s/;date.timezone =/date.timezone = \"Europe\/Paris\"/g" /etc/php/$php_version/apache2/php.ini
+	sudo sed -i 's/;date.timezone =/date.timezone = \"Europe\/Paris\"/g' /etc/php/$php_version/apache2/php.ini
 }
 
 configure_vmware_and_snmp_parameters ()
 {
-	sudo sed -i "s/# StartVMwareCollectors=0/StartVMwareCollectors=5/g" /etc/zabbix/zabbix_server.conf
-	sudo sed -i "s/# VMwareFrequency=60/VMwareFrequency=60/g" /etc/zabbix/zabbix_server.conf
-	sudo sed -i "s/# VMwarePerfFrequency=60/VMwarePerfFrequency=60/g" /etc/zabbix/zabbix_server.conf
+	sudo sed -i 's/# StartVMwareCollectors=0/StartVMwareCollectors=5/g' /etc/zabbix/zabbix_server.conf
+	sudo sed -i 's/# VMwareFrequency=60/VMwareFrequency=60/g' /etc/zabbix/zabbix_server.conf
+	sudo sed -i 's/# VMwarePerfFrequency=60/VMwarePerfFrequency=60/g' /etc/zabbix/zabbix_server.conf
 
 #	Increase if needed
-	sudo sed -i "s/# VMwareCacheSize=8M/VMwareCacheSize=32M/g" /etc/zabbix/zabbix_server.conf 
-	sudo sed -i "s/# VMwareTimeout=10/VMwareTimeout=10/g" /etc/zabbix/zabbix_server.conf
+	sudo sed -i 's/# VMwareCacheSize=8M/VMwareCacheSize=32M/g' /etc/zabbix/zabbix_server.conf
+	sudo sed -i 's/# VMwareTimeout=10/VMwareTimeout=10/g' /etc/zabbix/zabbix_server.conf
 
-	sudo sed -i "s/# CacheSize=8M/CacheSize=128M/g" /etc/zabbix/zabbix_server.conf
-	sudo sed -i "s/# StartSNMPTrapper=0/StartSNMPTrapper=1/g" /etc/zabbix/zabbix_server.conf
+	sudo sed -i 's/# CacheSize=8M/CacheSize=128M/g' /etc/zabbix/zabbix_server.conf
+	sudo sed -i 's/# StartSNMPTrapper=0/StartSNMPTrapper=1/g' /etc/zabbix/zabbix_server.conf
 }
 
 enable_zabbix-server_and_cleaning-up ()
@@ -123,8 +123,8 @@ configure_fqdn_for_default_frontend ()
 
 	sudo cp -p /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/zabbix.conf
 
-	sudo sed -i "s_#ServerName www.example.com_ServerName http://$fqdn/zabbix/_" /etc/apache2/sites-available/zabbix.conf
-	sudo sed -i "s_DocumentRoot /var/www/html_DocumentRoot /usr/share/zabbix/_" /etc/apache2/sites-available/zabbix.conf
+	sudo sed -i 's_#ServerName www.example.com_ServerName http://'"$fqdn"'/zabbix/_' /etc/apache2/sites-available/zabbix.conf
+	sudo sed -i 's_DocumentRoot /var/www/html_DocumentRoot /usr/share/zabbix/_' /etc/apache2/sites-available/zabbix.conf
 
 	sudo a2dissite 000-default.conf
 	sudo a2dissite default-ssl.conf
