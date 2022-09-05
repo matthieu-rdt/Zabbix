@@ -40,8 +40,8 @@ clamd_conf ()
 	echo "OnAccessPrevention yes" | sudo tee -a /etc/clamav/clamd.conf > /dev/null
 	echo "OnAccessDisableDDD yes" | sudo tee -a /etc/clamav/clamd.conf > /dev/null
 
-	sudo sed -i "s/LocalSocketGroup clamav/LocalSocketGroup root/" /etc/clamav/clamd.conf
-	sudo sed -i "s/User clamav/User root/" /etc/clamav/clamd.conf
+	sudo sed -i 's/LocalSocketGroup clamav/LocalSocketGroup root/' /etc/clamav/clamd.conf
+	sudo sed -i 's/User clamav/User root/' /etc/clamav/clamd.conf
 }
 
 clamonacc () 
