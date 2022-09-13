@@ -54,7 +54,7 @@ enable_scheduler ()
 
 	sudo sed -i '#table_cache/a event_scheduler = ON' /etc/mysql/mariadb.conf.d/50-server.cnf
 	sudo systemctl restart mysql
-	mysql -u$username -p$password $name -e "CREATE EVENT zabbix_partitioning ON SCHEDULE EVERY 12 HOUR DO CALL partition_maintenance_all('zabbix');"
+	mysql -u$username -p$password $name -e "CREATE EVENT zabbix_partitioning ON SCHEDULE EVERY 1 DAY DO CALL partition_maintenance_all('zabbix');"
 }
 
 #-------------------#
