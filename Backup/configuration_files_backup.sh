@@ -10,23 +10,19 @@
 
 host1=""
 host2=""
-zabbix_file=""
+zabbix_files="$1"
 
 host_1 ()
 {
-	while IFS= read -r file ; do
-		if test -f "$file"; then
-			scp zabbix@$host1:$file /Zabbix_backup/$host1/
-		fi
+	while read -r file ; do
+		scp zabbix@$host1:$file /Zabbix_backup/$host1/
 	done < $zabbix_files
 }
 
 host_2 ()
 {
-	while IFS= read -r file ; do
-		if test -f "$file"; then
-			scp zabbix@$host2:$file /Zabbix_backup/$host2/
-		fi
+	while read -r file ; do
+		scp zabbix@$host2:$file /Zabbix_backup/$host2/
 	done < $zabbix_files
 }
 
