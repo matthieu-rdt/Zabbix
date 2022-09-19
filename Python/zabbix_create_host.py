@@ -19,7 +19,7 @@ bar = ProgressBar(maxval=lines, widgets=[
                   Percentage(), ReverseBar(), ETA(), RotatingMarker(), Timer()]).start()
 i = 0
 
-for [hostname, ip, dns] in f:
+for [hostname, ip, dns, group] in f:
     CreateHost = zapi.host.create(
         host=hostname,
         status=1,
@@ -32,7 +32,7 @@ for [hostname, ip, dns] in f:
             "port": 10050
         }],
         groups=[{
-            "groupid": 2
+            "groupid": group
         }],
         templates=[{
             "templateid": 10001
