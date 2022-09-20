@@ -33,6 +33,7 @@ login ()
 
 login > $filename
 token=`cat $filename | cut -d':' -f3 | cut -d'"' -f2`
+sed -i "46s/jeton/$token/" $0
 
 # Logout from Zabbix API
 logout ()
@@ -42,7 +43,7 @@ logout ()
         "method": "user.logout",
         "params": {},
         "id": 2,
-        "auth": "'$token'"'' }' "http://$IP/zabbix/api_jsonrpc.php"
+        "auth": "jeton" }' "http://$IP/zabbix/api_jsonrpc.php"
 }
 
 ConfirmChoice "Do you want to connect to Zabbix API" && login
