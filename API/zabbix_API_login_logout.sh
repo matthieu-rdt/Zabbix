@@ -17,11 +17,11 @@ function ConfirmChoice ()
 	[ "${ConfYorN}" == "y" -o "${ConfYorN}" == "Y" ] && return 0 || return 1
 }
 
-if      [ $1 == login ] ; then
+if      [[ $1 == login ]] ; then
         read -p 'Your Zabbix username ' user
         read -sp 'Your Zabbix password ' password
         read -p 'Your Zabbix URL (example : 192.181.1.2) ' IP
-elif    [ $1 == logout ] ; then
+elif    [[ $1 == logout ]] ; then
         read -p 'Your Zabbix URL (example : 192.181.1.2) ' IP
 else
 	echo 'no parameters'
