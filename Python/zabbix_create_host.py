@@ -6,19 +6,20 @@ from pyzabbix import ZabbixAPI
 from progressbar import ProgressBar, Percentage, ETA, ReverseBar, RotatingMarker, Timer
 import csv
 
-file_exists('/path/to/file.csv')
-zapi = ZabbixAPI("http://1.2.3.4/zabbix")
+file_exists('/home/user/hosts_list.csv')
 
 # Credentials by default
 zapi.login(user="Admin", password="zabbix")
+# Edit IP address
+zapi = ZabbixAPI("http://1.2.3.4/zabbix")
 
-arq = csv.reader(open('/path/to/file.csv'))
+arq = csv.reader(open('/home/user/hosts_list.csv'))
 
 lines = sum(1 for line in arq)
 
-f = csv.reader(open('/path/to/file.csv'), delimiter=';')
-bar = ProgressBar(maxval=lines, widgets=[
-                  Percentage(), ReverseBar(), ETA(), RotatingMarker(), Timer()]).start()
+f = csv.reader(open('/home/user/hosts_list.csv'), delimiter=';')
+bar = ProgressBar(maxval=lines, widgets=[Percentage(), ReverseBar(), ETA(), RotatingMarker(), Timer()]).start()
+
 i = 0
 
 for [hostname, ip, dns, group] in f:
