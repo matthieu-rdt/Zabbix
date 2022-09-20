@@ -31,12 +31,14 @@ fi
 # Get "auth" to connect to Zabbix
 login ()
 {
-        curl --header "Content-Type: application/json" --request POST --data '{
+        curl --header "Content-Type: application/json" --request POST --data
+	'{
         "jsonrpc": "2.0",
         "method": "user.login",
         "params": {"user": "'$user'"'', "password": "'$password'"''},
         "id": 1,
-        "auth": null}' "http://$IP/zabbix/api_jsonrpc.php"
+        "auth": null
+	}' "http://$IP/zabbix/api_jsonrpc.php"
 }
 
 login > $filename
@@ -46,12 +48,14 @@ sed -i "52s/jeton/$token/" $0
 # Logout from Zabbix API
 logout ()
 {
-	curl --header "Content-Type: application/json" --request POST --data '{
+	curl --header "Content-Type: application/json" --request POST --data
+	'{
 	"jsonrpc": "2.0",
 	"method": "user.logout",
 	"params": {},
 	"id": 2,
-	"auth": "jeton" }' "http://$IP/zabbix/api_jsonrpc.php"
+	"auth": "jeton"
+	}' "http://$IP/zabbix/api_jsonrpc.php"
 }
 
 ConfirmChoice "Do you want to connect to Zabbix API" && login
