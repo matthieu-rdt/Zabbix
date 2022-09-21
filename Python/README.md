@@ -4,7 +4,7 @@ Python scripts for Zabbix
 A collection of various scripts to automate tasks with the Zabbix API
 
 ### 1) Create hosts by using a CSV file :
--`zabbix_create_host.py`
+-`zabbix_create_host.py`  
 -`hosts_list.csv`
 
 #### Usage example
@@ -13,8 +13,8 @@ A collection of various scripts to automate tasks with the Zabbix API
 ```
 
 ### 2) Export/Import Zabbix objects :
--`zabbix-export.py`
--`zabbix-import.py`
+-`zabbix-export.py`  
+-`zabbix-import.py`  
 -`requirements.txt`
 
 #### Usage example
@@ -23,8 +23,8 @@ A collection of various scripts to automate tasks with the Zabbix API
 ```
 
 ### 3) Create or delete Host groups & Get an inventory :
--`zgcreate.py`
--`zgdelete.py`
+-`zgcreate.py`  
+-`zgdelete.py`  
 -`zgetinventory.py`
 
 #### Usage example
