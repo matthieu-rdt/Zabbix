@@ -8,10 +8,10 @@ import csv
 
 file_exists('/home/mark/hosts_list.csv')
 
+# Edit IP address
+zapi = ZabbixAPI("http://172.25.160.141/zabbix")
 # Credentials by default
 zapi.login(user="Admin", password="zabbix")
-# Edit IP address
-zapi = ZabbixAPI("http://1.2.3.4/zabbix")
 
 arq = csv.reader(open('/home/mark/hosts_list.csv'))
 
