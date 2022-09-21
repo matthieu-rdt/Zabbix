@@ -8,7 +8,7 @@ A collection of various scripts to automate tasks with the Zabbix API
 -`hosts_list.csv`
 
 #### Usage example
-```
+```python
 ./zabbix_create_host.py hosts_list.csv
 ```
 
@@ -18,8 +18,8 @@ A collection of various scripts to automate tasks with the Zabbix API
 -`requirements.txt`
 
 #### Usage example
-```
-./zgdelete.py -N host
+```python
+./zabbix-export.py --save-yaml --zabbix-url https://zabbix.example.com --zabbix-username user --zabbix-password password --only hosts
 ```
 
 ### 3) Create or delete Host groups & Get an inventory :
@@ -28,7 +28,7 @@ A collection of various scripts to automate tasks with the Zabbix API
 -`zgetinventory.py`
 
 #### Usage example
-```
+```python
 ./zgcreate.py host
 ```
 
