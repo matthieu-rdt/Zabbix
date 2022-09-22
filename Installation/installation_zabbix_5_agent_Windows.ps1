@@ -52,16 +52,16 @@ Copy-Item "$DirectoryPath\bin\zabbix_agentd.exe" -Destination "C:\Program Files\
 ##	"Sed" to edit configuration file
 
 #	Set the IP address for Server
-Get-Content "$DirectoryPath\$ZabbixAgentVersion\conf\zabbix_agentd.conf" | %{$_ -replace "Server=127.0.0.1", "Server=$IpAddr"} | Set-Content "C:\Program Files\Zabbix\zabbix_agentd.conf"
+Get-Content "$DirectoryPath\conf\zabbix_agentd.conf" | %{$_ -replace "Server=127.0.0.1", "Server=$IpAddr"} | Set-Content "C:\Program Files\Zabbix\zabbix_agentd.conf"
 
 #	Set the IP address for ServerActive
-Get-Content "$DirectoryPath\$ZabbixAgentVersion\conf\zabbix_agentd.conf" | %{$_ -replace "ServerActive=127.0.0.1", "ServerActive=$IpAddr"} | Set-Content "C:\Program Files\Zabbix\zabbix_agentd.conf"
+Get-Content "$DirectoryPath\conf\zabbix_agentd.conf" | %{$_ -replace "ServerActive=127.0.0.1", "ServerActive=$IpAddr"} | Set-Content "C:\Program Files\Zabbix\zabbix_agentd.conf"
 
 #	Define HostMetadataItem
-Get-Content "$DirectoryPath\$ZabbixAgentVersion\conf\zabbix_agentd.conf" | %{$_ -replace '# HostMetadataItem=', "HostMetadataItem=system.uname"} | Set-Content "C:\Program Files\Zabbix\zabbix_agentd.conf"
+Get-Content "$DirectoryPath\conf\zabbix_agentd.conf" | %{$_ -replace '# HostMetadataItem=', "HostMetadataItem=system.uname"} | Set-Content "C:\Program Files\Zabbix\zabbix_agentd.conf"
 
 #	Set up dynamically "Hostname"
-Get-Content "$DirectoryPath\$ZabbixAgentVersion\conf\zabbix_agentd.conf" | %{$_ -replace '# HostnameItem=system.hostname', "HostnameItem=system.hostname[host]"} | Set-Content "C:\Program Files\Zabbix\zabbix_agentd.conf"
+Get-Content "$DirectoryPath\conf\zabbix_agentd.conf" | %{$_ -replace '# HostnameItem=system.hostname', "HostnameItem=system.hostname[host]"} | Set-Content "C:\Program Files\Zabbix\zabbix_agentd.conf"
 
 #	Installation
 "C:\Program Files\Zabbix\zabbix_agentd.exe" -c "C:\Program Files\Zabbix\zabbix_agentd.conf" -i
