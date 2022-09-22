@@ -22,6 +22,7 @@ ip_server=""
 install_or_upgrade_zabbix_agent_debian_ubuntu ()
 {
 	sudo apt update && sudo apt upgrade -y
+	sudo apt install curl ufw -y
 
 case $3 in
 
