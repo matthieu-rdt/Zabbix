@@ -43,7 +43,7 @@ Copy-Item "$DirectoryPath\zabbix_agent-6.0.9-windows-amd64-openssl\conf\zabbix_a
 ##	"Sed" to edit configuration file
 
 #	Set the IP address for Server
-Get-Content "C:\Program Files\Zabbix\zabbix_agentd.conf" | %{$_ -replace "Server=.*", "ServerActive=$IpAddr"} | Set-Content "C:\Program Files\Zabbix\zabbix_agentd.conf"
+Get-Content "C:\Program Files\Zabbix\zabbix_agentd.conf" | %{$_ -replace "Server=.*", "Server=$IpAddr"} | Set-Content "C:\Program Files\Zabbix\zabbix_agentd.conf"
 
 #	Set the IP address for ServerActive
 Get-Content "C:\Program Files\Zabbix\zabbix_agentd.conf" | %{$_ -replace "ServerActive=.*", "ServerActive=$IpAddr"} | Set-Content "C:\Program Files\Zabbix\zabbix_agentd.conf"
