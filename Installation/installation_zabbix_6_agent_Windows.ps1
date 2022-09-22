@@ -28,7 +28,7 @@ if ( $IpAddr -eq '1.2.3.4' )
 }
 
 #	Download Zabbix agent on the user's desktop
-Invoke-WebRequest https://cdn.zabbix.com/zabbix/binaries/stable/6.0/6.0.9/zabbix_agent-6.0.9-windows-amd64-openssl.zip -OutFile "$DirectoryPath\zabbix_agent-6.0.9-windows-amd64-openssl.zip
+Invoke-WebRequest https://cdn.zabbix.com/zabbix/binaries/stable/6.0/6.0.9/zabbix_agent-6.0.9-windows-amd64-openssl.zip -OutFile "$DirectoryPath\zabbix_agent-6.0.9-windows-amd64-openssl.zip"
 
 #	Unzip Zabbix agent
 Expand-Archive -LiteralPath "$DirectoryPath\zabbix_agent-6.0.9-windows-amd64-openssl.zip" -DestinationPath "$DirectoryPath\" -Confirm:$false
