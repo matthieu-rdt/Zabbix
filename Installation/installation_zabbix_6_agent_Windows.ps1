@@ -28,17 +28,17 @@ if ( $IpAddr -eq '1.2.3.4' )
 }
 
 #	Download Zabbix agent on the user's desktop
-Invoke-WebRequest https://www.zabbix.com/downloads/5.0.1/zabbix_agent-5.0.1-windows-amd64-openssl.zip -OutFile "$DirectoryPath\zabbix_agent-5.0.1-windows-amd64-openssl.zip"
+Invoke-WebRequest https://cdn.zabbix.com/zabbix/binaries/stable/6.0/6.0.9/zabbix_agent-6.0.9-windows-amd64-openssl.zip -OutFile "$DirectoryPath\zabbix_agent-6.0.9-windows-amd64-openssl.zip
 
 #	Unzip Zabbix agent
-Expand-Archive -LiteralPath "$DirectoryPath\zabbix_agent-5.0.1-windows-amd64-openssl.zip" -DestinationPath "$DirectoryPath\" -Confirm:$false
+Expand-Archive -LiteralPath "$DirectoryPath\zabbix_agent-6.0.9-windows-amd64-openssl.zip" -DestinationPath "$DirectoryPath\" -Confirm:$false
 
 #	Create a new directory called "Zabbix"
 New-Item -Path "C:\Program Files\" -Name "Zabbix" -ItemType "directory"
 
 #	Copy file to Zabbix directory
-Copy-Item "$DirectoryPath\zabbix_agent-5.0.1-windows-amd64-openssl\bin\zabbix_agentd.exe" -Destination "C:\Program Files\Zabbix"
-Copy-Item "$DirectoryPath\zabbix_agent-5.0.1-windows-amd64-openssl\conf\zabbix_agentd.conf" -Destination "C:\Program Files\Zabbix"
+Copy-Item "$DirectoryPath\zabbix_agent-6.0.9-windows-amd64-openssl\bin\zabbix_agentd.exe" -Destination "C:\Program Files\Zabbix"
+Copy-Item "$DirectoryPath\zabbix_agent-6.0.9-windows-amd64-openssl\conf\zabbix_agentd.conf" -Destination "C:\Program Files\Zabbix"
 
 ##	"Sed" to edit configuration file
 
