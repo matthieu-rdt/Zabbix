@@ -47,8 +47,7 @@ if ( (Test-Path -Path $DirectoryPath\$ZabbixAgentVersion.zip) -eq $false )
 Expand-Archive -Path "$DirectoryPath\$ZabbixAgentVersion.zip" -DestinationPath "$DirectoryPath" -Confirm:$false
 
 #	Copy file to Zabbix directory
-#Copy-Item "$DirectoryPath\$ZabbixAgentVersion\bin\zabbix_agentd.exe" -Destination "C:\Program Files\Zabbix"
-#Copy-Item "$DirectoryPath\$ZabbixAgentVersion\conf\zabbix_agentd.conf" -Destination "C:\Program Files\Zabbix"
+Copy-Item "$DirectoryPath\bin\zabbix_agentd.exe" -Destination "C:\Program Files\Zabbix"
 
 ##	"Sed" to edit configuration file
 
