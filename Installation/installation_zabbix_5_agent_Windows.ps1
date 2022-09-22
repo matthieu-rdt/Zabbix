@@ -30,18 +30,18 @@ if ( $IpAddr -eq '1.2.3.4' )
 	exit
 }
 
+#	Create a new directory called "Zabbix"
+New-Item -Path "C:\Program Files\" -Name "Zabbix" -ItemType "directory"
+
+#	Download Zabbix agent on the user's desktop
+Invoke-WebRequest https://cdn.zabbix.com/zabbix/binaries/stable/5.0/5.0.28/$ZabbixAgentVersion.zip -OutFile "$DirectoryPath\$ZabbixAgentVersion.zip"
+
 # Test Zabbix agent exists
 if ( (Test-Path -Path $DirectoryPath\$ZabbixAgentVersion.zip) -eq $false )
 {
 	Write-Host 'edit $ZabbixAgentVersion'
 	exit
 }
-
-#	Create a new directory called "Zabbix"
-New-Item -Path "C:\Program Files\" -Name "Zabbix" -ItemType "directory"
-
-#	Download Zabbix agent on the user's desktop
-Invoke-WebRequest https://cdn.zabbix.com/zabbix/binaries/stable/5.0/5.0.28/$ZabbixAgentVersion.zip -OutFile "$DirectoryPath\$ZabbixAgentVersion.zip"
 
 #	Unzip Zabbix agent
 Expand-Archive -Path "$DirectoryPath\$ZabbixAgentVersion.zip" -DestinationPath "$DirectoryPath" -Confirm:$false
