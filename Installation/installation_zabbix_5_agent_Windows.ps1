@@ -57,6 +57,7 @@ Get-Content "$DirectoryPath\conf\zabbix_agentd.conf" | %{$_ `
 -replace "Server=127.0.0.1", "Server=$IpAddr" `
 -replace "ServerActive=127.0.0.1", "ServerActive=$IpAddr" `
 -replace '# HostMetadataItem=', "HostMetadataItem=system.uname" `
+-replace 'Hostname=Windows host', '#Hostname=Windows host' `
 -replace '# HostnameItem=system.hostname', "HostnameItem=system.hostname[host]"} | Set-Content "C:\Program Files\Zabbix\zabbix_agentd.conf"
 
 #	Installation
