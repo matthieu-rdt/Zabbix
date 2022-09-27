@@ -164,7 +164,7 @@ if	[[ $1 == install ]] ; then
 		if	[[ $2 == ubuntu || $2 == debian ]] ; then
 			install_or_upgrade_zabbix_agent_debian_ubuntu $1 $2 $3
 			edit_ipserver_hostmetadata_hostname
-			ufw_configuration
+#ufw_configuration
 			enable_zabbix-agent
 		else
 			install_or_upgrade_zabbix_agent_rhel $1 $2 $3
