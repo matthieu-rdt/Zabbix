@@ -60,5 +60,6 @@ Get-Content "$DirectoryPath\conf\zabbix_agentd.conf" | %{$_ `
 -replace 'Hostname=Windows host', '#Hostname=Windows host' `
 -replace '# HostnameItem=system.hostname', "HostnameItem=system.hostname[host]"} | Set-Content "C:\Program Files\Zabbix\zabbix_agentd.conf"
 
-#	Installation
-'C:\Program Files\Zabbix\zabbix_agentd.exe' -c "C:\Program Files\Zabbix\zabbix_agentd.conf" -i
+#       Installation
+cd 'C:\Program Files\Zabbix'
+.\zabbix_agentd.exe -c "C:\Program Files\Zabbix\zabbix_agentd.conf" -i
