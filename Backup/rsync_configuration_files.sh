@@ -6,9 +6,8 @@ sync_important_files=(
 "path/file/to/save"
 )
 
-grep -E --quiet '=""$' $0
-if [ $? -eq 0 ] ; then
-	echo 'fulfil variable user'
+if	[ -z $remote_user ] ; then
+	echo 'fulfil variable remote_user'
 	exit 3
 fi
 
@@ -17,9 +16,18 @@ if [ $? -eq 1 ] ; then
 	sudo apt install rsync
 fi
 
-for file in "${sync_important_files[@]}" ; do
-	# if $file is a file AND if line does not start with #
-	if [[ -f $file && ! $file =~ ^# ]] ; then
-		rsync -az --delete $file $remote_user:$file
-	fi
-done
+Check_if_folders_exist ()
+{
+	for file in "${sync_important_files[@]}" ; do
+		ssh $remote_user "if ! [ -d $file ] ; then mkdir -p $(dirname $file) ; fi"
+}
+
+Sync_all_files ()
+{
+	for file in "${sync_important_files[@]}" ; do
+		# if $file is a file AND if line does not start with #
+		if [[ -f $file && ! $file =~ ^# ]] ; then
+			rsync -az --delete $file $remote_user:$file
+		fi
+	done
+}
