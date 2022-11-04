@@ -8,8 +8,10 @@ sync_important_files=(
 
 check_if_folders_exist ()
 {
-	for file in "${sync_important_files[@]}" ; do
+	for file in "${sync_important_files[@]}"
+	do
 		ssh $remote_user "if ! [ -d $file ] ; then mkdir -p $(dirname $file) ; fi"
+	done
 }
 
 sync_all_files ()
