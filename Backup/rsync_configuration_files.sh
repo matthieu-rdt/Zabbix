@@ -6,6 +6,10 @@ sync_important_files=(
 "path/file/to/save"
 )
 
+#-----------------------#
+#	Functions       #
+#-----------------------#
+
 check_if_folders_exist ()
 {
 	for file in "${sync_important_files[@]}"
@@ -24,14 +28,25 @@ sync_all_files ()
 	done
 }
 
+#-------------------#
+#	Start       #
+#-------------------#
+
 if	[ -z $remote_user ] ; then
 	echo 'fulfil variable remote_user'
 	exit 3
 fi
 
+grep -w 'Host' $HOME/.ssh/config
+if	[ $? -eq 1 ] ; then
+	echo 'No shortcuts found in the config file'
+	echo 'Visit https://linuxize.com/post/using-the-ssh-config-file/ for further information'
+	exit 4
+fi
+
 sudo apt list rsync
-if [ $? -eq 1 ] ; then
-	sudo apt install rsync
+if	[ $? -eq 1 ] ; then
+	sudo apt-get install rsync -y
 fi
 
 check_if_folders_exist 
