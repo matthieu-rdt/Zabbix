@@ -37,7 +37,7 @@ if	[ -z $remote_user ] ; then
 	exit 3
 fi
 
-grep -w 'Host' $HOME/.ssh/config
+grep -qw 'Host' $HOME/.ssh/config
 if	[ $? -eq 1 ] ; then
 	echo 'No shortcuts found in the config file'
 	echo 'Visit https://linuxize.com/post/using-the-ssh-config-file/ for further information'
