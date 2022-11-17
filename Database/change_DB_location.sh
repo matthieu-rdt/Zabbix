@@ -7,12 +7,13 @@
 # Function from Manu
 ConfirmChoice ()
 {
-        ConfYorN="";
-                while [ "${ConfYorN}" != "y" -a "${ConfYorN}" != "Y" -a "${ConfYorN}" != "n" -a "${ConfYorN}" != "N" ] ; do
-                        echo -n $1 "(y/n) : "
-                        read ConfYorN
-                done
-        [ "${ConfYorN}" == "y" -o "${ConfYorN}" == "Y" ] && return 0 || return 1
+	ConfYorN="";
+	while [ "${ConfYorN}" != "y" ] && [ "${ConfYorN}" != "Y" ] && [ "${ConfYorN}" != "n" ] && [ "${ConfYorN}" != "N" ]
+	do
+		echo -n "$1" "(y/n) : "
+		read ConfYorN
+	done
+	[ "${ConfYorN}" == "y" ] || [ "${ConfYorN}" == "Y" ] && return 0 || return 1
 }
 
 configure_new_disk ()
