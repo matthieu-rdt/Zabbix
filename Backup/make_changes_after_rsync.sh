@@ -2,6 +2,15 @@
 
 source "$HOME/sync_files_list.txt"
 
+#-------------------#
+#       Start       #
+#-------------------#
+
+if	[ ! -f "$HOME/sync_files_list.txt" ] ; then
+	echo "$HOME/sync_files_list.txt not found"
+	exit 2
+fi
+
 for file in "${sync_important_files[@]}" ; do
 
 	grep -q "HANodeName=$(hostname)" "$file"
