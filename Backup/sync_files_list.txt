@@ -1,0 +1,5 @@
+sync_important_files=(
+# add a comment
+"path/file/to/save"
+)
+
