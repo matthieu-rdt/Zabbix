@@ -6,7 +6,7 @@ source "$HOME/sync_files_list.txt"
 remote_host=""
 
 # Path of the script to make some changes after rsync
-script_path=""
+script_path="$HOME/make_changes_after_rsync.sh"
 
 #-----------------------#
 #	Functions       #
@@ -52,12 +52,16 @@ if	[ ! -f "$HOME/sync_files_list.txt" ] ; then
 	curl -sO "https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Backup/sync_files_list.txt"
 	red_text "Open sync_files_list.txt and add the files you want to synchronise"
 	exit 2
+elif	[ ! -f "$HOME/make_changes_after_rsync.sh" ] ; then
+	echo "Downloading make_changes_after_rsync.sh
+	curl -sO "https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Backup/make_changes_after_rsync.sh"
+	exit 3
 fi
 
 grep -E --quiet '=""$' $0
 if	[ $? -eq 0 ] ; then
 	echo 'fulfil variables'
-	exit 3
+	exit 4
 fi
 
 check_ssh_config
