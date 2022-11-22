@@ -56,6 +56,7 @@ if	[ ! -f "${required_files[@]}" ] ; then
 
 	echo "Downloading make_changes_after_rsync.sh"
 	curl -sO "https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Backup/make_changes_after_rsync.sh"
+	red_text "Make executable if you intend to use it"
 	exit 2
 fi
 
@@ -76,4 +77,6 @@ for file in "${sync_important_files[@]}" ; do
 	fi
 done
 
-ssh $remote_host "$(< $script_path)"
+if	[ -x "$script_path" ] ; then
+	ssh $remote_host "$(< $script_path)"
+fi
