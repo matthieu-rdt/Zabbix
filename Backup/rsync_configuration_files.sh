@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$HOME/sync_files_list.txt"
+if [ -f "$HOME/sync_files_list.txt" ] ; then source "$HOME/sync_files_list.txt" ; fi
 
 # Name of the 'Host' in $HOME/.ssh/config
 remote_host=""
@@ -19,13 +19,16 @@ red_text ()
 
 check_ssh_config ()
 {
-	grep -qw 'Host' $HOME/.ssh/config
-	if	[ $? -eq 1 ] || [ $? -eq 2 ] ; then
-		echo 'No such file'
-		echo 'Visit https://linuxize.com/post/using-the-ssh-config-file/ for further information'
+	if	[ ! -d "$HOME/.ssh" ] ; then
+		echo "Creating folder .ssh"
+		mkdir -p "$HOME/.ssh"
+	fi
+
+	if	[ ! -f "$HOME/SSH.sh" ] ; then
 		echo 'Downloading SSH script'
 		curl -sO "https://raw.githubusercontent.com/matthieu-rdt/Toolbox/master/Linux/SSH.sh" && chmod u+x SSH.sh
-		exit 4
+		red_text "Run it : ./SSH.sh"
+		exit 2
 	fi
 }
 
@@ -47,18 +50,22 @@ sync_all_files ()
 #       Start       #
 #-------------------#
 
-required_files=($HOME/sync_files_list.txt,$HOME/make_changes_after_rsync.sh)
+if	[ $(whoami) != root ] ; then
+	echo "Run as root"
+	echo "su - root"
+fi
 
-if	[ ! -f "${required_files[@]}" ] ; then
+if	[ ! -f "$HOME/sync_files_list.txt" ] || [ ! -f "$HOME/make_changes_after_rsync.sh" ] ; then
 	echo "Downloading sync_files_list.txt"
 	curl -sO "https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Backup/sync_files_list.txt"
 	red_text "Open sync_files_list.txt and add the files you want to synchronise"
 
 	echo "Downloading make_changes_after_rsync.sh"
 	curl -sO "https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Backup/make_changes_after_rsync.sh"
-	red_text "Make executable if you intend to use it"
-	exit 2
+	exit 3
 fi
+
+check_ssh_config
 
 grep -E --quiet '=""$' $0
 if	[ $? -eq 0 ] ; then
@@ -66,7 +73,6 @@ if	[ $? -eq 0 ] ; then
 	exit 4
 fi
 
-check_ssh_config
 
 for file in "${sync_important_files[@]}" ; do
 	ssh $remote_host "if ! [ -d $file ] ; then mkdir -p $(dirname $file) ; fi"
