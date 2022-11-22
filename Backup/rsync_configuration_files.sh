@@ -50,11 +50,11 @@ sync_all_files ()
 required_files=($HOME/sync_files_list.txt,$HOME/make_changes_after_rsync.sh)
 
 if	[ ! -f "${required_files[@]}" ] ; then
-	echo "Downloading sync_files_list.txt
+	echo "Downloading sync_files_list.txt"
 	curl -sO "https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Backup/sync_files_list.txt"
 	red_text "Open sync_files_list.txt and add the files you want to synchronise"
 
-	echo "Downloading make_changes_after_rsync.sh
+	echo "Downloading make_changes_after_rsync.sh"
 	curl -sO "https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Backup/make_changes_after_rsync.sh"
 	exit 2
 fi
