@@ -1,6 +1,6 @@
 sync_important_files=(
 # mandatory to apply some changes if needed
-"$HOME/sync_files_list.txt"
+"$(pwd)/sync_files_list.txt"
 # add your file(s) below
-"path/file/to/save"
+# "path/file/to/save"
 )
