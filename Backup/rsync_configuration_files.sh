@@ -53,6 +53,7 @@ sync_all_files ()
 if	[ $(whoami) != root ] ; then
 	echo "Run as root"
 	echo "su - root"
+	exit 3
 fi
 
 if	[ ! -f "$(pwd)/sync_files_list.txt" ] || [ ! -f "$(pwd)/make_changes_after_rsync.sh" ] ; then
@@ -62,7 +63,7 @@ if	[ ! -f "$(pwd)/sync_files_list.txt" ] || [ ! -f "$(pwd)/make_changes_after_rs
 
 	echo "Downloading make_changes_after_rsync.sh"
 	curl -sO "https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Backup/make_changes_after_rsync.sh"
-	exit 3
+	exit 4
 fi
 
 check_ssh_config
@@ -70,7 +71,7 @@ check_ssh_config
 grep -E --quiet '=""$' $0
 if	[ $? -eq 0 ] ; then
 	echo 'fulfil variables'
-	exit 4
+	exit 5
 fi
 
 
