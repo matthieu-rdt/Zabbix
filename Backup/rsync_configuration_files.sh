@@ -1,12 +1,12 @@
 #!/bin/bash
 
-if [ -f "$HOME/sync_files_list.txt" ] ; then source "$HOME/sync_files_list.txt" ; fi
+if [ -f "$(pwd)/sync_files_list.txt" ] ; then source "$(pwd)/sync_files_list.txt" ; fi
 
 # Name of the 'Host' in $HOME/.ssh/config
 remote_host=""
 
 # Path of the script to make some changes after rsync
-script_path="$HOME/make_changes_after_rsync.sh"
+script_path="$(pwd)/make_changes_after_rsync.sh"
 
 #-----------------------#
 #	Functions       #
@@ -55,7 +55,7 @@ if	[ $(whoami) != root ] ; then
 	echo "su - root"
 fi
 
-if	[ ! -f "$HOME/sync_files_list.txt" ] || [ ! -f "$HOME/make_changes_after_rsync.sh" ] ; then
+if	[ ! -f "$(pwd)/sync_files_list.txt" ] || [ ! -f "$(pwd)/make_changes_after_rsync.sh" ] ; then
 	echo "Downloading sync_files_list.txt"
 	curl -sO "https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Backup/sync_files_list.txt"
 	red_text "Open sync_files_list.txt and add the files you want to synchronise"
