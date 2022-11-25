@@ -1,7 +1,5 @@
 #!/bin/bash
 
-if [ -f "$(pwd)/sync_files_list.txt" ] ; then source "$(pwd)/sync_files_list.txt" ; fi
-
 # Name of the 'Host' in $HOME/.ssh/config
 remote_host=""
 
@@ -65,6 +63,8 @@ if	[ ! -f "$(pwd)/sync_files_list.txt" ] || [ ! -f "$(pwd)/make_changes_after_rs
 	echo "Downloading make_changes_after_rsync.sh"
 	curl -sO "https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Backup/make_changes_after_rsync.sh"
 	exit 4
+else
+	source "$(pwd)/sync_files_list.txt"
 fi
 
 check_ssh_config
