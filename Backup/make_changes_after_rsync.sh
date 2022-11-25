@@ -1,13 +1,13 @@
 #!/bin/bash
 
-source "$HOME/sync_files_list.txt"
+source "$(pwd)/sync_files_list.txt"
 
 #-------------------#
 #       Start       #
 #-------------------#
 
-if	[ ! -f "$HOME/sync_files_list.txt" ] ; then
-	echo "$HOME/sync_files_list.txt not found"
+if	[ ! -f "$(pwd)/sync_files_list.txt" ] ; then
+	echo "$(pwd)/sync_files_list.txt not found"
 	exit 2
 fi
 
