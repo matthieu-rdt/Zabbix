@@ -53,6 +53,7 @@ sync_all_files ()
 if	[ $(whoami) != root ] ; then
 	echo "Run as root"
 	echo "su - root"
+	sudo cp $0 -t /root/
 	exit 3
 fi
 
