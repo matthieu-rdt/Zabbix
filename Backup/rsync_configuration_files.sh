@@ -44,6 +44,18 @@ sync_all_files ()
 	fi
 }
 
+apply_further_changes ()
+{
+	if	[ -x "$script_path" ] ; then
+		path_sync_files_list="$(pwd)/sync_files_list.txt"
+		# Change dynamically path at each iteration
+		sed -i 's|source.*|source '$path_sync_files_list'|' "$script_path"
+		# Change dynamically path at each iteration (directory after ssh <host> = /root)
+		sed -i '/# mandatory to apply some changes if needed/a '$path_sync_files_list "$path_sync_files_list"
+		ssh $remote_host "$(< $script_path)"
+	fi
+}
+
 #-------------------#
 #       Start       #
 #-------------------#
@@ -85,8 +97,4 @@ for file in "${sync_important_files[@]}" ; do
 	fi
 done
 
-if	[ -x "$script_path" ] ; then
-	path_sync_files_list="$(pwd)/sync_files_list.txt"
-	sed -i 's|source.*|source '$path_sync_files_list'|' "$script_path"
-	ssh $remote_host "$(< $script_path)"
-fi
+apply_further_changes
