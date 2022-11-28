@@ -86,5 +86,7 @@ for file in "${sync_important_files[@]}" ; do
 done
 
 if	[ -x "$script_path" ] ; then
+	path_sync_files_list="$(pwd)/sync_files_list.txt"
+	sed -i 's|source.*|source '$path_sync_files_list'|' "$script_path"
 	ssh $remote_host "$(< $script_path)"
 fi
