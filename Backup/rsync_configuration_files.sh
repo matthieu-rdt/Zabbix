@@ -51,7 +51,7 @@ apply_further_changes ()
 		# Change dynamically path at each iteration
 		sed -i 's|source.*|source '$path_sync_files_list'|' "$script_path"
 		# Change dynamically path at each iteration (directory after ssh <host> = /root)
-		sed -i 's|# sync_files_list.txt|'$path_sync_files_list'|' "$path_sync_files_list"
+		sed -i '3s|.*|'$path_sync_files_list'|' "$path_sync_files_list"
 		ssh $remote_host "$(< $script_path)"
 	fi
 }
