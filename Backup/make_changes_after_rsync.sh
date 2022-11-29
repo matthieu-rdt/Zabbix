@@ -1,15 +1,10 @@
 #!/bin/bash
 
-source "$(pwd)/sync_files_list.txt"
+source ""
 
 #-------------------#
 #       Start       #
 #-------------------#
-
-if	[ ! -f "$(pwd)/sync_files_list.txt" ] ; then
-	echo "$(pwd)/sync_files_list.txt not found"
-	exit 2
-fi
 
 for file in "${sync_important_files[@]}" ; do
 
