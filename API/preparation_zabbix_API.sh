@@ -80,6 +80,9 @@ preparation_installation_pip  ()
 	
 	#	For working with graphs (zgetgraph.py specifically) install Pillow (a fork of PIL):
 	# python -m pip install pillow
+
+	#	A tool that automatically formats Python code to conform to the PEP 8 style guide
+	python -m pip install autopep8
 	
 	#	Make modules executable in $HOME
 	source ~/.profile
