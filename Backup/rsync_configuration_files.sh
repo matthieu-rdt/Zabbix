@@ -74,6 +74,7 @@ if	[ ! -f "$(pwd)/sync_files_list.txt" ] || [ ! -f "$(pwd)/make_changes_after_rs
 
 	echo "Downloading make_changes_after_rsync.sh"
 	curl -sO "https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Backup/make_changes_after_rsync.sh"
+	red_text "Make it executable if you intend to apply changes"
 	exit 4
 else
 	source "$(pwd)/sync_files_list.txt"
