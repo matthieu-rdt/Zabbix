@@ -23,7 +23,7 @@ fi
 
 sed -i '/# SSHKeyLocation=/a SSHKeyLocation=\/home\/zabbix\/.ssh' /etc/zabbix/zabbix_server.conf
 
-grep -E '^zabbix' /etc/passwd | sed -i 's|/var/lib/zabbix|/home/zabbix|' /etc/passwd
+sed -i 's|zabbix:x:108:115::/var/lib/zabbix/:/usr/sbin/nologin|zabbix:x:108:115::/home/zabbix:/usr/sbin/nologin|' /etc/passwd
 
 mkdir -p /home/zabbix/.ssh
 
