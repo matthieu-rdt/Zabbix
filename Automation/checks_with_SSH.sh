@@ -21,13 +21,16 @@ if	[ -z $USER ] || [ -z $IP ] && [ -z $KEYNAME ] ; then
 	exit 3
 fi
 
-sed -i '/# SSHKeyLocation=/a SSHKeyLocation=\/home\/zabbix\/.ssh' /etc/zabbix/zabbix_server.conf
+grep -q 'SSHKeyLocation=/home/zabbix/.ssh' /etc/zabbix/zabbix_server.conf
+if	[ $? -eq 1 ] ; then
+	sed -i '/# SSHKeyLocation=/a SSHKeyLocation=\/home\/zabbix\/.ssh' /etc/zabbix/zabbix_server.conf
+fi
 
 sed -i 's|zabbix:x:108:115::/var/lib/zabbix/:/usr/sbin/nologin|zabbix:x:108:115::/home/zabbix:/usr/sbin/nologin|' /etc/passwd
 
 mkdir -p /home/zabbix/.ssh
 
-chown -R zabbix:zabbix /home/zabbix/
+chown -R zabbix:zabbix /home/zabbix
 
 systemctl restart zabbix-server.service
 
