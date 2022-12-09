@@ -21,9 +21,9 @@ if	[ -z $USER ] || [ -z $IP ] && [ -z $KEYNAME ] ; then
 	exit 3
 fi
 
-sed -i '/# SSHKeyLocation=/a SSHKeyLocation=\/home\/zabbix\/.ssh/' /etc/zabbix/zabbix_server.conf
+sed -i '/# SSHKeyLocation=/a SSHKeyLocation=\/home\/zabbix\/.ssh' /etc/zabbix/zabbix_server.conf
 
-grep -E '^zabbix' /etc/passwd | sed -i 's|/var/lib|/home|' /etc/passwd
+grep -E '^zabbix' /etc/passwd | sed -i 's|/var/lib/zabbix|/home/zabbix|' /etc/passwd
 
 mkdir -p /home/zabbix/.ssh
 
@@ -31,10 +31,9 @@ chown -R zabbix:zabbix /home/zabbix/
 
 systemctl restart zabbix-server.service
 
-sudo -u zabbix ssh-keygen -t rsa -b 4096
-
-if	[ -n $KEYNAME ] ; then
-	sudo -u zabbix ssh-copy-id -i /home/zabbix/.ssh/$KEYNAME $USER@$IP
-else
+if	[ -z $KEYNAME ] ; then
+	sudo -u zabbix ssh-keygen -t rsa -b 4096
 	sudo -u zabbix ssh-copy-id $USER@$IP
+else
+	sudo -u zabbix ssh-copy-id -i /home/zabbix/.ssh/$KEYNAME $USER@$IP
 fi
