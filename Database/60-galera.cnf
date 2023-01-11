@@ -25,6 +25,8 @@ wsrep_cluster_name = "|cluster_name|"
 #--------------#
 wsrep_node_name = "|node_name|"
 
+wsrep_sst_method=rsync
+
 # Uncomment the line you need
 # wsrep_node_address = "|node_ip_1|"
 # wsrep_node_address = "|node_ip_2|"
