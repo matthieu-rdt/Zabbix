@@ -25,6 +25,7 @@ wsrep_cluster_name = "|cluster_name|"
 #--------------#
 wsrep_node_name = "|node_name|"
 
+# Galera Synchronization Configuration
 wsrep_sst_method=rsync
 
 # Uncomment the line you need
