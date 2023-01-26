@@ -1,3 +1,4 @@
+
 ####### High availability cluster parameters #######
 
 ## Option: HANodeName
