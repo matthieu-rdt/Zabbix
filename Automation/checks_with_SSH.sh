@@ -32,6 +32,8 @@ mkdir -p /home/zabbix/.ssh
 
 chown -R zabbix:zabbix /home/zabbix
 
+sudo -u zabbix bash -c 'chmod 700 ~/.ssh'
+
 systemctl restart zabbix-server.service
 
 if	[ -z $KEYNAME ] ; then
