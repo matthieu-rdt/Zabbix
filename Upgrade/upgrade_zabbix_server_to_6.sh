@@ -53,7 +53,7 @@ backup_zabbix_files ()
 
 backup_zabbix_database ()
 {
-	sudo mysqldump -h localhost -u'backup' -p$backup_password --single-transaction $database_name | gzip > ~/zabbix_backup.sql
+	sudo mysqldump -h localhost -u'backup' -p$backup_password --single-transaction $database_name | gzip > ~/zabbix_backup.sql.gz
 	sudo mv zabbix_backup.sql /opt/zabbix_backup/db_files/
 }
 
