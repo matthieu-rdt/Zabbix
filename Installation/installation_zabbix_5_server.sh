@@ -133,7 +133,7 @@ configure_fqdn_for_default_frontend ()
 
 create_permanent_shortcuts ()
 {
-	sudo touch /etc/profile.d/shortcuts.sh
+	sudo touch /etc/profile.d/zabbix.sh
 
 	echo "export SERVERLOG=/var/log/zabbix/zabbix_server.log" | sudo tee -a /etc/profile.d/zabbix.sh > /dev/null
 	echo "export CONFSERVER=/etc/zabbix/zabbix_server.conf" | sudo tee -a /etc/profile.d/zabbix.sh > /dev/null
