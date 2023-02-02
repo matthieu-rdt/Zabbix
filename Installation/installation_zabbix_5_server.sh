@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # description
-# installation Zabbix Server for : Ubuntu, Debian
+# installation Zabbix Server 5.0 LTS for : Ubuntu, Debian
 # compatible versions : from Ubuntu 14.04 to 20.04, from Debian 8 to 10 
 
 # sources
@@ -17,15 +17,12 @@
 #-----------------------#
 
 OS=$1
-#---- Replication ----#
-second_node=""
-#---------------------#
 
-#---- MariaDB ----#
+#------ MariaDB --------#
 root_password=""
 user_password=""
 backup_password=""
-#-----------------#
+#-----------------------#
 
 php_version=$(apt-cache search php | egrep "(^| )php7.[0-9]( |$)" | grep -o '7.[0-9]')
 
@@ -51,7 +48,6 @@ ufw_configuration ()
 	sudo ufw allow 22/tcp
 	sudo ufw allow 10050/tcp
 	sudo ufw allow 10051/tcp
-	sudo ufw allow from $second_node
 }
 
 install_zabbix_server ()
@@ -67,6 +63,7 @@ create_database_and_import_schema ()
 {
 	sudo mysql -uroot -p$root_password -e "create database zabbix character set utf8 collate utf8_bin;"
 	sudo mysql -uroot -p$root_password -e "grant all privileges on zabbix.* to zabbix@localhost identified by '"$user_password"';"
+	sudo mysql -uroot -p$root_password -e "set global log_bin_trust_function_creators = 1;"
 
 	sudo mysql -uroot -p$root_password -e "create user 'backup'@'localhost' identified by '"$backup_password"';"
 	sudo mysql -uroot -p$root_password -e "grant select, show view, reload, lock tables, replication client, event, trigger on *.* to 'backup'@'localhost';"
@@ -75,6 +72,7 @@ create_database_and_import_schema ()
 
 #	Import initial schema and data
 	zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -uzabbix -p$user_password zabbix
+	sudo mysql -uroot -p$root_password -e "set global log_bin_trust_function_creators = 0;"
 }
 
 highlighted_text ()
@@ -137,15 +135,15 @@ create_permanent_shortcuts ()
 {
 	sudo touch /etc/profile.d/shortcuts.sh
 
-	echo "export SERVERLOG=/var/log/zabbix/zabbix_server.log" | sudo tee -a /etc/profile.d/shortcuts.sh > /dev/null
-	echo "export CONFSERVER=/etc/zabbix/zabbix_server.conf" | sudo tee -a /etc/profile.d/shortcuts.sh > /dev/null
-	echo "export AGENTLOG=/var/log/zabbix/zabbix_agentd.log" | sudo tee -a /etc/profile.d/shortcuts.sh > /dev/null
-	echo "export CONFAGENT=/etc/zabbix/zabbix_agentd.conf" | sudo tee -a /etc/profile.d/shortcuts.sh > /dev/null
+	echo "export SERVERLOG=/var/log/zabbix/zabbix_server.log" | sudo tee -a /etc/profile.d/zabbix.sh > /dev/null
+	echo "export CONFSERVER=/etc/zabbix/zabbix_server.conf" | sudo tee -a /etc/profile.d/zabbix.sh > /dev/null
+	echo "export AGENTLOG=/var/log/zabbix/zabbix_agentd.log" | sudo tee -a /etc/profile.d/zabbix.sh > /dev/null
+	echo "export CONFAGENT=/etc/zabbix/zabbix_agentd.conf" | sudo tee -a /etc/profile.d/zabbix.sh > /dev/null
 
 	if	[[ $OS == ubuntu ]] ; then
-			echo "export NETINT=/etc/netplan/01-netcfg.yaml" | sudo tee -a /etc/profile.d/shortcuts.sh > /dev/null
+			echo "export NETINT=/etc/netplan/01-netcfg.yaml" | sudo tee -a /etc/profile.d/zabbix.sh > /dev/null
 	elif	[[ $OS == debian ]] ; then
-			echo "export NETINT=/etc/network/interfaces" | sudo tee -a /etc/profile.d/shortcuts.sh > /dev/null
+			echo "export NETINT=/etc/network/interfaces" | sudo tee -a /etc/profile.d/zabbix.sh > /dev/null
 	fi
 }
 
@@ -192,7 +190,7 @@ sudo apt-get update && sudo apt-get upgrade -y
 
 install_lamp_server
 
-ufw_configuration
+#ufw_configuration
 
 install_zabbix_server
 
