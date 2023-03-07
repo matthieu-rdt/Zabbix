@@ -73,3 +73,5 @@ sudo systemctl start mariadb.service
 
 # Check the new location is effective
 sudo mysql -uroot -e "select @@datadir;"
+
+echo "Do not forget to EDIT /etc/fstab accordingly" ; sleep 5
