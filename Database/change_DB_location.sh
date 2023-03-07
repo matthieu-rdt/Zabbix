@@ -28,14 +28,14 @@ configure_new_disk ()
 	# '1' because cfdisk created 1 partition
 	sudo mkfs.ext4 /dev/$block'1'
 
-	[ ! -d $DBpath ] && sudo mkdir -p $DBpath
+	[ ! -d $DBfolder ] && sudo mkdir -p $DBfolder
 
 	# Get UUID
 	blkid=`sudo blkid | grep $block | awk '{ print $2 }'`
 
 	# FSTAB
 	echo "# Database is on /dev/$block" | sudo tee -a /etc/fstab
-	echo "$blkid $DBpath ext4 defaults	0	2" | sudo tee -a /etc/fstab
+	echo "$blkid $DBfolder ext4 defaults	0	2" | sudo tee -a /etc/fstab
 	sudo mount -a
 }
 
@@ -49,21 +49,21 @@ fine_tuning ()
 #	Start	    #
 #-------------------#
 
-sudo find / -wholename '*mysql/zabbix' -type d | sed -e 's|/zabbix$||'g
+sudo mysql -uroot -e "select @@datadir;"
 
-read -p "Pick from the list the current DB to be sync " currentDB
-read -p "Write the folder to be used for DB ? (without '/' at the end) " DBpath
+read -p "Copy paste the current DB path : " currentDB
+read -p "Write the folder to be used for DB ? (without '/' at the end) " DBfolder
 
 echo "Stop MariaDB service" ; sleep 3
 sudo systemctl stop mariadb.service
 
 ConfirmChoice "Do you have a new disk to configure (new partition table, new filesystem, edit fstab) ?" && configure_new_disk 
 
-sudo rsync -av $currentDB $DBpath
+sudo rsync -av $currentDB $DBfolder
 
 # Change DB path
 sudo cp -p /etc/mysql/mariadb.conf.d/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnff
-sudo sed -i "s|$currentDB|$DBpath/mysql|" /etc/mysql/mariadb.conf.d/50-server.cnf
+sudo sed -i "s|$currentDB|$DBfolder/mysql|" /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # Uncomment if needed
 #fine_tuning
