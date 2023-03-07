@@ -65,9 +65,6 @@ sudo rsync -av $currentDB $DBpath
 sudo cp -p /etc/mysql/mariadb.conf.d/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnff
 sudo sed -i "s|$currentDB|$DBpath/mysql|" /etc/mysql/mariadb.conf.d/50-server.cnf
 
-# Avoid error if reboot
-grep $DBpath /etc/fstab | sed -i 's/UUID/#UUID/'
-
 # Uncomment if needed
 #fine_tuning
 
