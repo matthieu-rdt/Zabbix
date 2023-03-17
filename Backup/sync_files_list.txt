@@ -1,6 +1,0 @@
-sync_important_files=(
-# Line below must not be modified, mandatory to run 'source' on the remote host
-# sync_files_list.txt
-# Add your file(s) below
-# "path/file/to/save"
-)

@@ -1,4 +1,0 @@
-pyzabbix
-requests
-pyyaml
-anymarkup
