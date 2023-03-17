@@ -23,6 +23,6 @@
 ```
 
 ### Difference between Zabbix 5 & Zabbix 6
-![This is a alt text](https://github.com/matthieu-rdt/Zabbix/blob/main/Pictures/Difference%20Zabbix%205%20%26%206.png "Screenshot of terminal")
+![This is a alt text](https://github.com/matthieu-rdt/Zabbix/blob/main/Add-ons/Pictures/Difference%20Zabbix%205%20%26%206.png "Screenshot of terminal")
 
 ***
