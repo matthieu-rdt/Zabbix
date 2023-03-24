@@ -32,7 +32,7 @@ configure_new_disk ()
 		echo "$blkid $FOLDER xfs defaults,errors=remount-ro 0 2 	| sudo tee -a /etc/fstab;;
 
 		*)
-		exit 3;;
+		exit 3 ;;
 	esac
 
 	sudo mount -a
