@@ -2,7 +2,6 @@
 
 configure_new_disk ()
 {
-
 	read -p 'Enter a folder name to create ? (without '/' at the end) ' FOLDER
 	[ ! -d $FOLDER ] && sudo mkdir -p $FOLDER
 
@@ -32,12 +31,11 @@ configure_new_disk ()
 		echo "$blkid $FOLDER xfs defaults,errors=remount-ro 0 2 	| sudo tee -a /etc/fstab;;
 
 		*)
-		exit 3 ;;
+		exit 3;;
 	esac
 
 	sudo mount -a
 }
 
 echo 'supported FS : ext4 & xfs'
-
 configure_new_disk
