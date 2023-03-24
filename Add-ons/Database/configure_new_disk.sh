@@ -11,6 +11,10 @@ configure_new_disk ()
 
 	read -p 'Which FS type (e.g. ext4, xfs) ' type
 
+	if	[ $type == xfs ] ; then
+		sudo apt install xfsprogs -y
+	fi
+
 	# '1' because cfdisk created 1 partition
 	sudo mkfs.$type /dev/$block'1'
 
