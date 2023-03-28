@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # description
-# script to reconfigure Zabbix server after a shift between databases
+# script is specific to reconfiguring Zabbix server instance after a shift between replicated databases
+# script is specific to using glusterfs
 
 # note
-# SSH connection is required between nodes
+# SSH connection is required between nodes (~/.ssh/config)
 
 # sources
 # https://www.zabbix.com/documentation/current/en/manual/concepts/server/ha
@@ -17,51 +18,51 @@
 backend="/etc/zabbix/zabbix_server.conf"
 frontend="/etc/zabbix/web/zabbix.conf.php"
 
-# NAMES
+# Current DB host to stop
 ZABBIX_NODE=""
-IPaddr=""
-USER=""
-PASSWORD=""
 
-#-----------------------#
-#	Functions	#
-#-----------------------#
-
-# Function from Manu
-ConfirmChoice ()
-{
-	ConfYorN="";
-	while [ "${ConfYorN}" != "y" ] && [ "${ConfYorN}" != "Y" ] && [ "${ConfYorN}" != "n" ] && [ "${ConfYorN}" != "N" ]
-	do
-		echo -n "$1" "(y/n) : "
-		read ConfYorN
-	done
-	[ "${ConfYorN}" == "y" ] || [ "${ConfYorN}" == "Y" ] && return 0 || return 1
-}
+# New DB host
+IPADDR=""
 
 #-------------------#
 #	Start	    #
 #-------------------#
 
-ConfirmChoice "Continue with `whoami`" || read -p 'Login : ' username && su - $username
+grep
+if	[ $? -eq 0 ] ; then
+	echo "Variables are empty"
+	exit 3
+fi
 
 grep -q $ZABBIX_NODE ~/.ssh/config
 if	[ $? -eq 0 ] ; then
-	echo "Stop MariaDB service on $ZABBIX_NODE" ; sleep 3
-	ssh $ZABBIX_NODE 'sudo systemctl stop mariadb.service'
+	echo "Stop MariaDB service on $ZABBIX_NODE" ; sleep 2
+	if [ `whoami` = root ] ; then
+		ssh $ZABBIX_NODE 'systemctl stop mariadb.service'
+	else
+		ssh $ZABBIX_NODE 'sudo systemctl stop mariadb.service'
+	fi
 else
 	echo "$ZABBIX_NODE or file do not exist"
 	exit 2
 fi
 
-## Make localhost the primary server
-#sed -i "5s/DBHost=.*/DBHost=$IPaddr/" $backend
-#sed -i "8s/DBUser=.*/DBUser=$USER/" $backend
-#sed -i "9s/DBPassword=.*/DBPassword=$PASSWORD/" $backend
+# localhost will host the DB
+sed -i "s/DBHost=.*/DBHost=$IPADDR/" $backend
+sed -i "5s/= '.*'/= '"$IPADDR"'/" $frontend
 
-#sed -i "5s/= '.*'/= 'localhost'/" $frontend
-#sed -i "8s/= '.*'/= '"$USER"'/" $frontend
-#sed -i "9s/= '.*'/= '"$PASSWORD"'/" $frontend
+# remote host to connect to DB
+ssh $ZABBIX_NODE "sed -i 's/DBHost=.*/DBHost=$IPADDR/'" $backend
+ssh $ZABBIX_NODE "sed -i '5s/= '.*'/= \x27$IPADDR\x27;/'" $frontend
 
-echo "Start MariaDB service on localhost" ; sleep 3
+echo "Start MariaDB service on localhost" ; sleep 2
 sudo systemctl start mariadb.service
+
+echo "Restart Zabbix server service" ; sleep 2
+if [ `whoami` = root ] ; then
+	systemctl restart zabbix-server.service ; sleep 3
+	ssh $ZABBIX_NODE 'systemctl restart zabbix-server.service'
+else
+	sudo systemctl restart zabbix-server.service ; sleep 3
+	ssh $ZABBIX_NODE 'sudo systemctl restart zabbix-server.service'
+fi
