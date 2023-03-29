@@ -48,11 +48,11 @@ else
 fi
 
 # localhost will host the DB
-sed -i "s/DBHost=.*/DBHost=$IPADDR/" $backend
-sed -i "5s/= '.*'/= '"$IPADDR"'/" $frontend
+sed -i 's/^DBHost=.*/DBHost='$IPADDR'/' $backend
+sed -i '5s/= '.*'/= \x27'$IPADDR'\x27\;/' $frontend
 
 # remote host to connect to DB
-ssh $ZABBIX_NODE "sed -i 's/DBHost=.*/DBHost=$IPADDR/'" $backend
+ssh $ZABBIX_NODE "sed -i 's/^DBHost=.*/DBHost=$IPADDR/'" $backend
 ssh $ZABBIX_NODE "sed -i '5s/= '.*'/= \x27$IPADDR\x27;/'" $frontend
 
 echo "Start MariaDB service on localhost" ; sleep 2
