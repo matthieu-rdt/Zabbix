@@ -53,7 +53,8 @@ ssh $ZABBIX_NODE "sudo sed -i 's/^DBHost=.*/DBHost=$IPADDR/'" $backend
 ssh $ZABBIX_NODE "sudo sed -i '5s/= '.*'/= \x27$IPADDR\x27;/'" $frontend
 
 echo "Start MariaDB & Zabbix server services on localhost" ; sleep 2
-sudo systemctl start {mariadb,zabbix-server}.service
+sudo systemctl start mariadb
+sudo systemctl restart zabbix-server
 
 echo "Start Zabbix server services on $ZABBIX_NODE" ; sleep 2
-ssh $ZABBIX_NODE 'sudo systemctl start zabbix-server.service'
+ssh $ZABBIX_NODE 'sudo systemctl restart zabbix-server.service'
