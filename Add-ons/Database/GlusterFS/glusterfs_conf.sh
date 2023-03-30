@@ -59,7 +59,7 @@ ConfirmChoice "Configure $NODE1 (primary node) ?" &&
 		loginctl terminate-user `who | awk '{print $1}'`
 	fi
 
-	echo 'Installing GlusterFS ... ' && sleep 2
+	echo 'Installing GlusterFS ... ' ; sleep 2
 	sudo apt-get update && sudo apt-get upgrade -y
 	sudo apt-get install glusterfs-server -y ; sudo systemctl enable --now glusterd
 
@@ -69,16 +69,15 @@ ConfirmChoice "Configure $NODE1 (primary node) ?" &&
 	ConfirmChoice "Create mountpoint : $MOUNTPOINT ?" && mkdir -p $MOUNTPOINT
 
 	ConfirmChoice "$MOUNTPOINT must be created on each cluster's node, continue ?" && \
-	gluster volume create $VOLUME replica 2 transport tcp $NODE1:/$MOUNTPOINT $NODE2:/$MOUNTPOINT
-
-	echo "Starting volume $VOLUME ..." && sleep 2
+	gluster volume create $VOLUME replica 2 transport tcp $NODE1:/$MOUNTPOINT $NODE2:/$MOUNTPOINT && \
+	echo "Starting volume $VOLUME ..." ; sleep 2 \
 	gluster volume start $VOLUME
 
 	ConfirmChoice "Create replication point : $REPLICATION ?" && mkdir -p $REPLICATION
 
 	# Auto mount
-	echo "$NODE2:/$VOLUME $REPLICATION glusterfs defaults,_netdev 0 0" | sudo tee -a /etc/fstab
-	ConfirmChoice "Mount all ?" && mount -a
+	ConfirmChoice "Mount all ?" && \
+	echo "$NODE2:/$VOLUME $REPLICATION glusterfs defaults,_netdev 0 0" | sudo tee -a /etc/fstab && mount -a
 }
 
 ConfirmChoice "Configure $NODE2 ?" &&
@@ -95,7 +94,7 @@ ConfirmChoice "Configure $NODE2 ?" &&
 		loginctl terminate-user `who | awk '{print $1}'`
 	fi
 
-	echo 'Installing GlusterFS ... ' && sleep 2
+	echo 'Installing GlusterFS ... ' ; sleep 2
 	sudo apt-get update && sudo apt-get upgrade -y
 	sudo apt-get install glusterfs-server -y ; sudo systemctl enable --now glusterd
 
@@ -103,6 +102,6 @@ ConfirmChoice "Configure $NODE2 ?" &&
 	ConfirmChoice "Create replication point : $REPLICATION ?" && mkdir -p $REPLICATION
 
 	# Auto mount
-	echo "$NODE1:/$VOLUME $REPLICATION glusterfs defaults,_netdev	0	0" | sudo tee -a /etc/fstab
-	ConfirmChoice "Mount all ?" && mount -a
+	ConfirmChoice "Mount all ?" && \
+	echo "$NODE1:/$VOLUME $REPLICATION glusterfs defaults,_netdev 0 0" | sudo tee -a /etc/fstab && mount -a
 }
