@@ -23,6 +23,16 @@ FILE=$HOME/60-galera.cnf
 #	Functions	#
 #-----------------------#
 
+check_vars ()
+{
+	var_names=("$@")
+	for var_name in "${var_names[@]}"; do
+		[ -z "${!var_name}" ] && echo "$var_name is unset." && var_unset=true
+	done
+		[ -n "$var_unset" ] && exit 1
+	return 0
+}
+
 galera_cnf ()
 {
 	sudo mv /etc/mysql/mariadb.conf.d/60-galera.cnf /etc/mysql/mariadb.conf.d/60-galera.cnf.back
@@ -48,13 +58,13 @@ red_text ()
 NodeAddress ()
 {
 
-	if [ $1 -eq 1 ] ; then
+	if	[ $1 -eq 1 ] ; then
 		echo "Configuring NodeAddress with node ip $1"
 		sudo sed -i '/^# NodeAddress=/a NodeAddress='"$node_ip_1"':10051' /etc/zabbix/zabbix_server.conf
-	elif [ $1 -eq 2 ] ; then
+	elif	[ $1 -eq 2 ] ; then
 		echo "Configuring NodeAddress with node ip $1"
 		sudo sed -i '/^# NodeAddress=/a NodeAddress='"$node_ip_2"':10051' /etc/zabbix/zabbix_server.conf
-	elif [ $1 -eq 3 ] ; then
+	elif	[ $1 -eq 3 ] ; then
 		echo "Configuring NodeAddress with node ip $1"
 		sudo sed -i '/^# NodeAddress=/a NodeAddress='"$node_ip_3"':10051' /etc/zabbix/zabbix_server.conf
 	else
@@ -76,18 +86,15 @@ if	[ ! -f "$FILE" ] ; then
 	exit 2
 fi
 
-grep -E --quiet '=""$' $0
+check_vars cluster_name node_ip_1 node_ip_2
 
-if	[ $? -eq 0 ] ; then
-	echo "The variables list is empty"
+if !	[[ $1 -eq 1 || $1 -eq 2 || $1 -eq 3 ]] ; then
+	echo "Bad or no argument provided"
+	echo "1 for primary node, 2 or 3 for additional nodes"
 	exit 22
-elif !  [[ $1 -eq 1 || $1 -eq 2 || $1 -eq 3 ]] ; then
-        echo "Bad or no argument provided"
-        echo "1 for primary node, 2 or 3 for additional nodes"
-        exit 222
 elif	[ $(grep -E "^# wsrep_cluster_address" $FILE | wc -l) -eq 2 ] ; then
 	echo "wsrep_cluster_address is not configured"
-	exit 2222
+	exit 222
 fi
 
 galera_cnf $FILE
