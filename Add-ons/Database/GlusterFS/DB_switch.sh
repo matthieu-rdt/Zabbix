@@ -2,7 +2,7 @@
 
 # description
 # script is specific to
-# - reconfiguring Zabbix server instance after a shift between replicated databases
+# - reconfiguring Zabbix server instance after a switch between replicated databases
 # - using Zabbix HA cluster and/or glusterfs
 
 # note
@@ -25,15 +25,25 @@ ZABBIX_NODE=""
 # New DB host
 IPADDR=""
 
+#-----------------------#
+#	Functions	#
+#-----------------------#
+
+check_vars ()
+{
+	var_names=("$@")
+	for var_name in "${var_names[@]}"; do
+		[ -z "${!var_name}" ] && echo "$var_name is unset." && var_unset=true
+	done
+		[ -n "$var_unset" ] && exit 1
+	return 0
+}
+
 #-------------------#
 #	Start	    #
 #-------------------#
 
-egrep -q '=""$' $0
-if      [ $? -eq 0 ] ; then
-	echo "Variables are empty"
-	exit 3
-fi
+check_vars ZABBIX_NODE IPADDR
 
 grep -q $ZABBIX_NODE ~/.ssh/config
 if	[ $? -eq 0 ] ; then
@@ -41,6 +51,8 @@ if	[ $? -eq 0 ] ; then
 	ssh $ZABBIX_NODE 'sudo systemctl stop {zabbix-server,mariadb}.service'
 else
 	echo "$ZABBIX_NODE or file do not exist"
+	wget https://raw.githubusercontent.com/matthieu-rdt/Toolbox/master/Linux/SSH.sh && chmod u+x SSH.sh
+	echo "Run : ./SSH.sh to connect to $ZABBIX_NODE"
 	exit 2
 fi
 
