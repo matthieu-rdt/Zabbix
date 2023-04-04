@@ -1,13 +1,7 @@
 #!/bin/bash 
 
-#############################################################################################################
-# Title		: zabbix_export_templates.sh
-# Description	: Export templates from Zabbix & sort them by site
-# Notes		:
-# Args          : none
-# Author       	: Matthieu Roudaut
-# Email        	: matthieu.roudaut@al-enterprise.com
-#############################################################################################################
+# Description
+# Export templates from Zabbix & sort them by site
 
 #-----------------------#
 #       Variables       #
