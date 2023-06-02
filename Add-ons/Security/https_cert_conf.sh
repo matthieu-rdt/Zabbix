@@ -1,7 +1,7 @@
 #!/bin/bash
 
 FQDN=$(hostname -f)
-zabbix_conf=/etc/apache2/sites-available/zabbix.conf
+config_file=
 
 sudo locate *.c[es]r
 if [ $? -eq 1 ] ; then
@@ -9,10 +9,10 @@ if [ $? -eq 1 ] ; then
 	exit 2
 fi
 
-cat << EOF >> $zabbix_conf
+cat << EOF >> $config_file
 <VirtualHost *:443>
 	ServerAdmin info@example.com
-	ServerName $FQDN/zabbix
+	ServerName $FQDN
 	ServerAlias www.example.com
 
 	DocumentRoot /usr/share/zabbix/
