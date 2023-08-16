@@ -3,6 +3,7 @@
 FQDN=$(hostname -f)
 config_file=
 
+sudo updatedb
 sudo locate *.c[es]r
 if [ $? -eq 1 ] ; then
 	echo "Some files are missing (*.cer, *.key)"
