@@ -2,7 +2,7 @@
 
 ### To install ClamAV
 
-\- ClamAV_Debian.sh  
+\- installation_clamav.sh
 
 > #### First, fill in this variable, line 7
 >
@@ -11,5 +11,5 @@
 ### Example
 
 ```bash
-./ClamAV_Debian.sh
+./installation_clamav.sh
 ```
