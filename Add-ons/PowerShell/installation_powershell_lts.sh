@@ -16,7 +16,7 @@ update
 echo 'Installing PowerShell'
 wget https://github.com/PowerShell/PowerShell/releases/download/v7.4.1/$FILE
 sudo dpkg -i $FILE
-sudo apt install powershell-lts
+sudo apt-get install -f
 
 echo 'Downloading files'
 echo 'File : startup_personal_profile.ps1'
@@ -24,8 +24,8 @@ wget https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Add-ons/PowerShe
 echo 'File : Microsoft.PowerShell_profile.ps1'
 wget https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Add-ons/PowerShell/Microsoft.PowerShell_profile.ps1
 
-chmod u+x startup_personal_profile.ps1 && pwsh startup_personal_profile.ps1
-cp Microsoft.PowerShell_profile.ps1 -t $HOME/.config/powershell
+sudo chmod u+x startup_personal_profile.ps1 && pwsh startup_personal_profile.ps1
+sudo cp Microsoft.PowerShell_profile.ps1 -t $HOME/.config/powershell
 
 echo 'Preparing environment'
 sudo touch /etc/profile.d/powershell.sh
