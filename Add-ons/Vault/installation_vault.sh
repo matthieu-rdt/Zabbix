@@ -11,19 +11,21 @@
 #w/ root
 install_with_root ()
 {
-	apt install gpg -y
+	apt update && apt install gpg -y
 	wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 	echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
-	apt-get update && apt-get install vault
+	apt update && apt install vault
+	systemctl enable --now vault
 }
 
 #w/o root
 install_without_root ()
 {
-	sudo apt install gpg -y
+	sudo apt update && sudo apt install gpg -y
 	wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 	echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-	sudo apt-get update && sudo apt-get install vault
+	sudo apt update && sudo apt install vault
+	sudo systemctl enable --now vault
 }
 
 if [ $(whoami) = root ] ; then
