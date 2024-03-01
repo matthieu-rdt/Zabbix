@@ -11,14 +11,10 @@ ENV_VARS_FILE=""
 FQDN=$(hostname -f)
 INIT_FILE=/opt/vault/init_vault.txt
 
-setup_env ()
-{
-	cat << EOF > $ENV_VARS_FILE
-	export VAULT_ADDR="https://$FQDN:8200"
-	export VAULT_CACERT="/opt/vault/tls/$FQDN.cer"
-	export VAULT_TOKEN="$TOKEN"
-	EOF
-}
+setup_env () {
+echo "export VAULT_ADDR="https://$FQDN:8200"
+export VAULT_CACERT="/opt/vault/tls/$FQDN.cer"
+export VAULT_TOKEN=$TOKEN" | tee -a $ENV_VARS_FILE
 
 permissions ()
 {
