@@ -8,8 +8,7 @@
 # https://www.tharunshiv.com/vault-setup/
 
 # Variables
-CONFIG_FILE=/etc/vault.d/vault.hcl
-FILE=$HOME/vault.hcl"
+FILE=$HOME/vault.hcl
 FQDN=$(hostname -f)
 IP_ADDR=""
 STORAGE_PATH=""
@@ -22,12 +21,8 @@ cert_key ()
 
 vault_hcl ()
 {
-	if	[ ! -f "$FILE" ] ; then
-		curl -sO https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Add-ons/Vault/vault.hcl
-	fi
-
 	while IFS= read -r line ; do
-	echo $line | sudo tee -a $CONFIG_FILE > /dev/null
+	echo $line | sudo tee -a /etc/vault.d/vault.hcl > /dev/null
 	done < $FILE
 }
 
@@ -38,9 +33,13 @@ permissions ()
 	chown -R vault:vault *
 }
 
+if      [ ! -f "$FILE" ] ; then
+	curl -sO https://raw.githubusercontent.com/matthieu-rdt/Zabbix/main/Add-ons/Vault/vault.hcl
+fi
+
 cert_key
 
-vault_hcl
+vault_hcl $FILE
 
 permissions
 
