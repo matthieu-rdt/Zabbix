@@ -16,7 +16,7 @@ STORAGE_PATH=""
 cert_key ()
 {
 	cp /etc/ssl/certs/$FQDN.cer /opt/vault/tls/
-	cp /etc/ssl/certs/$FQDN.key /opt/vault/tls/
+	cp /etc/ssl/private/$FQDN.key /opt/vault/tls/
 }
 
 vault_hcl ()
