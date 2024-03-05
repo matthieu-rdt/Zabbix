@@ -8,7 +8,6 @@
 # https://www.tharunshiv.com/vault-setup/
 
 # Variables
-FILE=$HOME/vault.hcl
 FQDN=$(hostname -f)
 IP_ADDR=""
 STORAGE_PATH=""
@@ -17,6 +16,8 @@ cert_key ()
 {
 	cp /etc/ssl/certs/$FQDN.cer /opt/vault/tls/
 	cp /etc/ssl/private/$FQDN.key /opt/vault/tls/
+	chmod 600 /opt/vault/tls/*
+	chown -R vault:vault /opt/vault
 }
 
 vault_hcl () {
@@ -64,10 +65,6 @@ tls_disable = false
 
 permissions ()
 {
-	# Certificate & Key permissions
-	chmod 600 /opt/vault/tls/*
-	chown -R vault:vault /opt/vault
-
 	# Log file permission
 	touch /var/log/vault.log
 	chown vault:vault /var/log/vault.log
@@ -77,8 +74,16 @@ permissions ()
 	chown -R vault:vault $STORAGE_PATH
 }
 
+start_vault ()
+{
+	systemctl start vault
+	echo "Visit https://$FQDN:8200"
+}
+
 cert_key
 
 vault_hcl
 
 permissions
+
+start_vault
