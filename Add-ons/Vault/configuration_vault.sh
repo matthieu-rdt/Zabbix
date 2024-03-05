@@ -64,9 +64,17 @@ tls_disable = false
 
 permissions ()
 {
-	cd /opt/vault/
-	chmod -R 600 *
-	chown -R vault:vault *
+# Certificate & Key permissions
+chmod 600 /opt/vault/tls/*
+chown -R vault:vault /opt/vault
+
+# Log file permission
+touch /var/log/vault.log
+chown vault:vault /var/log/vault.log
+
+# Data Storage permission
+chmod 755 $STORAGE_PATH
+chown -R vault:vault $STORAGE_PATH
 }
 
 cert_key
