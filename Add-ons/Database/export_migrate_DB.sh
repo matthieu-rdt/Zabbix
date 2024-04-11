@@ -4,8 +4,8 @@
 # Variables #
 #-----------#
 
-DATABASE=""
-DEST_HOST=""
+DATABASE="zabbix"
+DEST_HOST="$1"
 DEST_FOLDER=""
 LOG_FILE=""
 SQL_FILE=""
@@ -28,6 +28,11 @@ check_vars ()
 #-------#
 # Start #
 #-------#
+
+if	[ $# -ne 1 ] ; then
+	echo "Please provide a destination host"
+	exit 2
+fi
 
 check_vars DATABASE DEST_HOST DEST_FOLDER LOG_FILE SQL_FILE USERNAME
 
