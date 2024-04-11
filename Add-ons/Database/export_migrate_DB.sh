@@ -40,7 +40,7 @@ check_vars DATABASE DEST_HOST DEST_FOLDER DAY_HOUR LOG_FILENAME LOG_FILE SQL_FIL
 
 echo "sync started on $DAY_HOUR" >> $LOG_FILE
 
-mysqldump -h localhost -u $USERNAME --single-transaction -B $DATABASE > $SQL_FILE ; gzip $SQL_FILE
+mysqldump -h localhost -u $USERNAME --single-transaction -B $DATABASE | gzip > $SQL_FILE.gz
 
 echo "rsync copy started at $DAY_HOUR" >> $LOG_FILE
 
