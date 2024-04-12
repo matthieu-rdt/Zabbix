@@ -7,9 +7,7 @@
 DATABASE="zabbix"
 DEST_HOST="$1"
 DEST_FOLDER=""
-DAY_HOUR="$(date +"%F")-at-$(date +"%T")"
-LOG_FILENAME=""
-LOG_FILE="${LOG_FILENAME}-${DAY_HOUR}"
+LOG_FILE=""
 SQL_FILE=""
 USERNAME=""
 
@@ -27,6 +25,10 @@ check_vars ()
         return 0
 }
 
+get_current_datetime () {
+        date +"on_%F_at_%T"
+}
+
 #-------#
 # Start #
 #-------#
@@ -36,14 +38,14 @@ if	[ $# -ne 1 ] ; then
 	exit 2
 fi
 
-check_vars DATABASE DEST_HOST DEST_FOLDER DAY_HOUR LOG_FILENAME LOG_FILE SQL_FILE USERNAME
+check_vars DATABASE DEST_HOST DEST_FOLDER LOG_FILE SQL_FILE USERNAME
 
-echo "sync started on $DAY_HOUR" >> $LOG_FILE
+echo "sync started $(get_current_datetime)" >> $LOG_FILE
 
 mysqldump -h localhost -u $USERNAME --single-transaction -B $DATABASE | gzip > $SQL_FILE.gz
 
-echo "rsync copy started at $DAY_HOUR" >> $LOG_FILE
+echo "rsync copy started $(get_current_datetime)" >> $LOG_FILE
 
 rsync -ahPvz $SQL_FILE.gz $DEST_HOST:$DEST_FOLDER
 
-echo "sync completed at $DAY_HOUR" >> $LOG_FILE
+echo "sync completed $(get_current_datetime)" >> $LOG_FILE
