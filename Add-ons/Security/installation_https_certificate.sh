@@ -1,16 +1,20 @@
 #!/bin/bash
 
+CONFIG_FILE="${DIR}/${FILE}"
+DIR="/etc/apache2/sites-available"
+FILE=""
 FQDN=$(hostname -f)
-config_file=
 
+sudo apt-get install locate > /dev/null
 sudo updatedb
-sudo locate *.c[es]r
+sudo locate *.c[es]r && sudo locate *.key
+
 if [ $? -eq 1 ] ; then
 	echo "Some files are missing (*.cer, *.key)"
 	exit 2
 fi
 
-cat << EOF >> $config_file
+cat << EOF >> $CONFIG_FILE
 <VirtualHost *:443>
 	ServerAdmin info@example.com
 	ServerName $FQDN
@@ -30,4 +34,5 @@ cat << EOF >> $config_file
 EOF
 
 sudo a2enmod ssl
+sudo a2ensite $FILE
 sudo systemctl reload apache2.service
