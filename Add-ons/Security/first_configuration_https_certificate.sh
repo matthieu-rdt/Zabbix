@@ -42,4 +42,4 @@ EOF
 
 sudo a2enmod ssl
 sudo a2ensite $FILE
-sudo systemctl reload apache2.service
+sudo systemctl restart apache2.service

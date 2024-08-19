@@ -21,4 +21,4 @@ cp $CER_DIR/$FQDN.key -t /etc/ssl/private && echo "Private key moved successfull
 
 sudo a2enmod ssl
 sudo a2ensite $FILE
-sudo systemctl reload apache2.service
+sudo systemctl restart apache2.service
