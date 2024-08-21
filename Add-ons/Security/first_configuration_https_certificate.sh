@@ -24,20 +24,22 @@ cp $CER_DIR/$FQDN.key -t /etc/ssl/private && echo "Private key moved successfull
 cat << EOF >> $CONFIG_FILE
 <VirtualHost *:443>
 	ServerAdmin info@example.com
-	ServerName frbrevp-zabbix.bre.voice.ale-international.com/zabbix/
+	ServerName $FQDN/zabbix
 	ServerAlias www.example.com
 
 	DocumentRoot /usr/share/zabbix/
 
 	# SSL configuration
 	SSLEngine on
-	SSLCertificateFile /etc/ssl/certs/frcol-zabbix-bizop.col.voice.ale-international.com.cer
-	SSLCertificateKeyFile /etc/ssl/private/frcol-zabbix-bizop.col.voice.ale-international.com.key
+	SSLCertificateFile /etc/ssl/certs/$FQDN.cer
+	SSLCertificateKeyFile /etc/ssl/private/$FQDN.key
 
 	# Log files
 #	ErrorLog /var/www/html/example.com/log/error.log
 #	CustomLog /var/www/html/example.com/log/access.log combined
 </VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
 EOF
 
 sudo a2enmod ssl
