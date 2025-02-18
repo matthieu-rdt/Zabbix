@@ -52,8 +52,8 @@ ufw_configuration ()
 
 install_zabbix_server ()
 {
-	curl -O "https://repo.zabbix.com/zabbix/6.0/$OS/pool/main/z/zabbix-release/zabbix-release_6.0-1+$OS$(lsb_release -rs)_all.deb"
-	sudo dpkg -i zabbix-release_6.0-1+$OS$(lsb_release -rs)_all.deb
+	curl -O "https://repo.zabbix.com/zabbix/6.0/$OS/pool/main/z/zabbix-release/zabbix-release_latest_6.0+$OS$(lsb_release -rs)_all.deb"
+	sudo dpkg -i zabbix-release_latest_6.0+$OS$(lsb_release -rs)_all.deb"
 	sudo apt-get update
 	sudo apt-get install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent -y
 	sudo systemctl reload apache2
