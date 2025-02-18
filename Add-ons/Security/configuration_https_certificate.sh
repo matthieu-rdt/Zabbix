@@ -16,8 +16,8 @@ check_files () {
 
 check_files
 
-cp $CER_DIR/$FQDN.cer -t /etc/ssl/certs && echo "Cert moved successfully" || echo "$FQDN.cer not found"
-cp $CER_DIR/$FQDN.key -t /etc/ssl/private && echo "Private key moved successfully" || echo "$FQDN.key not found"
+sudo cp $CER_DIR/$FQDN.cer -t /etc/ssl/certs && echo "Cert moved successfully" || echo "$FQDN.cer not found"
+sudo cp $CER_DIR/$FQDN.key -t /etc/ssl/private && echo "Private key moved successfully" || echo "$FQDN.key not found"
 
 sudo a2enmod ssl
 sudo a2ensite $FILE
