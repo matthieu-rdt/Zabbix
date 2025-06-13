@@ -83,7 +83,7 @@ ConfirmChoice "Configure $NODE1 (primary node) ?" &&
 
 	# Auto mount
 	ConfirmChoice "Mount all ?" && \
-	echo "$NODE2:/$VOLUME $REPLICATION glusterfs defaults,_netdev 0 0" | sudo tee -a /etc/fstab && mount -a
+	echo "$NODE2:/$VOLUME $REPLICATION glusterfs defaults,_netdev 0 2" | sudo tee -a /etc/fstab && mount -a
 }
 
 ConfirmChoice "Configure $NODE2 ?" &&
@@ -109,5 +109,5 @@ ConfirmChoice "Configure $NODE2 ?" &&
 
 	# Auto mount
 	ConfirmChoice "Mount all ?" && \
-	echo "$NODE1:/$VOLUME $REPLICATION glusterfs defaults,_netdev 0 0" | sudo tee -a /etc/fstab && mount -a
+	echo "$NODE1:/$VOLUME $REPLICATION glusterfs defaults,_netdev 0 2" | sudo tee -a /etc/fstab && mount -a
 }
